@@ -49,6 +49,7 @@ import com.ats.webapi.repository.GetSubCatRepo;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
+import com.ats.webapi.repository.ItemSupRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
@@ -4949,6 +4950,22 @@ public class RestApiController {
 		}
 
 		return res;
+	}
+	
+	@Autowired
+	ItemSupRepository itemSuppRepository;
+	@RequestMapping(value = { "/getItemCode" }, method = RequestMethod.POST)
+	public @ResponseBody String getItemCode(@RequestParam("catId") int catId,@RequestParam("subCatId") int subCatId) {
+		
+	  
+	  int cnt=itemSuppRepository.findItemCount(catId,subCatId);
+	  
+	  int maxCodeLenth = String.valueOf(cnt).length();
+	  maxCodeLenth = 5 - maxCodeLenth;
+		
+		String itemCode = String.valueOf(cnt);
+
+		return ""+itemCode;
 	}
 
 }

@@ -31,4 +31,12 @@ public interface ItemSupRepository extends JpaRepository<ItemSup, Integer>{
 	List<ItemSup> findByItemId(int itemId);
 
 
+	@Query(value="select prefix from m_cat_sub where sub_cat_id=:subCatId",nativeQuery=true)
+	String findItemPrefix(@Param("subCatId")int subCatId);
+
+    @Query(value="select count(*)+1 as cnt from m_item where item_grp1=:catId and item_grp2=:subCatId",nativeQuery=true)
+	int findItemCount(@Param("catId")int catId,@Param("subCatId") int subCatId);
+
+
+
 }
