@@ -481,6 +481,8 @@ public class MasterController {
 				franchiseSupRes = franchiseeService.saveFranchiseSup(franchiseSup);
 
 				if (franchiseSupRes != null) {
+					
+					int updtFrPassword = franchiseeRepository.changeOPSPassword(franchiseSupRes.getFrId(), franchiseSupRes.getPass1());
 					info.setError(false);
 					info.setMessage("FranchiseSup Saved Successfully.");
 				} else {
