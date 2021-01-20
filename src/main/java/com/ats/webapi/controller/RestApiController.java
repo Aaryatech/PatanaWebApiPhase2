@@ -1177,6 +1177,17 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+	
+	
+	//Akhilesh 2020-01-20
+	@RequestMapping(value ="/getFrNameIdByMultiRouteId", method = RequestMethod.POST)
+	public @ResponseBody FrNameIdByRouteIdList getFrNameIdByMultiRouteId(@RequestParam("routeId") String routeId) {
+
+		FrNameIdByRouteIdList frNameIdByRouteIdList = frNameIdByRouteIdService.getFrNameIdByMultiRouteId(routeId);
+
+		return frNameIdByRouteIdList;
+
+	}
 
 	@RequestMapping(value = "/getFranchiseForDispatch", method = RequestMethod.POST)
 	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatch(@RequestParam("routeId") int routeId) {
