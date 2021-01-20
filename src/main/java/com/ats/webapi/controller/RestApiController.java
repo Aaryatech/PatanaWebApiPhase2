@@ -2022,7 +2022,7 @@ public class RestApiController {
 			@RequestParam("rateSettingFrom")int rateSettingFrom,@RequestParam("profitPer")float profitPer, 
 			@RequestParam("rateSettingType")int rateSettingType,
 			@RequestParam("delDays") int delDays, @RequestParam("prodDays") int prodDays,
-			@RequestParam("isDiscApp")int isDiscApp, @RequestParam("discPer")int discPer,
+			@RequestParam("isDiscApp")int isDiscApp, @RequestParam("discPer")float discPer,
 			@RequestParam("grnPer") int grnPer) throws ParseException {
 		
 		ConfigureFranchisee configureFr = new ConfigureFranchisee();
