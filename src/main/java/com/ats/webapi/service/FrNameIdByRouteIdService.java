@@ -1,5 +1,7 @@
 package com.ats.webapi.service;
 
+import java.util.List;
+
 import com.ats.webapi.model.FrNameIdByRouteIdList;
 
 public interface FrNameIdByRouteIdService {
@@ -8,6 +10,6 @@ public interface FrNameIdByRouteIdService {
 	
 	
 	//Akhilesh 2020-01-20
-	FrNameIdByRouteIdList getFrNameIdByMultiRouteId(String routeId);
+	FrNameIdByRouteIdList getFrNameIdByMultiRouteId(List<Integer> routeId);
 
 }

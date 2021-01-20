@@ -51,7 +51,7 @@ public class FrNameIdByRouteIdServiceImpl implements FrNameIdByRouteIdService {
 	}
 
 	@Override
-	public FrNameIdByRouteIdList getFrNameIdByMultiRouteId(String routeId) {
+	public FrNameIdByRouteIdList getFrNameIdByMultiRouteId (List<Integer> routeId) {
 		FrNameIdByRouteIdList frNameIdByRouteId=new FrNameIdByRouteIdList();
 		
 		Info info =new Info();
@@ -81,6 +81,8 @@ public class FrNameIdByRouteIdServiceImpl implements FrNameIdByRouteIdService {
 		
 	return frNameIdByRouteId;
 	}
+
+
 	
 	
 
