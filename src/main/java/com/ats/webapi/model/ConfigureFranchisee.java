@@ -1,6 +1,5 @@
 package com.ats.webapi.model;
 
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,14 +58,21 @@ public class ConfigureFranchisee {
 	private int delStatus;
 	
 	//New fields 19-01-2021 -sachin
-	
+	@Column(name="rate_setting_from")
 	int rateSettingFrom;
+	@Column(name="profit_per")
 	float profitPer;
+	@Column(name="rate_setting_type")
 	int rateSettingType;
+	@Column(name="del_days")
 	int delDays;
+	@Column(name="prod_days")
 	int prodDays;
+	@Column(name="is_disc_app")
 	int isDiscApp;
+	@Column(name="disc_per")
 	float discPer;
+	@Column(name="grn_per")
 	int grnPer;
 	//New fields 19-01-2021 -sachin code end
 	
