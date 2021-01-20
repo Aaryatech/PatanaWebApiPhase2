@@ -2162,8 +2162,8 @@ public class RestApiController {
 			@RequestParam("fbaLicenseDate") String fbaLicenseDate,
 			@RequestParam("frAgreementDate") String frAgreementDate, @RequestParam("frGstType") int frGstType,
 			@RequestParam("frGstNo") String frGstNo, @RequestParam("stockType") int stockType,
-			@RequestParam("frAddress") String frAddress, @RequestParam("frTarget") int frTarget,
-			@RequestParam("isSameState") int isSameState) throws ParseException {
+			@RequestParam("frAddress") String frAddress, @RequestParam("frTarget") String frTarget,
+			@RequestParam("isSameState") int isSameState, @RequestParam("fdaNo") String fdaNo) throws ParseException {
 		// DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		// java.util.Date date = sdf.parse(frOpeningDate);
 		// java.sql.Date sqlOpeningDate = new java.sql.Date(date.getTime());
@@ -2211,7 +2211,7 @@ public class RestApiController {
 		franchisee.setFrOwner(frOwner);
 		franchisee.setFrRateCat(frRateCat);
 		franchisee.setGrnTwo(grnTwo);
-		franchisee.setFrRmn1("");
+		franchisee.setFrRmn1(fdaNo);
 		franchisee.setFrOpening(0);
 		franchisee.setShowItems("");
 		franchisee.setNotShowItems("");
@@ -3681,8 +3681,8 @@ public class RestApiController {
 			@RequestParam("fbaLicenseDate") String fbaLicenseDate,
 			@RequestParam("frAgreementDate") String frAgreementDate, @RequestParam("frGstType") int frGstType,
 			@RequestParam("frGstNo") String frGstNo, @RequestParam("stockType") int stockType,
-			@RequestParam("frAddress") String frAddress, @RequestParam("frTarget") int frTarget,
-			@RequestParam("isSameState") int isSameState) {
+			@RequestParam("frAddress") String frAddress, @RequestParam("frTarget") String frTarget,
+			@RequestParam("isSameState") int isSameState, @RequestParam("fdaNo") String fdaNo) {
 		ErrorMessage jsonResult = new ErrorMessage();
 		try {
 
@@ -3734,7 +3734,7 @@ public class RestApiController {
 			franchisee.setFrOwner(frOwner);
 			franchisee.setFrRateCat(frRateCat);
 			franchisee.setGrnTwo(grnTwo);
-			franchisee.setFrRmn1("");
+			franchisee.setFrRmn1(fdaNo);
 			franchisee.setFrOpening(0);
 			franchisee.setShowItems("");
 			franchisee.setNotShowItems("");

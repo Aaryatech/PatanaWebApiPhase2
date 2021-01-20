@@ -116,7 +116,7 @@ public class Franchisee implements Serializable{
  	private String frAddress;
 	
 	@Column(name="fr_target")
- 	private int frTarget;
+ 	private String frTarget;
 
 	private int isSameState;
 
@@ -389,11 +389,11 @@ public class Franchisee implements Serializable{
 	}
 
    
-	public int getFrTarget() {
+	public String getFrTarget() {
 		return frTarget;
 	}
 
-	public void setFrTarget(int frTarget) {
+	public void setFrTarget(String frTarget) {
 		this.frTarget = frTarget;
 	}
 
