@@ -2007,20 +2007,13 @@ public class RestApiController {
 			@RequestParam("catId") int catId, @RequestParam("subCat") int subCat,
 			@RequestParam("settingType") int settingType, @RequestParam("fromTime") String fromTime,
 			@RequestParam("toTime") String toTime, @RequestParam("day") String day, @RequestParam("date") String date,
-			@RequestParam("itemShow") String itemShow) throws ParseException {
-
-		/*
-		 * DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); Date fromDate;
-		 * Date fDate = formatter.parse(date);
-		 * 
-		 * java.sql.Date sqlDate = new java.sql.Date(fDate.getTime());
-		 */
-
-		// DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		/// Date fromDate, toDate;
-		// toDate = formatter.parse(date);
-		// java.sql.Date sqlDate = new java.sql.Date(toDate.getTime());
-
+			@RequestParam("itemShow") String itemShow,
+			@RequestParam("rateSettingFrom")int rateSettingFrom,@RequestParam("profitPer")float profitPer, 
+			@RequestParam("rateSettingType")int rateSettingType,
+			@RequestParam("delDays") int delDays, @RequestParam("prodDays") int prodDays,
+			@RequestParam("isDiscApp")int isDiscApp, @RequestParam("discPer")int discPer,
+			@RequestParam("grnPer") int grnPer) throws ParseException {
+		
 		ConfigureFranchisee configureFr = new ConfigureFranchisee();
 		configureFr.setFrId(frId);
 		configureFr.setMenuId(menuId);
@@ -2033,50 +2026,53 @@ public class RestApiController {
 		configureFr.setItemShow(itemShow);
 		configureFr.setCatId(catId);
 		configureFr.setSubCatId(subCat);
+		
+		configureFr.setDelDays(delDays);
+		configureFr.setDiscPer(discPer);
+		configureFr.setGrnPer(grnPer);
+		configureFr.setIsDiscApp(isDiscApp);
+		configureFr.setProdDays(prodDays);
+		configureFr.setProfitPer(profitPer);
+		configureFr.setRateSettingFrom(rateSettingFrom);
+		configureFr.setRateSettingType(rateSettingType);
 
 		String jsonResult = connfigureService.configureFranchisee(configureFr);
-		try {
-
-			List<PostFrItemStockHeader> prevStockHeader = postFrOpStockHeaderRepository
-					.findByFrIdAndIsMonthClosedAndCatId(frId, 0, configureFr.getCatId());
-			// --------------------------------------------------------------------------------------------
-			List<PostFrItemStockDetail> postFrItemStockDetailList = new ArrayList<PostFrItemStockDetail>();
-			List<Integer> ids = Stream.of(configureFr.getItemShow().split(",")).map(Integer::parseInt)
-					.collect(Collectors.toList());
-			// System.err.println("16 ids --" + ids.toString());
-			List<Item> itemsList = itemService.findAllItemsByItemId(ids);
-			// System.err.println("17 itemsList --" + itemsList.toString());
-			for (int k = 0; k < itemsList.size(); k++) {
-
-				PostFrItemStockDetail prevFrItemStockDetail = postFrOpStockDetailRepository
-						.findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),
-								prevStockHeader.get(0).getOpeningStockHeaderId());
-				// System.err.println("18 prevFrItemStockDetail --" + prevFrItemStockDetail);
-				if (prevFrItemStockDetail == null) {
-					PostFrItemStockDetail postFrItemStockDetail = new PostFrItemStockDetail();
-					postFrItemStockDetail.setOpeningStockHeaderId(prevStockHeader.get(0).getOpeningStockHeaderId());// first
-																													// stock
-																													// header
-																													// (month
-																													// closed
-																													// 0
-																													// status))
-					postFrItemStockDetail.setOpeningStockDetailId(0);
-					postFrItemStockDetail.setRegOpeningStock(0);
-					postFrItemStockDetail.setItemId(itemsList.get(k).getId());
-					postFrItemStockDetail.setRemark("");
-					postFrItemStockDetailList.add(postFrItemStockDetail);
-					// System.err.println("19 postFrItemStockDetail --" +
-					// postFrItemStockDetail.toString());
-				}
-			}
-			postFrOpStockDetailRepository.save(postFrItemStockDetailList);
-			// System.err.println("20 postFrItemStockDetailList --" +
-			// postFrItemStockDetailList.toString());
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		/*
+		 * try {
+		 * 
+		 * List<PostFrItemStockHeader> prevStockHeader = postFrOpStockHeaderRepository
+		 * .findByFrIdAndIsMonthClosedAndCatId(frId, 0, configureFr.getCatId()); //
+		 * -----------------------------------------------------------------------------
+		 * --------------- List<PostFrItemStockDetail> postFrItemStockDetailList = new
+		 * ArrayList<PostFrItemStockDetail>(); List<Integer> ids =
+		 * Stream.of(configureFr.getItemShow().split(",")).map(Integer::parseInt)
+		 * .collect(Collectors.toList()); // System.err.println("16 ids --" +
+		 * ids.toString()); List<Item> itemsList =
+		 * itemService.findAllItemsByItemId(ids); //
+		 * System.err.println("17 itemsList --" + itemsList.toString()); for (int k = 0;
+		 * k < itemsList.size(); k++) {
+		 * 
+		 * PostFrItemStockDetail prevFrItemStockDetail = postFrOpStockDetailRepository
+		 * .findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),
+		 * prevStockHeader.get(0).getOpeningStockHeaderId()); //
+		 * System.err.println("18 prevFrItemStockDetail --" + prevFrItemStockDetail); if
+		 * (prevFrItemStockDetail == null) { PostFrItemStockDetail postFrItemStockDetail
+		 * = new PostFrItemStockDetail();
+		 * postFrItemStockDetail.setOpeningStockHeaderId(prevStockHeader.get(0).
+		 * getOpeningStockHeaderId());// first // stock // header // (month // closed //
+		 * 0 // status)) postFrItemStockDetail.setOpeningStockDetailId(0);
+		 * postFrItemStockDetail.setRegOpeningStock(0);
+		 * postFrItemStockDetail.setItemId(itemsList.get(k).getId());
+		 * postFrItemStockDetail.setRemark("");
+		 * postFrItemStockDetailList.add(postFrItemStockDetail); //
+		 * System.err.println("19 postFrItemStockDetail --" + //
+		 * postFrItemStockDetail.toString()); } }
+		 * postFrOpStockDetailRepository.save(postFrItemStockDetailList); //
+		 * System.err.println("20 postFrItemStockDetailList --" + //
+		 * postFrItemStockDetailList.toString());
+		 * 
+		 * } catch (Exception e) { // TODO: handle exception }
+		 */
 		return jsonResult;
 	}
 
