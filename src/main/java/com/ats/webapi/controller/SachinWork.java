@@ -18,6 +18,7 @@ import com.ats.webapi.model.ConfigureFrBean;
 import com.ats.webapi.model.ConfigureFrBeanList;
 import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.FrMenuConfigure;
+import com.ats.webapi.model.GetFrMenuConfigure;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.PostFrItemStockDetail;
@@ -25,6 +26,7 @@ import com.ats.webapi.model.PostFrItemStockHeader;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
+import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
@@ -46,8 +48,9 @@ public class SachinWork {
 	@Autowired
 	ConfigureFrListRepository configureFrListRepository;
 
-	// 3-01-19
-		@RequestMapping(value = { "/findConfiguredMenuFrList" }, method = RequestMethod.GET)
+	/*21-01-2021
+	 * // 3-01-19
+	 */		@RequestMapping(value = { "/findConfiguredMenuFrList" }, method = RequestMethod.GET)
 		public @ResponseBody ConfigureFrBeanList findConfiguredMenuFrList() {
 			ConfigureFrBeanList beanList = new ConfigureFrBeanList();
 			List<ConfigureFrBean> configBean = configureFrListRepository.findConfiguredMenuFrList();
@@ -197,4 +200,40 @@ public class SachinWork {
 			}
 			return info;
 		}
+		@Autowired
+		GetFrMenuConfigureRepository getFrMenuConfigureRepository;
+		
+		@RequestMapping(value = "/getFrMenuConfigureList", method = RequestMethod.GET)
+		public @ResponseBody List<GetFrMenuConfigure> getFrMenuConfigureList() {
+
+			List<GetFrMenuConfigure> confList;
+			try {
+				confList = getFrMenuConfigureRepository.getFrMenuConfigureList();
+			}
+			catch (Exception e) {
+				confList=new ArrayList<>();
+				e.printStackTrace();
+
+			}
+			return confList;
+
+		}
+		
+		@RequestMapping(value = { "/deleteFrConfMenu" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteFrConfMenu(@RequestParam int settingId) {
+
+			int isDeleted =frMenuConfigureRepository.deleteFrConfMenu(settingId);
+			Info info=new Info();
+			if(isDeleted==1)
+			{
+				info.setError(false);
+				info.setMessage("Menu Conf Deleted");
+			}
+			else
+			{
+				info.setError(true);
+				info.setMessage("Menu Conf Deletion Failed");
+			}
+			return info;
+		}	
 }
