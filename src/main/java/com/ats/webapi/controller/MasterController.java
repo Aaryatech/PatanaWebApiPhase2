@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.commons.Firebase;
 import com.ats.webapi.model.CategoryList;
 import com.ats.webapi.model.ConfigureFranchisee;
+import com.ats.webapi.model.Flavour;
 import com.ats.webapi.model.FrListForSupp;
 import com.ats.webapi.model.FrTarget;
 import com.ats.webapi.model.FrTargetList;
@@ -49,6 +50,7 @@ import com.ats.webapi.model.SubCategoryRes;
 import com.ats.webapi.model.tally.FranchiseeList;
 import com.ats.webapi.model.tray.TrayType;
 import com.ats.webapi.repository.ConfigureFrRepository;
+import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FrListForSuppRepository;
 import com.ats.webapi.repository.FranchiseSupRepository;
 import com.ats.webapi.repository.FranchiseeRepository;
@@ -125,6 +127,10 @@ public class MasterController {
 	PostFrOpStockDetailRepository postFrOpStockDetailRepository;
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	FlavourRepository flavourRepository;
+	
 	// ----------------------------GET FrToken--------------------------------
 	@RequestMapping(value = { "/getFrToken" }, method = RequestMethod.POST)
 	public @ResponseBody String getFrToken(@RequestParam("frId") int frId) {
@@ -883,5 +889,21 @@ public class MasterController {
 						e.printStackTrace();
 					}   
 					return info;
+				}
+				
+				@RequestMapping(value = { "/getUniqueSpCode" }, method = RequestMethod.GET)
+				public @ResponseBody Integer getUniqueSpCode() {
+
+					int maxId =spCakeListRepository.getUniqueSpCode();
+					
+					return maxId;
+				}
+				
+				@RequestMapping(value = { "/getFlavoursByType" }, method = RequestMethod.POST)
+				public @ResponseBody List<Flavour> getFlavoursByType(@RequestParam("type") int type) {
+					
+					List<Flavour> flavourList=flavourRepository.findBySpType(type);
+
+				  return flavourList;
 				}
 }

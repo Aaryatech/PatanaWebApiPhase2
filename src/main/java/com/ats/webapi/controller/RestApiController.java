@@ -55,6 +55,7 @@ import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteRepository;
+import com.ats.webapi.repository.SettingRepository;
 import com.ats.webapi.repository.SpCakeOrderHisRepository;
 import com.ats.webapi.repository.SpCakeOrderUpdateRepository;
 import com.ats.webapi.repository.SpCakeOrdersRepository;
@@ -2246,9 +2247,9 @@ public class RestApiController {
 			@RequestParam("isUsed") int isused, @RequestParam("spDesc") String spDesc,
 			@RequestParam("orderQty") int orderQty, @RequestParam("orderDiscount") float orderDiscount,
 			@RequestParam("isCustChoiceCk") int isCustChoiceCk, @RequestParam("isAddonRateAppli") int isAddonRateAppli,
-			@RequestParam("mrpRate1") int mrpRate1, @RequestParam("mrpRate2") int mrpRate2,
-			@RequestParam("mrpRate3") int mrpRate3, @RequestParam("spRate1") int spRate1,
-			@RequestParam("spRate2") int spRate2, @RequestParam("spRate3") int spRate3,
+			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
+			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
+			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
 			@RequestParam("isSlotUsed") int isSlotUsed) {
 
 		SpecialCake specialCakeRes = null;
@@ -4985,4 +4986,12 @@ public class RestApiController {
 		return ""+itemCode;
 	}
 
+	@Autowired
+	SettingRepository settingRepository;
+	@RequestMapping(value = { "/getSettingVal" }, method = RequestMethod.GET)
+	public @ResponseBody Setting getSettingVal() {
+
+		Setting setting = settingRepository.findBySettingKey("sp_invoice");
+		return setting;
+	}
 }
