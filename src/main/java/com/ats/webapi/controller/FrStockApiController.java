@@ -99,44 +99,87 @@ public class FrStockApiController {
 	@Autowired
 	FrStockBetweenMonthRepository stockDetailRepository;
 	
+	/*
+	 * @RequestMapping(value = "/getCurrentOpStock", method = RequestMethod.POST)
+	 * public @ResponseBody List<PostFrItemStockDetail>
+	 * getCurrentOpStock(@RequestParam("frId") int frId,@RequestParam("itemIdList")
+	 * List<Integer> itemIdList , @RequestParam("catId") int catId) {
+	 * 
+	 * System.out.println("inside rest getCurrentOpStock : I/p : itemIdList: " +
+	 * itemIdList.toString());
+	 * 
+	 * List<PostFrItemStockDetail> postFrItemStockDetailList= new
+	 * ArrayList<PostFrItemStockDetail>();
+	 * 
+	 * PostFrItemStockDetail postFrItemStockDetail = new PostFrItemStockDetail();
+	 * 
+	 * List<Item> itemsList = itemService.findAllItemsByItemId(itemIdList);
+	 * 
+	 * for (int i = 0; i < itemsList.size(); i++) {
+	 * 
+	 * int itemId = itemsList.get(i).getId(); String
+	 * itemName=itemsList.get(i).getItemName(); String
+	 * itemCode=itemsList.get(i).getItemId();
+	 * 
+	 * 
+	 * postFrItemStockDetail = getItemStockService.getCurrentOpeningStock(frId,
+	 * itemId, catId);
+	 * 
+	 * if(postFrItemStockDetail == null) {
+	 * 
+	 * postFrItemStockDetail =new PostFrItemStockDetail();
+	 * postFrItemStockDetail.setOpeningStockHeaderId(0);
+	 * postFrItemStockDetail.setOpeningStockDetailId(0);
+	 * postFrItemStockDetail.setRegOpeningStock(0); }
+	 * 
+	 * postFrItemStockDetail.setItemId(itemId);
+	 * postFrItemStockDetail.setItemName(itemName);
+	 * postFrItemStockDetail.setItemCode(itemCode);
+	 * 
+	 * postFrItemStockDetailList.add(postFrItemStockDetail);
+	 * 
+	 * } //System.out.println("stock list: " +
+	 * postFrItemStockDetailList.toString()); return postFrItemStockDetailList;
+	 * 
+	 * }
+	 */
+	//new Sachin 21-01-2021
+	@Autowired
+	PostFrOpStockDetailRepository postFrOpStockDetailRepository;
+
 	@RequestMapping(value = "/getCurrentOpStock", method = RequestMethod.POST)
-	public @ResponseBody List<PostFrItemStockDetail> getCurrentOpStock(@RequestParam("frId") int frId,@RequestParam("itemIdList") List<Integer> itemIdList , @RequestParam("catId") int catId) {
+	public @ResponseBody List<PostFrItemStockDetail> getCurrentOpStock(@RequestParam("frId") int frId,
+			@RequestParam("catId") int catId) {
 
-		//System.out.println("inside rest getCurrentOpStock : I/p : itemIdList: " + itemIdList.toString());
+		List<Item> itemsList = itemService.getAllItems();
+		System.err.println("itemsList" + itemsList.toString());
 
-		 List<PostFrItemStockDetail> postFrItemStockDetailList= new ArrayList<PostFrItemStockDetail>();
-		
-		PostFrItemStockDetail postFrItemStockDetail = new PostFrItemStockDetail();
-		
-		List<Item> itemsList = itemService.findAllItemsByItemId(itemIdList);
+		List<PostFrItemStockHeader> prevStockHeader = new ArrayList<PostFrItemStockHeader>();
+		List<PostFrItemStockDetail> detailList = new ArrayList<PostFrItemStockDetail>();
 
-		for (int i = 0; i < itemsList.size(); i++) {
+		try {
+			prevStockHeader = postFrOpStockHeaderRepository.findByFrIdAndIsMonthClosedAndCatId(frId, 0, catId);
+			detailList = postFrOpStockDetailRepository.getFrDetail(prevStockHeader.get(0).getOpeningStockHeaderId());
+			for (int i = 0; i < detailList.size(); i++) {
 
-			int itemId = itemsList.get(i).getId();
-			String itemName=itemsList.get(i).getItemName();
-			String itemCode=itemsList.get(i).getItemId();
-		
+				for (int j = 0; j < itemsList.size(); j++) {
 
-			postFrItemStockDetail = getItemStockService.getCurrentOpeningStock(frId, itemId, catId);
-		
-			if(postFrItemStockDetail == null) {
-			
-				postFrItemStockDetail =new PostFrItemStockDetail();
-				postFrItemStockDetail.setOpeningStockHeaderId(0);
-				postFrItemStockDetail.setOpeningStockDetailId(0);
-				postFrItemStockDetail.setRegOpeningStock(0);
+					if (detailList.get(i).getItemId() == itemsList.get(j).getId()) {
+						String itemName = itemsList.get(j).getItemName();
+						String itemCode = itemsList.get(j).getItemId();
+
+						detailList.get(i).setItemName(itemName);
+						detailList.get(i).setItemCode(itemCode);
+
+					}
+
+				}
 			}
-			
-			postFrItemStockDetail.setItemId(itemId);
-			postFrItemStockDetail.setItemName(itemName);
-			postFrItemStockDetail.setItemCode(itemCode);
-
-			postFrItemStockDetailList.add(postFrItemStockDetail);
-
+		} catch (Exception e) {
+			System.err.println("Ex in getCurrentOpStock : " + e.getMessage());
+			e.printStackTrace();
 		}
-		//System.out.println("stock list: " + postFrItemStockDetailList.toString());
-		return postFrItemStockDetailList;
-
+		return detailList;
 	}
 	
 	

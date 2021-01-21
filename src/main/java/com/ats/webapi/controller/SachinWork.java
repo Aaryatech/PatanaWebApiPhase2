@@ -1,5 +1,7 @@
 package com.ats.webapi.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +36,8 @@ import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.service.ConfigureFranchiseeService;
 import com.ats.webapi.service.ItemService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
 public class SachinWork {
@@ -236,4 +241,17 @@ public class SachinWork {
 			}
 			return info;
 		}	
+		
+		@RequestMapping(value = { "/postFrOpStockDetailList" }, method = RequestMethod.POST)
+		public @ResponseBody List<PostFrItemStockDetail>  postFrOpStockDetailList(@RequestBody List<PostFrItemStockDetail>  detailList)
+				throws ParseException, JsonParseException, JsonMappingException, IOException {
+
+			System.out.println("Data Common " + detailList.toString());
+
+			List<PostFrItemStockDetail> details = postFrOpStockDetailRepository.save(detailList);
+
+		
+			return details;
+
+		}
 }
