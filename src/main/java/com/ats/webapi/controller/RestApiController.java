@@ -2315,54 +2315,60 @@ public class RestApiController {
 
 	}
 
+	
 	// Save Message
-	@RequestMapping(value = { "/insertMessage" }, method = RequestMethod.POST)
-	@ResponseBody
-	public String saveMessage(@RequestParam("msgFrdt") String msgFrdt, @RequestParam("msgTodt") String msgTodt,
-			@RequestParam("msgImage") String msgImage, @RequestParam("msgHeader") String msgHeader,
-			@RequestParam("msgDetails") String msgDetails, @RequestParam("isActive") int isActive) {
+		@RequestMapping(value = { "/insertMessage" }, method = RequestMethod.POST)
+		@ResponseBody
+		public String saveMessage(@RequestParam("msgFrdt") String msgFrdt, @RequestParam("msgTodt") String msgTodt,
+				@RequestParam("msgImage") String msgImage, @RequestParam("msgHeader") String msgHeader,
+				@RequestParam("msgDetails") String msgDetails, @RequestParam("isActive") int isActive,@RequestParam("makerDttime") String makerDttime
+						,@RequestParam("applicableFrs") String applicableFrs ) {
 
-		String jsonResult = "";
-		try {
-
-			// System.out.println("rest from date : " + msgFrdt);
-			// System.out.println("rest to date : " + msgTodt);
-
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
-			/*
-			 * Date fromDate =sdf.parse(msgFrdt); Date toDate =sdf.parse(msgTodt);
-			 */
-
-			java.sql.Date sqlFromDate = Common.convertToSqlDate(msgFrdt);
-			java.sql.Date sqlToDate = Common.convertToSqlDate(msgTodt);
-
-			// System.out.println("sql from date ** : " + sqlFromDate);
-			// System.out.println("sql to date ** : " + sqlToDate);
-
-			Message message = new Message();
-			message.setMsgFrdt(sqlFromDate);
-			message.setMsgTodt(sqlToDate);
-			message.setMsgImage(msgImage);
-			message.setMsgHeader(msgHeader);
-			message.setMsgDetails(msgDetails);
-			message.setIsActive(isActive);
-			message.setDelStatus(0);
-
-			// System.out.println("input message " + message.toString());
+			String jsonResult = "";
 			try {
-				jsonResult = messageService.save(message);
+
+				// System.out.println("rest from date : " + msgFrdt);
+				// System.out.println("rest to date : " + msgTodt);
+
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+				/*
+				 * Date fromDate =sdf.parse(msgFrdt); Date toDate =sdf.parse(msgTodt);
+				 */
+
+				java.sql.Date sqlFromDate = Common.convertToSqlDate(msgFrdt);
+				java.sql.Date sqlToDate = Common.convertToSqlDate(msgTodt);
+
+				// System.out.println("sql from date ** : " + sqlFromDate);
+				// System.out.println("sql to date ** : " + sqlToDate);
+
+				Message message = new Message();
+				message.setMsgFrdt(sqlFromDate);
+				message.setMsgTodt(sqlToDate);
+				message.setMsgImage(msgImage);
+				message.setMsgHeader(msgHeader);
+				message.setMsgDetails(msgDetails);
+				message.setIsActive(isActive);
+				message.setDelStatus(0);
+				message.setApplicableFr(applicableFrs);
+				message.setMakerDatetime(makerDttime);
+				
+
+				// System.out.println("input message " + message.toString());
+				try {
+					jsonResult = messageService.save(message);
+				} catch (Exception e) {
+					// System.out.println("RestAPIController Save() Excep: " + e.getMessage());
+				}
+
 			} catch (Exception e) {
-				// System.out.println("RestAPIController Save() Excep: " + e.getMessage());
+
+				// System.out.println("RestAPIController Excep: " + e.getMessage());
+				e.printStackTrace();
 			}
+			return jsonResult;
 
-		} catch (Exception e) {
-
-			// System.out.println("RestAPIController Excep: " + e.getMessage());
-			e.printStackTrace();
 		}
-		return jsonResult;
-
-	}
+	
 
 	// Save Flavor
 	@RequestMapping(value = { "/insertFlavour" }, method = RequestMethod.POST)
@@ -3389,11 +3395,13 @@ public class RestApiController {
 		return JsonUtil.javaToJson(errorMessage);
 	}
 
+	
 	// update Message
 	@RequestMapping(value = { "/updateMessage" }, method = RequestMethod.POST)
 	public @ResponseBody String updateMessage(@RequestParam int id, @RequestParam String msgFrdt,
 			@RequestParam String msgTodt, @RequestParam String msgImage, @RequestParam String msgHeader,
-			@RequestParam String msgDetails, @RequestParam("isActive") int isActive) {
+			@RequestParam String msgDetails, @RequestParam("isActive") int isActive,@RequestParam("makerDttime") String makerDttime
+			,@RequestParam("applicableFrs") String applicableFrs ) {
 
 		Message message = messageService.findMessage(id);
 		Info info = new Info();
@@ -3418,7 +3426,8 @@ public class RestApiController {
 			message.setMsgHeader(msgHeader);
 			message.setMsgDetails(msgDetails);
 			message.setIsActive(isActive);
-
+			message.setApplicableFr(applicableFrs);
+			message.setMakerDatetime(makerDttime);
 			String jsonResult = messageService.save(message);
 			if (jsonResult == null) {
 				info.setError(true);
@@ -3437,6 +3446,7 @@ public class RestApiController {
 		return "" + JsonUtil.javaToJson(info);
 
 	}
+	
 
 	// Update Schedular
 	@RequestMapping("/updateScheduler")

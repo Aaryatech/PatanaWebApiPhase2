@@ -50,6 +50,78 @@ public class Message implements Serializable {
 	private int isActive;
 	@Column(name="del_status")
 	private int delStatus;
+	
+	@Column(name="maker_datetime")
+	private String makerDatetime;
+	
+	@Column(name="aplicable_fr")
+	private String applicableFr;
+	
+	@Column(name="ex_int1")
+	private int exInt1;
+	
+	@Column(name="ex_int2")
+	private int exInt2;
+	
+	@Column(name="ex_var1")
+	private String exVar1;
+	
+	@Column(name="ex_var2")
+	private String exVar2;
+	
+	
+	
+	
+	
+	
+	public String getMakerDatetime() {
+		return makerDatetime;
+	}
+
+	public void setMakerDatetime(String makerDatetime) {
+		this.makerDatetime = makerDatetime;
+	}
+
+	public String getApplicableFr() {
+		return applicableFr;
+	}
+
+	public void setApplicableFr(String applicableFr) {
+		this.applicableFr = applicableFr;
+	}
+
+	public int getExInt1() {
+		return exInt1;
+	}
+
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
+	}
+
+	public int getExInt2() {
+		return exInt2;
+	}
+
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+
+	public String getExVar1() {
+		return exVar1;
+	}
+
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+
+	public String getExVar2() {
+		return exVar2;
+	}
+
+	public void setExVar2(String exVar2) {
+		this.exVar2 = exVar2;
+	}
+
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getMsgFrdt() {
 		return msgFrdt;
@@ -120,8 +192,11 @@ public class Message implements Serializable {
 	public String toString() {
 		return "Message [msgId=" + msgId + ", msgFrdt=" + msgFrdt + ", msgTodt=" + msgTodt + ", msgImage=" + msgImage
 				+ ", msgHeader=" + msgHeader + ", msgDetails=" + msgDetails + ", isActive=" + isActive + ", delStatus="
-				+ delStatus + "]";
+				+ delStatus + ", makerDatetime=" + makerDatetime + ", applicableFr=" + applicableFr + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
+
+
 
 	
 	
