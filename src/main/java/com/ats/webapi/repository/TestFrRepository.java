@@ -17,6 +17,13 @@ public interface TestFrRepository extends CrudRepository<ConfigureFranchisee, Lo
 	 @Query(value = "SELECT * FROM m_fr_configure where fr_id =:frId AND cat_id =:catId AND is_del = 0", nativeQuery = true)
 	    List<ConfigureFranchisee> findByFrAndCat(@Param("frId") int frId, @Param("catId") int catId);
 	
+	 //Akhilesh 2020-01-21 For Add Section On Admin
+	 @Query(value="SELECT * FROM m_fr_configure WHERE is_del=0 ",nativeQuery=true)
+	 List<ConfigureFranchisee> findAllFrBydelStatus();
+	 
+	 
+	 
+	 
 }
 
 

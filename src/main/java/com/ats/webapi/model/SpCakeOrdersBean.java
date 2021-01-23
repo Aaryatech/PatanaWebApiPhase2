@@ -60,6 +60,9 @@ public class SpCakeOrdersBean implements Serializable {
 
 //	@Column(name = "sp_instructions")
 	private String spInstructions;
+	
+	@Column(name="sp_grand_total")
+	private float spGrandTotal;
 
 	public String getSpBookedForName() {
 		return spBookedForName;
@@ -174,13 +177,23 @@ public class SpCakeOrdersBean implements Serializable {
 		this.spInstructions = spInstructions;
 	}
 
+	public float getSpGrandTotal() {
+		return spGrandTotal;
+	}
+
+	public void setSpGrandTotal(float spGrandTotal) {
+		this.spGrandTotal = spGrandTotal;
+	}
+
 	@Override
 	public String toString() {
 		return "SpCakeOrdersBean [spOrderNo=" + spOrderNo + ", spCode=" + spCode + ", spName=" + spName + ", spfName="
 				+ spfName + ", spEvents=" + spEvents + ", spDeliveryDate=" + spDeliveryDate + ", spPrice=" + spPrice
 				+ ", spTotalAddRate=" + spTotalAddRate + ", frName=" + frName + ", itemId=" + itemId
 				+ ", spSelectedWeight=" + spSelectedWeight + ", spBookedForName=" + spBookedForName + ", isAllocated="
-				+ isAllocated + ", spInstructions=" + spInstructions + "]";
+				+ isAllocated + ", spInstructions=" + spInstructions + ", spGrandTotal=" + spGrandTotal + "]";
 	}
+
+	
 
 }

@@ -13,7 +13,7 @@ import com.ats.webapi.model.SpCakeOrdersBean;
 public interface SpCakeOrdersRepoAdmin extends JpaRepository<SpCakeOrdersBean, Integer> {
 
 	@Query(value = "SELECT m_franchisee.fr_name ,m_sp_cake.sp_code ,m_sp_cake.sp_name ,"
-			+ "t_sp_cake.item_id ,t_sp_cake.sp_order_no,t_sp_cake.sp_selected_weight,"
+			+ "t_sp_cake.item_id,t_sp_cake.sp_grand_total,t_sp_cake.sp_order_no,t_sp_cake.sp_selected_weight,"
 			+ "m_sp_flavour.spf_name,t_sp_cake.sp_events,t_sp_cake.sp_booked_for_name,t_sp_cake.is_allocated, "
 			+ " t_sp_cake.sp_delivery_date, t_sp_cake.sp_price,t_sp_cake.sp_total_add_rate,t_sp_cake.sp_instructions"
 			+ " FROM m_franchisee ,m_sp_cake,m_sp_flavour,"
@@ -23,7 +23,7 @@ public interface SpCakeOrdersRepoAdmin extends JpaRepository<SpCakeOrdersBean, I
 	List<SpCakeOrdersBean> FindAllSpCakeOrder(@Param("frId") List<Integer> frId, @Param("PDate") String pDate);
 
 //
-	@Query(value = "SELECT m_franchisee.fr_name ,m_sp_cake.sp_code ,t_sp_cake.sp_booked_for_name,t_sp_cake.is_allocated, t_sp_cake.item_id ,t_sp_cake.sp_selected_weight,m_sp_cake.sp_name ,t_sp_cake.sp_order_no,t_sp_cake.sp_delivery_date, m_sp_flavour.spf_name, t_sp_cake.sp_events, t_sp_cake.sp_price,t_sp_cake.sp_total_add_rate ,t_sp_cake.sp_instructions FROM m_franchisee ,m_sp_cake, m_sp_flavour ,t_sp_cake WHERE t_sp_cake.sp_prod_date = :prodDate And t_sp_cake.del_status=0 AND t_sp_cake.sp_id = m_sp_cake.sp_id AND t_sp_cake.fr_id = m_franchisee.fr_id AND m_sp_flavour.spf_id=t_sp_cake.sp_flavour_id order by t_sp_cake.sp_order_no", nativeQuery = true)
+	@Query(value = "SELECT m_franchisee.fr_name ,m_sp_cake.sp_code ,t_sp_cake.sp_grand_total,t_sp_cake.sp_booked_for_name,t_sp_cake.is_allocated, t_sp_cake.item_id ,t_sp_cake.sp_selected_weight,m_sp_cake.sp_name ,t_sp_cake.sp_order_no,t_sp_cake.sp_delivery_date, m_sp_flavour.spf_name, t_sp_cake.sp_events, t_sp_cake.sp_price,t_sp_cake.sp_total_add_rate ,t_sp_cake.sp_instructions FROM m_franchisee ,m_sp_cake, m_sp_flavour ,t_sp_cake WHERE t_sp_cake.sp_prod_date = :prodDate And t_sp_cake.del_status=0 AND t_sp_cake.sp_id = m_sp_cake.sp_id AND t_sp_cake.fr_id = m_franchisee.fr_id AND m_sp_flavour.spf_id=t_sp_cake.sp_flavour_id order by t_sp_cake.sp_order_no", nativeQuery = true)
 	List<SpCakeOrdersBean> FindAllSpCakeOrderAllFr(@Param("prodDate") String prodDate);
 
 	// SELECT m_franchisee.fr_name ,m_item.item_name

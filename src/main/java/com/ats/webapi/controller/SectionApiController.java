@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.Info;
-import com.ats.webapi.model.Section;
+import com.ats.webapi.model.section.Section;
+import com.ats.webapi.model.section.SectionMenu;
+import com.ats.webapi.model.section.SectionMenuIdname;
+import com.ats.webapi.model.section.SectionWithMenuList;
+import com.ats.webapi.repository.SectionMenuidNameRepo;
 import com.ats.webapi.repository.SectionRepository;
 
 @RestController
@@ -21,6 +25,8 @@ public class SectionApiController {
 	@Autowired
 	SectionRepository sectionRepo;
 	
+	@Autowired
+	SectionMenuidNameRepo sMenuRepo;
 	
 	@RequestMapping(value="/addSection",method=RequestMethod.POST)
 	public @ResponseBody Section addSection(@RequestBody Section section) {
@@ -92,6 +98,49 @@ public class SectionApiController {
 		return info;
 	}
 	
+	
+	@RequestMapping(value="/getSectionWithMenu",method=RequestMethod.GET)
+	public @ResponseBody List<SectionWithMenuList> getSectionWithMenu(){
+		List<SectionWithMenuList> sectionMenulist=new ArrayList<>();
+		List<Section> sectionList=new ArrayList<>();
+		List<SectionMenuIdname> sectionMenu=new ArrayList<>();
+		//SectionWithMenuList sMenu=new SectionWithMenuList();
+		//SectionMenu menu=new SectionMenu();
+		List<SectionMenu> mlist;
+		try {
+			sectionList=sectionRepo.getAllSection();
+			sectionMenu=sMenuRepo.getAllSectionWithMenu();
+			System.err.println(sectionList);
+			
+			System.err.println("-->"+sectionMenu);
+			for(Section sec : sectionList ) {
+				SectionWithMenuList sMenu=new SectionWithMenuList();
+				mlist=new ArrayList<>();
+				sMenu.setSectionId(sec.getSectionId());
+				sMenu.setSectionName(sec.getSectionName());
+				for(SectionMenuIdname secMenu : sectionMenu ) {
+					if(sec.getSectionId()==secMenu.getSectionId()) {
+						SectionMenu menu=new SectionMenu();
+						menu.setMenuId(secMenu.getMenuId());
+						menu.setMenuTitle(secMenu.getMenuTitle());
+						mlist.add(menu);
+					
+					}
+					
+				}
+			sMenu.setMenu(mlist);
+			sectionMenulist.add(sMenu);
+			}
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println("");
+			e.printStackTrace();
+		}
+		
+		return sectionMenulist;
+		
+	}
 	
 	
 	

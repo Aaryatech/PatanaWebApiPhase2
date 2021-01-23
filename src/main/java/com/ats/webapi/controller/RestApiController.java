@@ -3883,7 +3883,7 @@ public class RestApiController {
 
 	// 7 sep orderlist for all franchisee
 	@RequestMapping(value = { "/getOrderListForAllFr" }, method = RequestMethod.POST)
-	@ResponseBody
+	@ResponseBody    
 	public GetOrderList getOrderListForAllFr(@RequestParam List<String> menuId, @RequestParam String date) {
 		GetOrderList orderList = new GetOrderList();
 		try {
@@ -3941,13 +3941,14 @@ public class RestApiController {
 	@ResponseBody
 	public SpCakeOrdersBeanList getAllFrSpCakeOrderList(@RequestParam String prodDate) {
 		SpCakeOrdersBeanList spCakeOrderList = new SpCakeOrdersBeanList();
+		System.err.println("Prod Date-->"+prodDate);
 		try {
 
 			String strDate = Common.convertToYMD(prodDate);
-			// System.out.println("Converted date " + strDate);
+			 System.out.println("Converted date " + strDate);
 
 			List<SpCakeOrdersBean> jsonSpCakeOrderList = spCkOrdersService.findSpCakeOrderAllFr(strDate);
-
+System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 			spCakeOrderList.setSpCakeOrdersBean(jsonSpCakeOrderList);
 			Info info = new Info();
 			info.setError(false);
@@ -3956,8 +3957,8 @@ public class RestApiController {
 
 		} catch (Exception e) {
 
-			// System.out.println("exception in order list rest controller" +
-			// e.getMessage());
+			 System.out.println("exception in order list rest controller" +
+			 e.getMessage());
 		}
 		return spCakeOrderList;
 

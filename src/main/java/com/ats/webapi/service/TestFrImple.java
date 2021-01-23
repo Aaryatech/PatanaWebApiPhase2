@@ -26,4 +26,10 @@ public class TestFrImple implements TestFrService{
 		return list;
 	}
 
+	@Override
+	public List<ConfigureFranchisee> findAllFrBydelStatus() {
+		List<ConfigureFranchisee> list=testFrRepository.findAllFrBydelStatus();
+		return list;
+	}
+
 }

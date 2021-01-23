@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.webapi.model.Section;
+import com.ats.webapi.model.section.Section;
 
 
 //Akhilesh 2020-20-01
@@ -27,4 +27,7 @@ public interface SectionRepository extends JpaRepository<Section, Integer> {
 	int deleteSection(@Param("sectionId") Integer sectionId);
 	
 
+	//Section With Menu id And Menu title In Extra Field
+	
+	
 }
