@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.dashboard.CredNoteReport;
+import com.ats.webapi.model.dashboard.FrFdaOwnerDtl;
 import com.ats.webapi.model.dashboard.PurBillBackEndReport;
 import com.ats.webapi.model.dashboard.SellBillFrontEndReport;
 import com.ats.webapi.repository.dashboard.CredNoteReportRepo;
+import com.ats.webapi.repository.dashboard.FrFdaOwnerDtlRepo;
 import com.ats.webapi.repository.dashboard.PurBillBackEndReportRepo;
 import com.ats.webapi.repository.dashboard.SellBillFrontEndReportRepo;
 
@@ -129,6 +131,26 @@ public class DashBoardReporApi {
 		return purBillReport;
 	}
 	
-	
+	@Autowired FrFdaOwnerDtlRepo frFdaRepo;	
+	@RequestMapping(value = {"/getFrFdaDtl"}, method = RequestMethod.GET)
+	public @ResponseBody List<FrFdaOwnerDtl> getFrFdaDt()
+	{
+		
+		List<FrFdaOwnerDtl> frFdaList = null;
+
+		try {
+			
+			frFdaList=frFdaRepo.getFdaExpFr();
+			
+		}
+		catch (Exception e) {
+			
+			//System.err.println("Exception in DashBoardReporApi /getPurBillReport" +e.getMessage());
+			
+			e.printStackTrace();
+       }
+		
+		return frFdaList;
+	}
 
 }

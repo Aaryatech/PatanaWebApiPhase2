@@ -24,6 +24,7 @@ import com.ats.webapi.model.MonthWiseReportList;
 import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.POrder;
 import com.ats.webapi.model.report.DispatchReport;
+import com.ats.webapi.model.report.DispatchSpCake;
 import com.ats.webapi.model.report.GetCustBillTax;
 import com.ats.webapi.model.report.GetCustomerBill;
 import com.ats.webapi.model.report.GetRepFrDatewiseSell;
@@ -33,6 +34,7 @@ import com.ats.webapi.model.report.GetRepMonthwiseSell;
 import com.ats.webapi.model.report.GetRepTaxSell;
 import com.ats.webapi.model.report.PDispatchReport;
 import com.ats.webapi.repository.DispatchOrderRepository;
+import com.ats.webapi.repository.DispatchSpCakeRepo;
 import com.ats.webapi.repository.PDispatchReportRepository;
 import com.ats.webapi.service.RepFrSellServise;
 import com.ats.webapi.service.ReportsService;
@@ -188,6 +190,7 @@ public class ReportsController {
 		String productionDateYMD = Common.convertToYMD(productionDate);
 		List<PDispatchReport> dispatchReportList = pDispatchReportRepository.getPDispatchItemReport(productionDateYMD,
 				frId, categories);
+		System.err.println("dispatchReportList>>>>>>>>>>"+dispatchReportList);
 		return dispatchReportList;
 
 	}
@@ -470,6 +473,17 @@ public class ReportsController {
 		List<GetCustBillTax> getCustBillTaxList = repFrSellServise.getCustBillTax(billNo);
 		//System.out.println("  List  :" + getCustBillTaxList);
 		return getCustBillTaxList;
+
+	}
+	
+	@Autowired DispatchSpCakeRepo dispSpRepo;
+	@RequestMapping(value = "/getPDispatchSpCake", method = RequestMethod.POST)
+	public @ResponseBody List<DispatchSpCake> getPDispatchSpCake(
+			@RequestParam("productionDate") String productionDate, @RequestParam("frId") List<String> frId) {
+
+		String productionDateYMD = Common.convertToYMD(productionDate);
+		List<DispatchSpCake> dispatchSpCakeList = dispSpRepo.getPDispatchSpCake(productionDateYMD,frId);
+		return dispatchSpCakeList;
 
 	}
 }
