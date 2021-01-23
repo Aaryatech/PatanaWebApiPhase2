@@ -28,6 +28,7 @@ import com.ats.webapi.model.PostFrItemStockDetail;
 import com.ats.webapi.model.PostFrItemStockHeader;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.repository.ConfigureFrListRepository;
+import com.ats.webapi.repository.ConfigureFrRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
@@ -254,4 +255,23 @@ public class SachinWork {
 			return details;
 
 		}
+		//23-01-2021
+
+		@RequestMapping(value = { "/getFrMenuConfigureByMenuFrId1" }, method = RequestMethod.POST)
+		public @ResponseBody FrMenuConfigure getFrMenuConfigureByMenuFrId(@RequestParam("frId") int frId,
+				@RequestParam("menuId") int menuId) {
+			FrMenuConfigure frMenuConf = frMenuConfigureRepository.findByFrIdAndMenuIdAndIsDel(frId, menuId, 0);
+			return frMenuConf;
+		}
+		@Autowired
+		ConfigureFrRepository configureFrRepository;
+
+		@RequestMapping(value = { "/getFrMenuConfigureByMenuFrId" }, method = RequestMethod.POST)
+		public @ResponseBody ConfigureFranchisee getFrMenuConfigureByMenuFrId1(
+				@RequestParam("menuId") int menuId) {
+			ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdAndDelStatus(menuId, 0);
+			return menuConf;
+		}
+		
+		
 }

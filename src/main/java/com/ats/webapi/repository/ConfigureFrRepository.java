@@ -36,5 +36,7 @@ public interface ConfigureFrRepository extends JpaRepository<ConfigureFranchisee
 
 	
 	 ConfigureFranchisee findByFrIdAndMenuIdAndDelStatus(int frId, int menuId, int i);
+	//Sachin 23-01-2021
+	 ConfigureFranchisee findByMenuIdAndDelStatus(int menuId, int i);
 
 }
