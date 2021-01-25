@@ -12,16 +12,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.Info;
+import com.ats.webapi.model.PostBillDataCommon;
 import com.ats.webapi.model.SellBillDataCommon;
 import com.ats.webapi.model.SellBillDetail;
 import com.ats.webapi.model.SellBillDetailList;
 import com.ats.webapi.model.SellBillHeader;
 import com.ats.webapi.model.bill.ExpressBillService;
 import com.ats.webapi.model.bill.GetItemHsnCode;
+import com.ats.webapi.model.bill.PendingBillCreditNote;
+import com.ats.webapi.model.bill.PendingBillDetail;
+import com.ats.webapi.model.bill.PendingBillHeader;
+import com.ats.webapi.model.bill.PendingBills;
 import com.ats.webapi.model.bill.SlabwiseBill;
 import com.ats.webapi.model.bill.SlabwiseBillList;
+import com.ats.webapi.repository.PostBillHeaderRepository;
+import com.ats.webapi.repository.PostCreditNoteHeaderRepository;
 import com.ats.webapi.repository.SlabwiseDetailsRepository;
 import com.ats.webapi.repository.UpdateSellBillTimeStampRepo;
+import com.ats.webapi.repository.getcreditnote.PendingBillCreditNoteRepo;
+import com.ats.webapi.repository.getcreditnote.PendingBillDetailRepo;
+import com.ats.webapi.repository.getcreditnote.PendingBillHeaderRepo;
+import com.ats.webapi.repository.getcreditnote.PendingBillsRepo;
 
 @RestController
 public class BillingController {
@@ -165,4 +176,66 @@ public class BillingController {
 		return slabwiseBillList;
 	}
 	
+	
+	@Autowired PendingBillsRepo pendingBillRepo;
+	@RequestMapping(value = { "/getPendingBillsByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<PendingBills> getPendingBillsByFrId(@RequestParam("frId") int frId) {
+
+		List<PendingBills> pendingBills = pendingBillRepo.getAllPendingBillsByFrId(frId);
+		    
+			return pendingBills;
+	  }
+	
+	@Autowired PendingBillCreditNoteRepo pendingCrNoteRepo;
+	@RequestMapping(value = { "/getPendingCrNoteByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<PendingBillCreditNote> getPendingCrNoteByFrId(@RequestParam("frId") int frId) {
+
+		List<PendingBillCreditNote> pendingcrNote = pendingCrNoteRepo.getPendingCrNote(frId);
+		    
+			return pendingcrNote;
+	  }
+	
+	@Autowired PendingBillHeaderRepo billHeadRepo;
+	@Autowired PendingBillDetailRepo billDetailRepo;
+	@Autowired PostBillHeaderRepository headRepo;
+	@Autowired PostCreditNoteHeaderRepository crnRepo;
+	@RequestMapping(value = { "/insertPendingBillData" }, method = RequestMethod.POST)
+	public @ResponseBody PendingBillHeader insertPendingBillData(@RequestBody PendingBillHeader billHeader) {
+		int billId = 0;
+		PendingBillHeader header = new PendingBillHeader();
+		try {
+			header = billHeadRepo.save(billHeader);
+			if(header.getBillId()>0) {
+				
+				billId =  header.getBillId();
+				
+				List<PendingBillDetail> billDtlList = billHeader.getBillDetailList();
+	
+				for (int i = 0; i < billDtlList.size(); i++) {
+					billDtlList.get(i).setBillId(billId);
+				}
+				
+				List<PendingBillDetail> billDtlSave = billDetailRepo.save(billDtlList);	
+				
+				int billPaid = 0;
+				for (int i = 0; i < billDtlSave.size(); i++) {					
+					if(billDtlSave.get(i).getBillDetailId()>0) {
+						if(billDtlSave.get(i).getType()==1) {
+							
+							billPaid = headRepo.updatePendingBillAsPaid(billDtlSave.get(i).getBilNoCrnId());
+						}else {
+							billPaid = crnRepo.updatePendinbCreditNoteAsPaid(billDtlSave.get(i).getBilNoCrnId());
+						}
+					}
+				}
+					
+				
+		}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return header;
+		
+	}
 }

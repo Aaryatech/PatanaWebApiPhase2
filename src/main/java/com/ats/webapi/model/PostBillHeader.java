@@ -77,6 +77,9 @@ public class PostBillHeader implements Serializable {
 	@Column(name="igst_sum")
 	private float igstSum;
 	
+	@Column(name="pending_bill")
+	private float pendingBill;
+	
 
 	@Transient
 	List<PostBillDetail> postBillDetailsList;
@@ -231,15 +234,22 @@ public class PostBillHeader implements Serializable {
 		this.igstSum = igstSum;
 	}
 
+	public float getPendingBill() {
+		return pendingBill;
+	}
+
+	public void setPendingBill(float pendingBill) {
+		this.pendingBill = pendingBill;
+	}
+
 	@Override
 	public String toString() {
 		return "PostBillHeader [billNo=" + billNo + ", taxApplicable=" + taxApplicable + ", invoiceNo=" + invoiceNo
 				+ ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode + ", grandTotal=" + grandTotal
 				+ ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", status=" + status + ", DelStatus="
 				+ DelStatus + ", remark=" + remark + ", time=" + time + ", billDateTime=" + billDateTime + ", sgstSum="
-				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", postBillDetailsList="
-				+ postBillDetailsList + "]";
+				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", pendingBill=" + pendingBill
+				+ ", postBillDetailsList=" + postBillDetailsList + "]";
 	}
-
 
 }

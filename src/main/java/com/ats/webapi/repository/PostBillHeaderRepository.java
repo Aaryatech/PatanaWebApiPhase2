@@ -3,7 +3,10 @@ package com.ats.webapi.repository;
 import java.sql.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -37,5 +40,8 @@ public interface PostBillHeaderRepository extends JpaRepository<PostBillHeader, 
 	 * m_fr_opening_stock_header WHERE m_fr_opening_stock_header.fr_id=17 AND
 	 * m_fr_opening_stock_header.month=10)
 	 */
-
+	@Transactional
+	@Modifying
+	@Query(value="UPDATE `t_bill_header` SET `pending_bill` = '1' WHERE `t_bill_header`.`bill_no` = :billId",nativeQuery=true)
+	int updatePendingBillAsPaid(@Param("billId") int billId);
 }
