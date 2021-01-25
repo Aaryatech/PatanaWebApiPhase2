@@ -28,6 +28,7 @@ import com.ats.webapi.model.FrMenuConfigure;
 import com.ats.webapi.model.GetFrMenuConfigure;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
+import com.ats.webapi.model.ItemForMOrder;
 import com.ats.webapi.model.PostFrItemStockDetail;
 import com.ats.webapi.model.PostFrItemStockHeader;
 import com.ats.webapi.model.frsetting.NewSetting;
@@ -36,6 +37,7 @@ import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.ConfigureFrRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
+import com.ats.webapi.repository.ItemForMOrderRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
@@ -338,5 +340,62 @@ public class SachinWork {
 		return allFrIdNameList;
 
 	}
+	
+	
+	//Sachin 25-01-2021 For ManualOrder page Menus
+	@RequestMapping(value = { "/getMenuListByFrAndSectionId" }, method = RequestMethod.POST)
+	public @ResponseBody AllMenuJsonResponse getMenuListByFrAndSectionId(
+			@RequestParam("frId") int frId, @RequestParam("sectionId") int sectionId) {
+
+		AllMenuJsonResponse menuJsonResponse = new AllMenuJsonResponse();
+		ErrorMessage errorMessage = new ErrorMessage();
+		try {
+			List<AllMenus> menuList = mainMenuConfRepo.findByFrIdAndSectionId(sectionId,frId);
+			menuJsonResponse.setMenuConfigurationPage(menuList);
+			errorMessage.setError(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		errorMessage.setMessage("Menus shown successfully");
+		menuJsonResponse.setErrorMessage(errorMessage);
+
+		return menuJsonResponse;
+	}
+
+	@Autowired
+	 ItemForMOrderRepository itemRepositoryForMOrderRepository;
+	
+	@RequestMapping(value = "/getItemListForMOrder", method = RequestMethod.POST)
+	public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId,@RequestParam("menuId")int menuId,@RequestParam("ordertype")int ordertype,@RequestParam("prodDate")String prodDate) {
+
+		List<ItemForMOrder> itemList;
+		try {
+			
+			itemList = itemRepositoryForMOrderRepository.getItemListForMOrder(menuId);
+			
+			/*
+			 * if(ordertype==0) {
+			 * System.err.println("itemGrp1"+itemGrp1+"frId"+menuId+"ordertype"+ordertype+
+			 * "prodDate"+prodDate); itemList =
+			 * itemRepositoryForMOrderRepository.getItemListForMOrder(itemGrp1,frId,menuId,
+			 * prodDate); } else if(ordertype==2) { itemList =
+			 * itemRepositoryForMOrderRepository.getItemListForMOrderMul(itemGrp1);
+			 * 
+			 * }else { itemList =
+			 * itemRepositoryForMOrderRepository.getItemListForMOrderPrev(itemGrp1,frId);
+			 * 
+			 * }
+			 */
+		}
+		catch (Exception e) {
+			itemList=new ArrayList<>();
+			e.printStackTrace();
+
+		}
+		return itemList;
+
+	}
+	
+	
 
 }
