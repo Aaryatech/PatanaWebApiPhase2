@@ -28,4 +28,9 @@ public interface MainMenuConfigurationRepository extends JpaRepository<AllMenus,
 	//Sachin 19-01-2021
 	@Query(value="SELECT m_fr_menu_show.* from m_fr_menu_show WHERE  m_fr_menu_show.del_status=0 and m_fr_menu_show.menu_id NOT IN(select menu_id from m_fr_configure where is_del=0)",nativeQuery=true)
 	public List<AllMenus> getAllNonConfMenus();
+	
+	//Sachin 25-01-2021
+	@Query(value="SELECT m_fr_menu_show.* from m_fr_menu_show WHERE m_fr_menu_show.menu_id IN(:menuIds) AND m_fr_menu_show.del_status=0",nativeQuery=true)
+	public List<AllMenus> findByMenuIdIn(@Param("menuIds") List<Integer> menuIds);
+
 }
