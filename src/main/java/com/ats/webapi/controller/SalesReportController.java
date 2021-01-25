@@ -320,7 +320,7 @@ public class SalesReportController {
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
-			//System.out.println("Input received " + fromDate + "" + toDate + "" + frIdList);
+		//	System.out.println("Input received " + fromDate + "" + toDate + "" + frIdList);
 			if (type == 1) {
 				salesReportRoyaltyFrList = salesReportRoyaltyFrRepo.getSaleReportRoyaltyFr(frIdList, fromDate, toDate);
 				//System.out.println("sale sReportRoyalty Fr List" + salesReportRoyaltyFrList.toString());
@@ -329,6 +329,27 @@ public class SalesReportController {
 						toDate);
 				//System.out.println("sale sReportRoyalty Fr List" + salesReportRoyaltyFrList.toString());
 			}
+
+		} catch (Exception e) {
+			//System.out.println(" Exce in sales Report Royalty Fr  " + e.getMessage());
+			e.printStackTrace();
+		}
+		return salesReportRoyaltyFrList;
+	}
+	@RequestMapping(value = { "/getFrSalesReportRoyalty" }, method = RequestMethod.POST)
+	public @ResponseBody List<SalesReportRoyaltyFr> Fr(
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<SalesReportRoyaltyFr> salesReportRoyaltyFrList = null;
+		try {
+			fromDate = Common.convertToYMD(fromDate);
+			toDate = Common.convertToYMD(toDate);
+		//	System.out.println("Input received " + fromDate + "" + toDate + "" + frIdList);
+			
+			salesReportRoyaltyFrList = salesReportRoyaltyFrRepo.getSaleReportRoyaltyFr(frIdList, fromDate, toDate);
+				//System.out.println("sale sReportRoyalty Fr List" + salesReportRoyaltyFrList.toString());
+			
 
 		} catch (Exception e) {
 			//System.out.println(" Exce in sales Report Royalty Fr  " + e.getMessage());

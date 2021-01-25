@@ -25,7 +25,7 @@ public interface SaleReportBillwiseRepo extends JpaRepository<SalesReportBillwis
 			"        SUM(t_bill_detail.sgst_rs) as sgst_sum," + 
 			"        SUM(t_bill_detail.cgst_rs) as cgst_sum ," + 
 			"        SUM(t_bill_detail.igst_rs) as igst_sum," + 
-			"        m_franchisee.fr_name," + 
+			"        CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name," + 
 			"        m_franchisee.fr_city," + 
 			"        m_franchisee.fr_gst_no," + 
 			"        m_franchisee.is_same_state," + 

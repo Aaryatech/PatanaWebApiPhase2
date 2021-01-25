@@ -13,13 +13,17 @@ public interface FrNameIdByRouteIdRepository extends JpaRepository<FrNameIdByRou
 	@Query(value=" SELECT CONCAT(fr_name, ' ', fr_code) AS  fr_name,fr_id,  fr_route_id FROM m_franchisee WHERE "
 			+ "fr_route_id =:routeId  and del_status=0"
 			+ "",nativeQuery=true)
-	List<FrNameIdByRouteId> getFrNameIdByRouteId(@Param("routeId")int routeId);
+	List<FrNameIdByRouteId> getFrNameIdByRouteId(@Param("routeId") int routeId);
 	
 	
 	//Akhilesh 2020-02-20 
 	@Query(value=" SELECT CONCAT(fr_name, ' ', fr_code) AS  fr_name,fr_id,  fr_route_id FROM m_franchisee WHERE "
+			+ "fr_route_id IN (:routeId) and del_status=0",nativeQuery=true)
+	List<FrNameIdByRouteId> getFrNameIdByMultiRouteId(@Param("routeId") List<Integer> routeId);
+
+	@Query(value=" SELECT CONCAT(fr_name, ' ', fr_code) AS  fr_name,fr_id,  fr_route_id FROM m_franchisee WHERE "
 			+ "fr_route_id IN (:routeId)  and del_status=0"
 			+ "",nativeQuery=true)
-	List<FrNameIdByRouteId> getFrNameIdByMultiRouteId(@Param("routeId")List<Integer> routeId);
+	List<FrNameIdByRouteId> getFrNameIdByRouteId(@Param("routeId") List<Integer> routeId);
 
 }

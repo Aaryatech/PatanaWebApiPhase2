@@ -82,6 +82,40 @@ public class FrNameIdByRouteIdServiceImpl implements FrNameIdByRouteIdService {
 	return frNameIdByRouteId;
 	}
 
+	@Override
+	public FrNameIdByRouteIdList getFrNameIdByRouteId(List<Integer> routeId) {
+		
+		FrNameIdByRouteIdList frNameIdByRouteId=new FrNameIdByRouteIdList();
+		
+		Info info =new Info();
+		
+		List<FrNameIdByRouteId> frNameIdByRouteIdList=frNameIdByRouteIdRepository.getFrNameIdByRouteId(routeId);
+		
+		if(frNameIdByRouteIdList!=null && !frNameIdByRouteIdList.isEmpty() ) {
+			
+			frNameIdByRouteId.setFrNameIdByRouteIds(frNameIdByRouteIdList);
+			
+			info.setError(false);
+			info.setMessage("successfully received fr Name Id List By route Id");
+			
+			frNameIdByRouteId.setInfo(info);
+			
+			
+		}
+		else {
+			
+			info.setError(true);
+			info.setMessage("Error : failed to receive fr Name Id List using route Id");
+			frNameIdByRouteId.setInfo(info);
+			
+		}
+		
+		
+		
+	return frNameIdByRouteId;
+	
+	}
+
 
 	
 	

@@ -1171,7 +1171,7 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value = "/getFrNameIdByRouteId", method = RequestMethod.POST)
-	public @ResponseBody FrNameIdByRouteIdList getFrNameIdByRouteId(@RequestParam("routeId") int routeId) {
+	public @ResponseBody FrNameIdByRouteIdList getFrNameIdByRouteId(@RequestParam("routeId") List<Integer> routeId) {
 
 		FrNameIdByRouteIdList frNameIdByRouteIdList = frNameIdByRouteIdService.getFrNameIdByRouteId(routeId);
 

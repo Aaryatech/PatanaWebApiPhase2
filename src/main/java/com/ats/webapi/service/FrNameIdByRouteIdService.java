@@ -8,6 +8,7 @@ public interface FrNameIdByRouteIdService {
 	
 	FrNameIdByRouteIdList getFrNameIdByRouteId(int routeId);
 	
+	FrNameIdByRouteIdList getFrNameIdByRouteId(List<Integer> routeId);
 	
 	//Akhilesh 2020-01-20
 	FrNameIdByRouteIdList getFrNameIdByMultiRouteId(List<Integer> routeId);
