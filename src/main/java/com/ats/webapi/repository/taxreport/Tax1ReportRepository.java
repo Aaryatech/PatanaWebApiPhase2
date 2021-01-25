@@ -51,7 +51,7 @@ public interface Tax1ReportRepository extends JpaRepository<Tax1Report, Integer>
 			"			    t_bill_detail.bill_detail_no, \n" + 
 			"			    t_bill_header.invoice_no,\n" + 
 			"			    t_bill_header.bill_date, \n" + 
-			"			    m_franchisee.fr_name, \n" + 
+			"			    CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name, \n" + 
 			"			    m_franchisee.fr_gst_no, \n" + 
 			"			    t_bill_detail.bill_no, \n" + 
 			"			    t_bill_detail.cgst_per, \n" + 

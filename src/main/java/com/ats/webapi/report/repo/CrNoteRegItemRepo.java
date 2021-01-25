@@ -19,7 +19,7 @@ public interface CrNoteRegItemRepo extends JpaRepository<CrNoteRegItem, Integer>
 			"        \n" + 
 			"        t_credit_note_details.crnd_id ,\n" + 
 			"       \n" + 
-			"        m_franchisee.fr_name,\n" + 
+			"        CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name,\n" + 
 			"        t_credit_note_header.crn_no as fr_code,\n" + 
 			"        m_franchisee.fr_gst_no,\n" + 
 			"        SUM(t_credit_note_details.grn_gvn_qty)crn_qty,\n" + 
