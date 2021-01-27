@@ -11,7 +11,7 @@ import com.ats.webapi.model.regcakeasspreport.RegCakeAsSpDispatchReport;
 public interface GetRegCakeAsSpRepo extends JpaRepository<RegCakeAsSpDispatchReport, Integer> {
 	
 	@Query(value=" SELECT " + 
-			" t_regular_sp_cake.rsp_id,t_regular_sp_cake.fr_id,t_regular_sp_cake.item_id,t_regular_sp_cake.rsp_delivery_dt,m_franchisee.fr_name,t_regular_sp_cake.qty,m_item.item_name FROM t_regular_sp_cake,m_franchisee,m_item WHERE t_regular_sp_cake.fr_id IN(:frIdList)"
+			" t_regular_sp_cake.rsp_id,t_regular_sp_cake.fr_id,t_regular_sp_cake.item_id,t_regular_sp_cake.rsp_delivery_dt,CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name,t_regular_sp_cake.qty,m_item.item_name FROM t_regular_sp_cake,m_franchisee,m_item WHERE t_regular_sp_cake.fr_id IN(:frIdList)"
 			+ " AND t_regular_sp_cake.fr_id=m_franchisee.fr_id AND "
 			+ " t_regular_sp_cake.rsp_delivery_dt BETWEEN :fromDate AND :toDate AND " + 
 			" m_item.id=t_regular_sp_cake.item_id and t_regular_sp_cake.del_status=0",nativeQuery=true)
@@ -20,7 +20,7 @@ public interface GetRegCakeAsSpRepo extends JpaRepository<RegCakeAsSpDispatchRep
 	
 	
 	@Query(value=" SELECT " + 
-			" t_regular_sp_cake.rsp_id,t_regular_sp_cake.fr_id,t_regular_sp_cake.item_id,t_regular_sp_cake.rsp_delivery_dt,m_franchisee.fr_name,t_regular_sp_cake.qty,m_item.item_name FROM t_regular_sp_cake,m_franchisee,m_item WHERE "
+			" t_regular_sp_cake.rsp_id,t_regular_sp_cake.fr_id,t_regular_sp_cake.item_id,t_regular_sp_cake.rsp_delivery_dt,CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name,t_regular_sp_cake.qty,m_item.item_name FROM t_regular_sp_cake,m_franchisee,m_item WHERE "
 			+ "  t_regular_sp_cake.fr_id=m_franchisee.fr_id AND "
 			+ " t_regular_sp_cake.rsp_delivery_dt BETWEEN :fromDate AND :toDate AND " + 
 			" m_item.id=t_regular_sp_cake.item_id and t_regular_sp_cake.del_status=0",nativeQuery=true)
