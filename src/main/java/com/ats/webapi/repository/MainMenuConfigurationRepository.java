@@ -40,5 +40,8 @@ public interface MainMenuConfigurationRepository extends JpaRepository<AllMenus,
 			+ " AND m_fr_menu_show.del_status=0 and m_section.section_id=:sectionId  ",nativeQuery=true)
 	public List<AllMenus> findByFrIdAndSectionId(@Param("sectionId") int sectionId,@Param("frId") int frId);
 
+	@Query(value="SELECT m_fr_menu_show.* from m_fr_menu_show WHERE m_fr_menu_show.menu_id IN(:ids) AND m_fr_menu_show.del_status=0",nativeQuery=true)
+	public List<AllMenus> getMenuIdIn(@Param("ids") List<String> ids);
+
 	
 }

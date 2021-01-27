@@ -50,7 +50,7 @@ public interface GrnGvnForCreditNoteRepositoty extends JpaRepository<GetGrnGvnFo
 			"            WHEN t_grn_gvn.cat_id=5 THEN s.sp_name  " + 
 			"            ELSE  m_item.item_name " + 
 			"        END AS item_name," + 
-			"        m_franchisee.fr_name " + 
+			"        CONCAT(m_franchisee.fr_name,' ',m_franchisee.fr_code) AS fr_name " + 
 			"    FROM" + 
 			"        m_franchisee," + 
 			"        m_item," + 

@@ -1,10 +1,15 @@
 package com.ats.webapi.model.section;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.ats.webapi.model.AllMenus;
 
 
 //Akhilesh 2020-01-20
@@ -14,23 +19,18 @@ public class Section {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int sectionId;
-	
-	private String menuIds;
-	
-	private String sectionName;
-	
-	private int secType;
-	
-	private int makerUserId;
-	
-	private String makerDatetime;
-	
-	private int exInt1,exInt2;
-	
-	private String exVar1,exVar2;
-	
+	private int sectionId;	
+	private String menuIds;	
+	private String sectionName;	
+	private int secType;	
+	private int makerUserId;	
+	private String makerDatetime;	
+	private int exInt1,exInt2;	
+	private String exVar1,exVar2;	
 	private int delStatus;
+	
+	@Transient
+	List<AllMenus> menuList;
 
 	public int getSectionId() {
 		return sectionId;
@@ -119,17 +119,21 @@ public class Section {
 	public void setSecType(int secType) {
 		this.secType = secType;
 	}
+	public List<AllMenus> getMenuList() {
+		return menuList;
+	}
+
+	public void setMenuList(List<AllMenus> menuList) {
+		this.menuList = menuList;
+	}
 
 	@Override
 	public String toString() {
 		return "Section [sectionId=" + sectionId + ", menuIds=" + menuIds + ", sectionName=" + sectionName
 				+ ", secType=" + secType + ", makerUserId=" + makerUserId + ", makerDatetime=" + makerDatetime
 				+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", delStatus=" + delStatus + "]";
+				+ ", delStatus=" + delStatus + ", menuList=" + menuList + "]";
 	}
 
-	
-	
-	
 
 }

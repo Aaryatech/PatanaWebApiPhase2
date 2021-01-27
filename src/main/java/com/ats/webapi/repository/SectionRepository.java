@@ -25,6 +25,10 @@ public interface SectionRepository extends JpaRepository<Section, Integer> {
 	@Modifying
 	@Query(value="UPDATE m_section SET del_status=1 WHERE section_id=:sectionId",nativeQuery=true)
 	int deleteSection(@Param("sectionId") Integer sectionId);
+
+	List<Section> findByDelStatus(int i);
+
+	Section findBySectionIdAndDelStatus(int sectionId, int i);
 	
 
 	//Section With Menu id And Menu title In Extra Field
