@@ -25,10 +25,13 @@ import com.ats.webapi.model.ConfigureFrBeanList;
 import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.FrMenuConfigure;
+import com.ats.webapi.model.GenerateBill;
 import com.ats.webapi.model.GetFrMenuConfigure;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemForMOrder;
+import com.ats.webapi.model.OrderLog;
+import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.PostFrItemStockDetail;
 import com.ats.webapi.model.PostFrItemStockHeader;
 import com.ats.webapi.model.frsetting.NewSetting;
@@ -36,14 +39,17 @@ import com.ats.webapi.repository.AllFrIdNameRepository;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.ConfigureFrRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
+import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.ItemForMOrderRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
+import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.service.ConfigureFranchiseeService;
 import com.ats.webapi.service.ItemService;
+import com.ats.webapi.service.OrderService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -396,6 +402,60 @@ public class SachinWork {
 
 	}
 	
+	@Autowired
+	GenerateBillRepository generateBillRepository;
+	@Autowired
+	OrderLogRespository logRespository;
+
+	@Autowired
+	private OrderService orderService;
 	
+	@RequestMapping(value = { "/placeManualOrder" }, method = RequestMethod.POST)
+	public @ResponseBody List<GenerateBill> placeManualOrder(@RequestBody List<Orders> orderJson)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+		List<GenerateBill> billList = null;
+		List<Orders> jsonResult;
+		OrderLog log = new OrderLog();
+		log.setFrId(orderJson.get(0).getFrId());
+		log.setJson(orderJson.toString());
+		logRespository.save(log);
+
+		jsonResult = orderService.placeOrder(orderJson);
+		ArrayList<Integer> list = new ArrayList<Integer>();
+
+		if (!jsonResult.isEmpty()) {
+			for (int i = 0; i < jsonResult.size(); i++) {
+				list.add(jsonResult.get(i).getOrderId());
+			}
+
+			billList = generateBillRepository.getBillOfOrder(list);
+		}
+
+		return billList;
+	}
+	
+	@RequestMapping(value = { "/placeManualOrderNew1" }, method = RequestMethod.POST)
+	public @ResponseBody List<GenerateBill> placeManualOrderNew(@RequestBody List<Orders> orderJson)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+		List<GenerateBill> billList = null;
+		List<Orders> jsonResult;
+		OrderLog log = new OrderLog();
+		log.setFrId(orderJson.get(0).getFrId());
+		log.setJson(orderJson.toString());
+		logRespository.save(log);
+
+		jsonResult = orderService.placeManualOrder(orderJson);
+		ArrayList<Integer> list = new ArrayList<Integer>();
+
+		if (!jsonResult.isEmpty()) {
+			for (int i = 0; i < jsonResult.size(); i++) {
+				list.add(jsonResult.get(i).getOrderId());
+			}
+
+			billList = generateBillRepository.getBillOfOrder(list);
+		}
+
+		return billList;
+	}
 
 }
