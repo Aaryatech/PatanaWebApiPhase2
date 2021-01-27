@@ -62,8 +62,8 @@ public class RegularSpCkOrderServiceImpl implements RegularSpCkOrderService {
 
 		List<RegularSpCkOrders> regularSpCkOrdersList = new ArrayList<RegularSpCkOrders>();
 		/* try { */
-		System.out.println("sevice try ");
-		if (menuId.contains(-1)) {
+		System.out.println("sevice try  "+menuId);
+		if (menuId.contains(0)) {
 			System.err.println("Menu Id = -1 some fr all menu A");
 			regularSpCkOrdersList = regularSpCkOrderAdminRepo.findRegularSpCakeOrderAllMenu(frId, strDate);
 		} else {

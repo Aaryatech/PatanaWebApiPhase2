@@ -11,7 +11,7 @@ import com.ats.webapi.model.GetRegSpCakeOrders;
 public interface GetRegSpCakeOrdersRepository extends JpaRepository<GetRegSpCakeOrders, Integer>{
 
 	
-	@Query(value="SELECT r.rsp_id, f.fr_name, f.fr_mob, t.item_name, r.order_date, r.mrp, r.qty, r.rsp_sub_total, r.rsp_advance_amt,"
+	@Query(value="SELECT r.rsp_id, CONCAT(f.fr_name,' ',f.fr_code) AS fr_name, f.fr_mob, t.item_name, r.order_date, r.mrp, r.qty, r.rsp_sub_total, r.rsp_advance_amt,"
 			+" r.rsp_remaining_amt, r.rsp_delivery_dt,r.rsp_place, r.rsp_cust_name, r.rsp_cust_mobile_no,r.order_time from t_regular_sp_cake r, m_item t, m_franchisee f where"
 			+" r.rsp_id IN (:orderNo) AND  r.del_status=0 AND r.fr_id=f.fr_id AND r.item_id=t.id",nativeQuery=true)
 	
