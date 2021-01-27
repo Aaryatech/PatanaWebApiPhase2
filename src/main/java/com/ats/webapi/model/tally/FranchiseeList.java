@@ -7,15 +7,15 @@ import com.ats.webapi.model.ErrorMessage;
 
 public class FranchiseeList implements Serializable{
 
-	List<Franchisee> franchiseeList;
+	List<FranchiseeTally> franchiseeList;
 	
 	ErrorMessage errorMessage;
 
-	public List<Franchisee> getFranchiseeList() {
+	public List<FranchiseeTally> getFranchiseeList() {
 		return franchiseeList;
 	}
 
-	public void setFranchiseeList(List<Franchisee> franchiseeList) {
+	public void setFranchiseeList(List<FranchiseeTally> franchiseeList) {
 		this.franchiseeList = franchiseeList;
 	}
 

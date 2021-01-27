@@ -32,8 +32,8 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Integer>
 
 		@Query(value="select MAX(fr_id)+1 from m_franchisee",nativeQuery=true)
 		public int getUnigueFrCode();
-
-		public List<Franchisee> findAllByDelStatusOrderByFrNameAsc(int i);
+	
+		public List<Franchisee> findAllByDelStatusOrderByFrIdAsc(int i);
 
 		
 		@Modifying

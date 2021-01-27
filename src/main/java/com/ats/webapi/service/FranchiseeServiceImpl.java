@@ -77,7 +77,7 @@ public class FranchiseeServiceImpl implements FranchiseeService {
 	@Override
 	public List<Franchisee> findAllFranchisee() {
 		 List<Franchisee> franchisee=new ArrayList<Franchisee>();
-			franchisee=franchiseeRepository.findAllByDelStatusOrderByFrNameAsc(0);
+			franchisee=franchiseeRepository.findAllByDelStatusOrderByFrIdAsc(0);
 	
 		
 		return franchisee;

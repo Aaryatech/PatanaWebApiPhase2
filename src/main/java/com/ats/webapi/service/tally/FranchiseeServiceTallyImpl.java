@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ats.webapi.model.ErrorMessage;
-import com.ats.webapi.model.tally.Franchisee;
+import com.ats.webapi.model.tally.FranchiseeTally;
 import com.ats.webapi.model.tally.FranchiseeList;
 import com.ats.webapi.repository.tally.TallyFrUpdateRepository;
 import com.ats.webapi.repository.tally.TallyFranchiseeRepository;
@@ -22,7 +22,7 @@ public class FranchiseeServiceTallyImpl  implements FranchiseeService {
 	@Override
 	public FranchiseeList getAllFranchisee() {
 		
-		List<Franchisee> franchiseeList=tallyFranchiseeRepository.findByIsTallySync();
+		List<FranchiseeTally> franchiseeList=tallyFranchiseeRepository.findByIsTallySync();
 		
 		FranchiseeList allFranchiseeList=new FranchiseeList();
 		ErrorMessage errorMessage=new ErrorMessage();

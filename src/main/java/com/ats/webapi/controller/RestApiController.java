@@ -28,12 +28,14 @@ import com.ats.webapi.commons.Common;
 import com.ats.webapi.commons.EmailUtility;
 import com.ats.webapi.commons.Firebase;
 import com.ats.webapi.model.*;
+import com.ats.webapi.model.bill.ItemIdOnly;
 import com.ats.webapi.model.grngvn.GetGrnGvnForCreditNoteList;
 import com.ats.webapi.model.grngvn.GrnGvnHeader;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeader;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeaderList;
 import com.ats.webapi.model.grngvn.TempGrnGvnBeanUp;
 import com.ats.webapi.model.remarks.GetAllRemarksList;
+import com.ats.webapi.repository.CategoryRepository;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FrCustomerListRepo;
@@ -46,6 +48,7 @@ import com.ats.webapi.repository.GetBillHeaderRepository;
 import com.ats.webapi.repository.GetRegSpCakeOrdersRepository;
 import com.ats.webapi.repository.GetReorderByStockTypeRepository;
 import com.ats.webapi.repository.GetSubCatRepo;
+import com.ats.webapi.repository.ItemIdOnlyRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
@@ -236,6 +239,7 @@ public class RestApiController {
 	ConfigureFrBeanService configureFrBeanService;
 	@Autowired
 	SpCkOrdersService spCkOrdersService;
+	
 	@Autowired
 	GetOrderService getOrderService;
 
@@ -3336,7 +3340,8 @@ public class RestApiController {
 
 	// Get All Franchisees
 	@RequestMapping(value = { "/getAllFranchisee" }, method = RequestMethod.GET)
-	public @ResponseBody FranchiseeList getAllFranchinsees() {
+	public @ResponseBody FranchiseeList getAllFranchinsees() {		
+		
 		List<Franchisee> franchisee = franchiseeService.findAllFranchisee();
 		FranchiseeList franchiseeList = new FranchiseeList();
 		franchiseeList.setFranchiseeList(franchisee);
@@ -5018,5 +5023,41 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 
 		Setting setting = settingRepository.findBySettingKey("sp_invoice");
 		return setting;
+	}
+	
+	@Autowired
+	ItemIdOnlyRepository itemIdOnlyRepository;
+	@RequestMapping(value = { "/getItemsByMenuIdMultiple" }, method = RequestMethod.POST)
+	public @ResponseBody  List<ItemIdOnly> getItemsByMenuIdMultiple(@RequestParam("menuId") List<Integer> menuId) {
+		 System.out.println("menuId" +menuId);
+		
+		List<ItemIdOnly> itemList;
+				  itemList = itemIdOnlyRepository.finditmsMenuIdInMultiple(0,menuId);
+				  
+				  System.out.println("itemList" +itemList.toString());
+		return itemList;
+	}
+	
+	@RequestMapping(value = { "/getOrderListByItem" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetOrderList getOrderListByItem(@RequestParam List<String> frId, @RequestParam List<String> menuId,
+			@RequestParam String date, @RequestParam List<Integer> itemId) {
+		GetOrderList orderList = new GetOrderList();
+		try {
+			String strDate = Common.convertToYMD(date);
+			List<GetOrder> jsonOrderList = getOrderService.findOrderByItemId(frId, menuId, strDate, itemId);
+
+			orderList.setGetOrder(jsonOrderList);
+			Info info = new Info();
+			info.setError(false);
+			info.setMessage("Order list displayed Successfully");
+			orderList.setInfo(info);
+
+		} catch (Exception e) {
+
+			System.out.println("exception in order list rest controller" + e.getMessage());
+		}
+		return orderList;
+
 	}
 }

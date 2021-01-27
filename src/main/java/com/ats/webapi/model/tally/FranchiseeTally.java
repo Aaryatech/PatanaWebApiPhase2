@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 
 @Entity
-public class Franchisee implements Serializable{
+public class FranchiseeTally implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
