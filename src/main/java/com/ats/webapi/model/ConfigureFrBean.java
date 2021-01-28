@@ -59,6 +59,9 @@ public class ConfigureFrBean {
 	@Column(name="cat_name")
 	private String catName;
 
+	@Column(name="cat_id")
+	private int catId;
+	
 	public int getSettingId() {
 		return settingId;
 	}
@@ -163,12 +166,22 @@ public class ConfigureFrBean {
 		this.catName = catName;
 	}
 
+	
+	
+	public int getCatId() {
+		return catId;
+	}
+
+	public void setCatId(int catId) {
+		this.catId = catId;
+	}
+
 	@Override
 	public String toString() {
 		return "ConfigureFrBean [settingId=" + settingId + ", frId=" + frId + ", menuId=" + menuId + ", settingType="
 				+ settingType + ", fromTime=" + fromTime + ", toTime=" + toTime + ", day=" + day + ", date=" + date
 				+ ", itemShow=" + itemShow + ", delStatus=" + delStatus + ", frName=" + frName + ", menuTitle="
-				+ menuTitle + ", catName=" + catName + "]";
+				+ menuTitle + ", catName=" + catName + ", catId=" + catId + "]";
 	}
 
 
