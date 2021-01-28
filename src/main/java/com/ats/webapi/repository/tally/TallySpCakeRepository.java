@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ats.webapi.model.tally.SpecialCake;
+import com.ats.webapi.model.tally.SpecialCakeTally;
 
 
 @Repository
-public interface TallySpCakeRepository extends JpaRepository<SpecialCake, Long>{
+public interface TallySpCakeRepository extends JpaRepository<SpecialCakeTally, Long>{
 
 	
 	@Query(value="SELECT\n" + 
@@ -36,7 +36,7 @@ public interface TallySpCakeRepository extends JpaRepository<SpecialCake, Long>{
 			"        s.sp_id=sup.sp_id \n" + 
 			"        AND sup.is_tally_sync=0 \n" + 
 			"        AND s.del_status=0",nativeQuery=true)
-	List<SpecialCake> findByIsTallySync();
+	List<SpecialCakeTally> findByIsTallySync();
 	
 
 }

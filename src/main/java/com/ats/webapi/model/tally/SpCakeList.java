@@ -7,15 +7,15 @@ import com.ats.webapi.model.ErrorMessage;
 
 public class SpCakeList implements Serializable{
 
-	List<SpecialCake> specialCakeList;
+	List<SpecialCakeTally> specialCakeList;
 	
 	ErrorMessage errorMessage;
 
-	public List<SpecialCake> getSpecialCakeList() {
+	public List<SpecialCakeTally> getSpecialCakeList() {
 		return specialCakeList;
 	}
 
-	public void setSpecialCakeList(List<SpecialCake> specialCakeList) {
+	public void setSpecialCakeList(List<SpecialCakeTally> specialCakeList) {
 		this.specialCakeList = specialCakeList;
 	}
 

@@ -92,7 +92,13 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 	
 	@Override
 	public List<SpecialCake> showAllSpecialCake() {
-		List<SpecialCake> specialCakeList=specialcakeRepository.findByDelStatusOrderBySpNameAsc(0);
+		List<SpecialCake> specialCakeList = null;
+
+		try {
+		 specialCakeList=specialcakeRepository.findByDelStatusOrderBySpNameAsc(0);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return specialCakeList;		
 	}
 
@@ -129,7 +135,7 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 
 	@Override
 	public List<String> searchSpecialCakeSpCodes(List<Integer>items,int frId,int menuId) {
-	    List<String> spCodeList=confiSpCodeRepository.findSpCode(items,frId,menuId);
+	    List<String> spCodeList=confiSpCodeRepository.findSpCode(items,menuId);
 
 		return spCodeList;
 	}

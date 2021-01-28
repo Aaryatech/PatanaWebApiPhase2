@@ -13,7 +13,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name="m_sp_cake")
-public class SpecialCake implements Serializable {
+public class SpecialCakeTally implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

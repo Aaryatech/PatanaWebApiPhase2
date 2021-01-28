@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.tally.SpCakeList;
-import com.ats.webapi.model.tally.SpecialCake;
+import com.ats.webapi.model.tally.SpecialCakeTally;
 import com.ats.webapi.repository.tally.TallySpCakeRepository;
 import com.ats.webapi.repository.tally.TallySpCakeUpdateRepository;
 
@@ -22,7 +22,7 @@ public class SpCakeServiceTallyImpl implements SpCakeService {
 	
 	@Override
 	public SpCakeList getAllSpCake() {
-		 List<SpecialCake> spCakeList=tallySpCakeRepository.findByIsTallySync();
+		 List<SpecialCakeTally> spCakeList=tallySpCakeRepository.findByIsTallySync();
 			
 			SpCakeList allSpCakeList=new SpCakeList();
 			ErrorMessage errorMessage=new ErrorMessage();
