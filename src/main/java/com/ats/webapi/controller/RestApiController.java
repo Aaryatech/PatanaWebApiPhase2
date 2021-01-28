@@ -1456,6 +1456,86 @@ public class RestApiController {
 
 	}
 
+//	@RequestMapping(value = "/getAllFrItemConfPost", method = RequestMethod.POST)
+//	public @ResponseBody List<FrStockResponse> getAllFrItemConfPost(@RequestParam List<String> itemId) {
+//
+//		FrItemStockConfigurePostList configurePostList = new FrItemStockConfigurePostList();
+//
+//		List<GetFrItemStockConfiguration> frItemStockConfigurePosts = getFrItemStockConfigurationService
+//				.getAllFrItemConfPost(itemId);
+//
+//		configurePostList.setFrItemStockConfigurePosts(frItemStockConfigurePosts);
+//
+//		System.err.println("FrItemStockConfigurePostList------" + configurePostList);
+//
+//		List<FrStockResponse> frStockResponseList = new ArrayList<FrStockResponse>();
+//
+//		for (int i = 0; i < frItemStockConfigurePosts.size(); i++) {
+//
+//			GetFrItemStockConfiguration frItemStockConfigurePostParent = frItemStockConfigurePosts.get(i);
+//
+//			System.err.println("Parent List---------------" + frItemStockConfigurePostParent);
+//
+//			boolean isUnique = true;
+//			for (int m = 0; m < frStockResponseList.size(); m++) {
+//
+//				System.err.println("Uniq List Id--------------" + frItemStockConfigurePostParent.getItemId());
+//
+//				System.err.println("FR Stock Response --------------" + frStockResponseList);
+//
+//				if (frStockResponseList.get(m).getItemId() == frItemStockConfigurePostParent.getItemId()) {
+//					System.err.println("Match Found----------------" + frStockResponseList.get(m).getItemId());
+//					isUnique = false;
+//				}
+//
+//			}
+//
+//			System.err.println("isUnique--------------" + isUnique);
+//
+//			if (isUnique) {
+//
+//				FrStockResponse frStockResponse = new FrStockResponse();
+//				frStockResponse.setItemId(frItemStockConfigurePostParent.getItemId());
+//				frStockResponse.setItemName(frItemStockConfigurePostParent.getItemName());
+//
+//				List<StockDetails> stockDetailsList = new ArrayList<StockDetails>();
+//
+//				for (int j = 0; j < frItemStockConfigurePosts.size(); j++) {
+//
+//					GetFrItemStockConfiguration frItemStockConfigurePostChild = frItemStockConfigurePosts.get(j);
+//
+//					if (frItemStockConfigurePostChild.getItemId() == frItemStockConfigurePostParent.getItemId()) {
+//
+//						StockDetails stockDetails = new StockDetails();
+//						System.out.println("child object " + frItemStockConfigurePostChild.toString());
+//
+//						stockDetails.setFrStockId(frItemStockConfigurePostChild.getFrStockId());
+//						stockDetails.setType(frItemStockConfigurePostChild.getType());
+//						stockDetails.setMinQty(frItemStockConfigurePostChild.getMinQty());
+//						stockDetails.setMaxQty(frItemStockConfigurePostChild.getMaxQty());
+//						stockDetails.setReorderQty(frItemStockConfigurePostChild.getReorderQty());
+//						stockDetailsList.add(stockDetails);
+//
+//					}
+//				}
+//
+//				frStockResponse.setStockDetails(stockDetailsList);
+//				frStockResponseList.add(frStockResponse);
+//
+//			} // end of unique if
+//		}
+//		System.err.println("frStockResponseList" + frStockResponseList.toString());
+//		Info info = new Info();
+//
+//		info.setError(false);
+//		info.setMessage("All Fr Item Stock Config displayed. Total Items: " + frItemStockConfigurePosts.size());
+//
+//		configurePostList.setInfo(info);
+//
+//		return frStockResponseList;
+//
+//	}
+	
 	@RequestMapping(value = "/getAllFrItemConfPost", method = RequestMethod.POST)
 	public @ResponseBody List<FrStockResponse> getAllFrItemConfPost(@RequestParam List<String> itemId) {
 
@@ -1475,7 +1555,32 @@ public class RestApiController {
 			boolean isUnique = true;
 			for (int m = 0; m < frStockResponseList.size(); m++) {
 
-				if (frStockResponseList.get(m).getItemId() == frItemStockConfigurePostParent.getItemId()) {
+				FrStockResponse resp = frStockResponseList.get(m);
+
+				if (resp.getItemId() == frItemStockConfigurePostParent.getItemId()) {
+
+					List<StockDetails> stockDetailsList = resp.getStockDetails();
+
+					for (int j = 0; j < frItemStockConfigurePosts.size(); j++) {
+
+						GetFrItemStockConfiguration frItemStockConfigurePostChild = frItemStockConfigurePosts.get(j);
+
+						if (frItemStockConfigurePostChild.getItemId() == frItemStockConfigurePostParent.getItemId()) {
+
+							StockDetails stockDetails = new StockDetails();
+							System.out.println("child object " + frItemStockConfigurePostChild.toString());
+
+							stockDetails.setFrStockId(frItemStockConfigurePostChild.getFrStockId());
+							stockDetails.setType(frItemStockConfigurePostChild.getType());
+							stockDetails.setMinQty(frItemStockConfigurePostChild.getMinQty());
+							stockDetails.setMaxQty(frItemStockConfigurePostChild.getMaxQty());
+							stockDetails.setReorderQty(frItemStockConfigurePostChild.getReorderQty());
+							stockDetailsList.add(stockDetails);
+
+						}
+					}
+					resp.setStockDetails(stockDetailsList);
+
 					isUnique = false;
 				}
 
@@ -1496,8 +1601,7 @@ public class RestApiController {
 					if (frItemStockConfigurePostChild.getItemId() == frItemStockConfigurePostParent.getItemId()) {
 
 						StockDetails stockDetails = new StockDetails();
-						// System.out.println("child object " +
-						// frItemStockConfigurePostChild.toString());
+						System.out.println("child object " + frItemStockConfigurePostChild.toString());
 
 						stockDetails.setFrStockId(frItemStockConfigurePostChild.getFrStockId());
 						stockDetails.setType(frItemStockConfigurePostChild.getType());
@@ -1513,7 +1617,7 @@ public class RestApiController {
 
 			} // end of unique if
 		}
-		// System.out.println("frStockResponseList" + frStockResponseList.toString());
+		System.out.println("frStockResponseList" + frStockResponseList.toString());
 		Info info = new Info();
 
 		info.setError(false);
