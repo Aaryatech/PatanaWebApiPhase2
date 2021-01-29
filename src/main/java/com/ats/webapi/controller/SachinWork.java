@@ -24,6 +24,8 @@ import com.ats.webapi.model.ConfigureFrBean;
 import com.ats.webapi.model.ConfigureFrBeanList;
 import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.ErrorMessage;
+import com.ats.webapi.model.Flavour;
+import com.ats.webapi.model.FlavourConf;
 import com.ats.webapi.model.FrMenuConfigure;
 import com.ats.webapi.model.GenerateBill;
 import com.ats.webapi.model.GetFrMenuConfigure;
@@ -34,10 +36,14 @@ import com.ats.webapi.model.OrderLog;
 import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.PostFrItemStockDetail;
 import com.ats.webapi.model.PostFrItemStockHeader;
+import com.ats.webapi.model.SpecialCake;
+import com.ats.webapi.model.SpecialCakeList;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.repository.AllFrIdNameRepository;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.ConfigureFrRepository;
+import com.ats.webapi.repository.FlavourConfRepository;
+import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
 import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
@@ -47,9 +53,11 @@ import com.ats.webapi.repository.NewSettingRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
+import com.ats.webapi.repository.SpecialCakeRepository;
 import com.ats.webapi.service.ConfigureFranchiseeService;
 import com.ats.webapi.service.ItemService;
 import com.ats.webapi.service.OrderService;
+import com.ats.webapi.service.SpecialCakeService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
@@ -458,4 +466,150 @@ public class SachinWork {
 		return billList;
 	}
 
+	//Sachin 29-01-2021 For Showing SP Cakes in admin Flavor configuration
+	
+	@Autowired
+	private SpecialCakeService specialcakeService;
+
+	@Autowired
+	SpecialCakeRepository specialcakeRepository;
+	@RequestMapping(value = { "/showSpecialCakeListOrderBySpCode" }, method = RequestMethod.GET)
+	@ResponseBody
+	public SpecialCakeList showSpecialCakeListOrderBySpCode() {
+		List<SpecialCake> jsonSpecialCakeList = specialcakeRepository.findByDelStatusOrderBySpCodeAsc(0);
+		SpecialCakeList specialCakeList = new SpecialCakeList();
+		specialCakeList.setSpecialCake(jsonSpecialCakeList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("SpecialCake list displayed Successfully");
+		specialCakeList.setInfo(info);
+		return specialCakeList;
+
+	}
+
+	//Sachin 29-01-2021 For Mapping flavor and sps new Added table and all its APIS
+	@Autowired
+	FlavourConfRepository flavourConfRepository;
+	@RequestMapping(value = { "/saveFlavourConf" }, method = RequestMethod.POST)
+	public @ResponseBody List<FlavourConf> saveFlavourConf(@RequestBody List<FlavourConf> flavourConfList) {
+
+		List<FlavourConf> flList = new ArrayList<FlavourConf>();
+		try {
+            for(FlavourConf flavourConf:flavourConfList)
+            {
+            	FlavourConf isPresent=flavourConfRepository.findByDelStatusAndSpfIdAndSpId(0,flavourConf.getSpfId(),flavourConf.getSpId());
+            	if(isPresent!=null)
+            	{
+            	    flavourConf.setSpFlavConfId(isPresent.getSpFlavConfId());
+            	    FlavourConf flr= flavourConfRepository.save(flavourConf);
+            	    flList.add(flr);
+            	}else
+            	{
+            		 FlavourConf flr= flavourConfRepository.save(flavourConf);
+              	     flList.add(flr);
+            	}
+            }
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		
+		}
+		return flList;
+	}
+	@RequestMapping(value = "/getAllFlConf", method = RequestMethod.GET)
+	public @ResponseBody List<FlavourConf> getAllFlConf() {
+
+		List<FlavourConf> flList;
+		try {
+			flList = flavourConfRepository.findByDelStatus(0);
+		}
+		catch (Exception e) {
+			flList=new ArrayList<>();
+			e.printStackTrace();
+
+		}
+		return flList;
+
+	}
+	@RequestMapping(value = "/getFlConfByIds", method = RequestMethod.POST)
+	public @ResponseBody FlavourConf getFlConfByIds(@RequestParam("spfId") int  spfId,@RequestParam("spId") int  spId) {
+
+		FlavourConf flavour=new FlavourConf();
+		try {
+			flavour = flavourConfRepository.findBySpIdAndSpfIdAndDelStatus(spId,spfId,0);
+		}
+		catch (Exception e) {
+			flavour=new FlavourConf();
+			e.printStackTrace();
+
+		}
+		return flavour;
+
+	}
+	@RequestMapping(value ="/updateFlavourConf", method = RequestMethod.POST)
+	public Info updateFlavourConf(@RequestParam("spFlavConfId") int spFlavConfId, @RequestParam("rate") float rate,@RequestParam("mrp1") float mrp1,
+			@RequestParam("mrp2") float mrp2,@RequestParam("mrp3") float mrp3)
+	{
+		Info info=new Info();
+		try {
+			int isUpdated=flavourConfRepository.updateFlavourConf(spFlavConfId,rate,mrp1,mrp2,mrp3);
+			if(isUpdated>0)
+			{
+				info.setError(false);
+				info.setMessage("FlavourConf Updated Successfully.");
+			}else
+			{
+				info.setError(true);
+				info.setMessage("FlavourConf Updation Failed.");
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return info;
+	}
+	@RequestMapping(value="/deleteFlavourConf", method=RequestMethod.POST)
+	public @ResponseBody Info deleteFlavourConf(@RequestParam int spFlavConfId) {
+		
+		Info info =new Info();
+		int isDelete = flavourConfRepository.deleteBySpFlavConfId(spFlavConfId);
+		
+		if(isDelete!=0) {
+			info.setError(false);
+			info.setMessage("Success");
+		}else {
+			info.setError(true);
+			info.setMessage("Fail");
+		}
+		return info;
+		
+	}
+	
+	@Autowired
+	FlavourRepository flavourRepository;
+	
+	@RequestMapping(value = "/getFlavoursBySpfIdNotIn", method = RequestMethod.POST)
+	public @ResponseBody List<Flavour> getFlavoursBySpfIdNotIn(@RequestParam List<Integer> spfId,@RequestParam("type") int type) {
+
+		List<Flavour> flavourList=null;
+		if(type!=0) {
+		 flavourList = flavourRepository.findBySpfIdNotInAndSpType(spfId,type);
+		}
+		else
+		{
+		 flavourList = flavourRepository.findBySpfIdNotIn(spfId);
+		}
+		
+		return flavourList;
+	}
+	
+	@RequestMapping(value = "/getFlavoursBySpfIdIn", method = RequestMethod.POST)
+	public @ResponseBody List<Flavour> getFlavoursBySpfIdIn(@RequestParam List<Integer> spfId) {
+
+		List<Flavour> flavourList = flavourRepository.findBySpfIdIn(spfId);
+		
+		return flavourList;
+	}
 }
