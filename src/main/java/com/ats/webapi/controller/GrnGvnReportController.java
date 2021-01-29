@@ -13,10 +13,12 @@ import com.ats.webapi.model.grngvnreport.GGReportByDate;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByFrId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByItemId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByMonthDate;
+import com.ats.webapi.model.grngvnreport.PendingItemGrnGvn;
 import com.ats.webapi.repository.ggreport.GGReportByDateRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByFrIdRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByItemIdRepo;
 import com.ats.webapi.repository.ggreport.GGreportGrpByDateMonthRepo;
+import com.ats.webapi.repository.ggreport.PendingItemGrnGvnRepo;
 
 @RestController
 public class GrnGvnReportController {
@@ -195,6 +197,25 @@ public class GrnGvnReportController {
 		}
 
 		return grpByFrIdList;
+	}
+	
+	@Autowired PendingItemGrnGvnRepo pndGrnGvnRepo;
+	@RequestMapping(value = { "/getPendingGrnGvnItemReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<PendingItemGrnGvn> getPendingGrnGvnItemReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("isGrn") List<String> isGrn,
+			@RequestParam("frId") int frId, @RequestParam("isCrnGen") List<String> isCrnGen, @RequestParam("status") int status) {
+
+		List<PendingItemGrnGvn> grnGvn = new ArrayList<PendingItemGrnGvn>();
+		try {
+			grnGvn = pndGrnGvnRepo.getPendingItemGrnGvn(fromDate, toDate, frId, isGrn, isCrnGen, status);
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in /GrnGvnReportController : /gGReportGrpByFrId" +e.getMessage());			
+			e.printStackTrace();
+		}
+
+		return grnGvn;
 	}
 
 }
