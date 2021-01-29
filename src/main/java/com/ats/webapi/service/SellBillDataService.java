@@ -8,4 +8,11 @@ public interface SellBillDataService {
 
 	SellBillHeader saveSellBillHeader(SellBillHeader sellBillHeader);
 
+	
+	public SellBillHeader getSellBillBysellBillNo(int sellBillNo);
+	
+	public SellBillHeader updateSellBillHeader(SellBillHeader sellBillHeader);
+	
+	public int deleteSellBillHeader(int sellBillNo);
+	
 }

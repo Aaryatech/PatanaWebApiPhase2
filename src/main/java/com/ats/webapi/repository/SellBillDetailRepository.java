@@ -23,5 +23,9 @@ public interface SellBillDetailRepository extends JpaRepository<SellBillDetail, 
 	int  deleteSellBillDetail(@Param("sellBillDetailNo") int sellBillDetailNo);
 	
 	
+	@Query(value="SELECT * FROM t_sell_bill_detail WHERE del_status=0 AND sell_bill_no=:sellBillNo",nativeQuery=true)
+	List<SellBillDetail> getSelBillDetailBySelBillNo(@Param("sellBillNo") int sellBillNo);
+	
+	
 	
 }

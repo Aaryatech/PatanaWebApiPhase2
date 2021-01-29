@@ -36,6 +36,10 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Integer>
 		public List<Franchisee> findAllByDelStatusOrderByFrIdAsc(int i);
 
 		
+		@Query(value="SELECT *  FROM m_franchisee WHERE del_status=:i",nativeQuery=true)
+		public List<Franchisee> findAllByDelStatusOrderByFrNameAsc(@Param("i") int i);
+		
+		
 		@Modifying
 		@Transactional
 		@Query("Update Franchisee SET fr_password=:newPass WHERE fr_id=:frId")

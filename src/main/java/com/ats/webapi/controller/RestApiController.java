@@ -15,6 +15,8 @@ import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -1311,7 +1313,6 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value = { "/insertSellBillData" }, method = RequestMethod.POST)
-
 	public @ResponseBody SellBillHeader sellBillData(@RequestBody SellBillHeader sellBillHeader)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
@@ -1332,6 +1333,7 @@ public class RestApiController {
 			info.setMessage("Sell bill header inserted  Successfully");
 			// System.out.println("Response : " + info.toString());
 		}
+		
 
 		else {
 
@@ -1341,9 +1343,66 @@ public class RestApiController {
 		}
 
 		return jsonSellBillHeader;
+}
 
-	}
-
+	//To Update Sell Bill Detail Header
+		@Transactional
+		@RequestMapping(value="/updateSellBillHeader",method=RequestMethod.POST)
+		public @ResponseBody SellBillHeader updateSellBillHeader(@RequestBody SellBillHeader header) {
+			SellBillHeader resp=new SellBillHeader();
+			try {
+				resp=sellBillDataService.updateSellBillHeader(header);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.err.println("Exception Occuered in /updateSellBillHeader");
+				e.printStackTrace();
+			}
+			return resp;
+		}
+		
+		//To Get Sell Bill Header Detail By Sell Bill No
+		@RequestMapping(value="/getSellBillHeaderBySellBillNo",method=RequestMethod.POST)
+		public @ResponseBody SellBillHeader getSellBillHeaderBySellBillNo(@RequestParam int sellBillNo) {
+			SellBillHeader header=new SellBillHeader();
+			try {
+				header=sellBillDataService.getSellBillBysellBillNo(sellBillNo);
+			} catch (Exception e){
+				// TODO: handle exception
+				System.err.println("Exception Occuered In /getSellBillHeaderBySellBillNo");
+				e.printStackTrace();
+			}
+			//getSellBillBysellBillNo
+			return header;
+		}
+		
+		
+		//To Delete SellBill Header
+		@RequestMapping(value="/deleteSellBillHeaderBySellBillNo",method=RequestMethod.POST)
+		public @ResponseBody Info deleteSellBillHeaderBySellBillNo(@RequestParam int sellBillNo) {
+			Info info=new Info();
+			Integer flag=0;
+			try {
+				flag=sellBillDataService.deleteSellBillHeader(sellBillNo);
+				if(flag>0){
+					info.setError(false);
+					info.setMessage("Header Deleted ");
+				}else {
+					info.setError(true);
+					info.setMessage("Unable To Delete Sell Header");
+				}
+			} catch (Exception e){
+				// TODO: handle exception
+				info.setError(true);
+				info.setMessage("Unable To Delete Sell Header Exception Occuered");
+				System.err.println("Exception Occuered In /deleteSellBillHeaderBySellBillNo");
+				e.printStackTrace();
+			}
+			//getSellBillBysellBillNo
+			return info;
+		}	
+	
+	
+	
 	@RequestMapping(value = "/getBillHeader", method = RequestMethod.POST)
 	public @ResponseBody GetBillHeaderList getBillHeader(@RequestParam("frId") List<String> frId,
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
