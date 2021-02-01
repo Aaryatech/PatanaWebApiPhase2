@@ -26,9 +26,11 @@ import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Flavour;
 import com.ats.webapi.model.FlavourConf;
+import com.ats.webapi.model.FlavourList;
 import com.ats.webapi.model.FrMenuConfigure;
 import com.ats.webapi.model.GenerateBill;
 import com.ats.webapi.model.GetFrMenuConfigure;
+import com.ats.webapi.model.HsnwiseBillExcelSummary;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemForMOrder;
@@ -47,6 +49,7 @@ import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
 import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
+import com.ats.webapi.repository.HsnwiseBillExcelSummaryRepository;
 import com.ats.webapi.repository.ItemForMOrderRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
@@ -591,8 +594,8 @@ public class SachinWork {
 	FlavourRepository flavourRepository;
 	
 	@RequestMapping(value = "/getFlavoursBySpfIdNotIn", method = RequestMethod.POST)
-	public @ResponseBody List<Flavour> getFlavoursBySpfIdNotIn(@RequestParam List<Integer> spfId,@RequestParam("type") int type) {
-
+	public @ResponseBody List<Flavour> getFlavoursBySpfIdNotIn(@RequestParam List<Integer> spfId) {
+int type=0;
 		List<Flavour> flavourList=null;
 		if(type!=0) {
 		 flavourList = flavourRepository.findBySpfIdNotInAndSpType(spfId,type);
@@ -612,4 +615,72 @@ public class SachinWork {
 		
 		return flavourList;
 	}
+	//29-01-2021 just copied as not available in phase2Api
+	@RequestMapping(value = { "/showFlavourListBySpId" }, method = RequestMethod.POST)
+	@ResponseBody
+	public FlavourList showFlavourListBySpId(@RequestParam("spId") int spId) {
+
+		List<Flavour> jsonFlavourtList = flavourRepository.findBySpId1(spId);
+		FlavourList flavourList = new FlavourList();
+		flavourList.setFlavour(jsonFlavourtList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("Flavour list displayed Successfully");
+		flavourList.setInfo(info);
+
+		return flavourList;
+	}
+	
+	//new Method to display at frontEnd ordersp cake flavor list 29-01-2021
+	@RequestMapping(value = { "/getFlavorsAndSpConfBySpId" }, method = RequestMethod.POST)
+	@ResponseBody
+	public FlavourList showFlavorsAndSpConfBySpId(@RequestParam("spId") int spId) {
+
+		List<Flavour> jsonFlavourtList = flavourRepository.findBySpId(spId);
+		FlavourList flavourList = new FlavourList();
+		flavourList.setFlavour(jsonFlavourtList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("Flavour list displayed Successfully");
+		flavourList.setInfo(info);
+
+		return flavourList;
+	}
+	
+	
+	//Sachin 01-02-2021
+		@Autowired
+		HsnwiseBillExcelSummaryRepository hsnwiseBillExcelSummaryRepository;
+		
+		//SACHIN 11 MAY
+			@RequestMapping(value = { "/getHsnwiseBillDataForExcelV2" }, method = RequestMethod.POST)
+			public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcelV2(@RequestParam("frIdList")List<String> frIdList,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
+				List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
+				if(frIdList.contains("-1")) {
+				System.err.println("All Fr ");
+				hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAllFr(fromDate, toDate);
+				}
+				else
+				{
+					System.err.println("Multi Fr ");
+					hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelMultiFr(fromDate, toDate, frIdList);
+
+				}
+				return hsnwiseBills;
+			}
+			
+			@RequestMapping(value = { "/getHsnwiseBillDataForExcel" }, method = RequestMethod.POST)
+			public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcel(@RequestParam("billNoList") List<String> billNos,@RequestParam("all")int all,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
+				List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
+				if(all==0) {
+				hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcel(billNos);
+				}
+				else
+				{
+					hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAll(fromDate,toDate);
+
+				}
+				return hsnwiseBills;
+			}
+			
 }

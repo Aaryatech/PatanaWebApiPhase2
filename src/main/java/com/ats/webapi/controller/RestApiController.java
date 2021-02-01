@@ -1236,7 +1236,7 @@ public class RestApiController {
 
 	@RequestMapping(value = { "/insertBillData" }, method = RequestMethod.POST)
 
-	public @ResponseBody Info postBillData(@RequestBody PostBillDataCommon postBillDataCommon)
+	public @ResponseBody List<PostBillHeader> postBillData(@RequestBody PostBillDataCommon postBillDataCommon)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
 		// System.out.println("Data Common " + postBillDataCommon.toString());
@@ -1276,7 +1276,7 @@ public class RestApiController {
 			e.printStackTrace();
 		}
 
-		return info;
+		return jsonBillHeader;
 
 	}
 
@@ -3702,9 +3702,9 @@ public class RestApiController {
 			@RequestParam int timetwoappli, @RequestParam("spDesc") String spDesc,
 			@RequestParam("orderQty") int orderQty, @RequestParam("orderDiscount") float orderDiscount,
 			@RequestParam("isCustChoiceCk") int isCustChoiceCk, @RequestParam("isAddonRateAppli") int isAddonRateAppli,
-			@RequestParam("mrpRate1") int mrpRate1, @RequestParam("mrpRate2") int mrpRate2,
-			@RequestParam("mrpRate3") int mrpRate3, @RequestParam("spRate1") int spRate1,
-			@RequestParam("spRate2") int spRate2, @RequestParam("spRate3") int spRate3,
+			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
+			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
+			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
 			@RequestParam("isUsed") int isUsed, @RequestParam("isSlotUsed") int isSlotUsed) {
 
 		SpecialCake specialCake = specialcakeService.findSpecialCake(id);

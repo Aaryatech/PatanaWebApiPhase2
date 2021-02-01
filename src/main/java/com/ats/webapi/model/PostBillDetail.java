@@ -312,7 +312,20 @@ public class PostBillDetail {
 	public void setIsGrngvnApplied(int isGrngvnApplied) {
 		this.isGrngvnApplied = isGrngvnApplied;
 	}
+	//hsnCode/cessPer/cessRs/discPer
+	//Sachin  new Add 01-02-2021
+	@Column(name="hsn_code")//new added
+	private String hsnCode;
+	@Column(name="cess_rs")//new1
+	private float cessRs;
+	@Column(name="cess_per")//new1 
+	private float cessPer;
+	
+	@Column(name="disc_per")//new
+	private float discPer;
+	//End Sachin  new Add 
 
+	
 	@Override
 	public String toString() {
 		return "PostBillDetail [billDetailNo=" + billDetailNo + ", billNo=" + billNo + ", menuId=" + menuId + ", catId="
@@ -321,7 +334,40 @@ public class PostBillDetail {
 				+ ", sgstPer=" + sgstPer + ", sgstRs=" + sgstRs + ", cgstPer=" + cgstPer + ", cgstRs=" + cgstRs
 				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", baseRate=" + baseRate + ", taxableAmt="
 				+ taxableAmt + ", remark=" + remark + ", totalTax=" + totalTax + ", delStatus=" + delStatus
-				+ ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + "]";
+				+ ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied
+				+ ", hsnCode=" + hsnCode + ", cessRs=" + cessRs + ", cessPer=" + cessPer + ", discPer=" + discPer + "]";
+	}
+
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
+
+	public float getCessRs() {
+		return cessRs;
+	}
+
+	public void setCessRs(float cessRs) {
+		this.cessRs = cessRs;
+	}
+
+	public float getCessPer() {
+		return cessPer;
+	}
+
+	public void setCessPer(float cessPer) {
+		this.cessPer = cessPer;
+	}
+
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
 	}
 
 	

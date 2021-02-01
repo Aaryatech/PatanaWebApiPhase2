@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -82,11 +83,28 @@ public class GenerateBill {
 	@Column(name="delivery_date")//newly added
 	Date  deliveryDate;
 	
+	@Transient
 	@Column(name="sp_delivery_place")//newly added
 	String spDeliveryPlace;
 	
 	
+	/* Sachin added 1-02-2021*/
 	
+	@Column(name="party_name")
+	private String  partyName;//new
+	
+	@Column(name="party_gstin")//new
+	private String  partyGstin;
+	
+	@Column(name="party_address")//new
+	private String  partyAddress;
+	
+	@Column(name="hsn_code")//new
+	private String  hsnCode;
+	
+	@Column(name="cess_per")
+	private float cessPer;//new1
+	/* End Sachin Added */
 	
 	
 

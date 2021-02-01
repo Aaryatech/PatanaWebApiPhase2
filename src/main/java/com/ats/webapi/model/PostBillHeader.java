@@ -84,7 +84,27 @@ public class PostBillHeader implements Serializable {
 	@Transient
 	List<PostBillDetail> postBillDetailsList;
 	
+//	Sach new Add 01-02-2021
+	@Column(name="disc_amt")//new
+	private float discAmt;
 	
+	@Column(name="party_name")
+	private String partyName;//new for m order
+	
+	@Column(name="party_gstin")//new for m order
+	private String partyGstin;
+	
+	@Column(name="party_address")
+	private String partyAddress;//new for m order
+	
+	private String vehNo;
+	
+	private String billTime;
+	
+	private String exVarchar1;
+	
+	private String exVarchar2;//for cessAmt
+	//End Add Sach
 	
 	public List<PostBillDetail> getPostBillDetailsList() {
 		return postBillDetailsList;
@@ -249,7 +269,73 @@ public class PostBillHeader implements Serializable {
 				+ ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", status=" + status + ", DelStatus="
 				+ DelStatus + ", remark=" + remark + ", time=" + time + ", billDateTime=" + billDateTime + ", sgstSum="
 				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", pendingBill=" + pendingBill
-				+ ", postBillDetailsList=" + postBillDetailsList + "]";
+				+ ", postBillDetailsList=" + postBillDetailsList + ", discAmt=" + discAmt + ", partyName=" + partyName
+				+ ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress + ", vehNo=" + vehNo + ", billTime="
+				+ billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2 + "]";
+	}
+
+	public float getDiscAmt() {
+		return discAmt;
+	}
+
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
+
+	public String getPartyName() {
+		return partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+	public String getPartyGstin() {
+		return partyGstin;
+	}
+
+	public void setPartyGstin(String partyGstin) {
+		this.partyGstin = partyGstin;
+	}
+
+	public String getPartyAddress() {
+		return partyAddress;
+	}
+
+	public void setPartyAddress(String partyAddress) {
+		this.partyAddress = partyAddress;
+	}
+
+	public String getVehNo() {
+		return vehNo;
+	}
+
+	public void setVehNo(String vehNo) {
+		this.vehNo = vehNo;
+	}
+
+	public String getBillTime() {
+		return billTime;
+	}
+
+	public void setBillTime(String billTime) {
+		this.billTime = billTime;
+	}
+
+	public String getExVarchar1() {
+		return exVarchar1;
+	}
+
+	public void setExVarchar1(String exVarchar1) {
+		this.exVarchar1 = exVarchar1;
+	}
+
+	public String getExVarchar2() {
+		return exVarchar2;
+	}
+
+	public void setExVarchar2(String exVarchar2) {
+		this.exVarchar2 = exVarchar2;
 	}
 
 }
