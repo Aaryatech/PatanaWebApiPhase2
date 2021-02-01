@@ -5188,6 +5188,13 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 		return setting;
 	}
 	
+	@RequestMapping(value = { "/getSettingValByKey" }, method = RequestMethod.POST)
+	public @ResponseBody Setting getSettingValByKey(@RequestParam String stKey) {
+
+		Setting setting = settingRepository.findBySettingKey(stKey);
+		return setting;
+	}
+	
 	@Autowired
 	ItemIdOnlyRepository itemIdOnlyRepository;
 	@RequestMapping(value = { "/getItemsByMenuIdMultiple" }, method = RequestMethod.POST)
