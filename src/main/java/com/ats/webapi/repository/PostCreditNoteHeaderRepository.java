@@ -18,5 +18,10 @@ public interface PostCreditNoteHeaderRepository extends JpaRepository<PostCredit
 	@Modifying
 	@Query(value="UPDATE `t_credit_note_header` SET `ex_int1` = '1' WHERE `t_credit_note_header`.`crn_id` = :crnId",nativeQuery=true)
 	int updatePendinbCreditNoteAsPaid(@Param("crnId") int crnId);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE PostCreditNoteHeader t SET t.exVarchar2 =:ewayBillNo  WHERE t.crnId=:crnId")
+	int updateCNoteForEwayBill(@Param("ewayBillNo") String ewayBillNo,@Param("crnId") int crnId);
 	
 }

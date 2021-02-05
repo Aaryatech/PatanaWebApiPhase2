@@ -272,7 +272,7 @@ public class FrStockApiController {
 
 			totalPurchaseUptoDateTime = getItemStockService.getTotalPurchaseUptoDateTime(frId, calFromDateTime,
 					fromDateTime, itemId);
-//System.err.println("*****************ITEM ID******************"+itemId+"frId"+frId+"currentMonth"+currentMonth+"year"+year+"catId"+catId+"strFirstDay"+strFirstDay+"fromDateTime"+fromDateTime);
+System.err.println("*****************ITEM ID******************"+itemId+"frId"+frId+"currentMonth"+currentMonth+"year"+year+"catId"+catId+"strFirstDay"+strFirstDay+"fromDateTime"+fromDateTime);
 			postFrItemStockDetail = getItemStockService.getOpeningStock(frId, calMonth, calYear, itemId, catId);
 
 			int regOpStock = postFrItemStockDetail.getRegOpeningStock();

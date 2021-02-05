@@ -42,6 +42,7 @@ import com.ats.webapi.model.SpecialCake;
 import com.ats.webapi.model.SpecialCakeList;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.repository.AllFrIdNameRepository;
+import com.ats.webapi.repository.ConfiSpCodeRepository;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.ConfigureFrRepository;
 import com.ats.webapi.repository.FlavourConfRepository;
@@ -146,7 +147,7 @@ public class SachinWork {
 			for (int i = 0; i < frIdList.size(); i++) {
 				System.err.println("### ###");
 				for (int j = 0; j < menuIdList.size(); j++) {
-					System.err.println("1111111  j" + j);
+					System.err.println("1111111  j" + j + "menuIdList");
 					ConfigureFranchisee configureFranchisee = configureService
 							.findFranchiseeById(Integer.parseInt(menuIdList.get(j)));
 					System.err.println("8 configureFranchisee" + configureFranchisee.toString());
@@ -357,17 +358,16 @@ public class SachinWork {
 		return allFrIdNameList;
 
 	}
-	
-	
-	//Sachin 25-01-2021 For ManualOrder page Menus
+
+	// Sachin 25-01-2021 For ManualOrder page Menus
 	@RequestMapping(value = { "/getMenuListByFrAndSectionId" }, method = RequestMethod.POST)
-	public @ResponseBody AllMenuJsonResponse getMenuListByFrAndSectionId(
-			@RequestParam("frId") int frId, @RequestParam("sectionId") int sectionId) {
+	public @ResponseBody AllMenuJsonResponse getMenuListByFrAndSectionId(@RequestParam("frId") int frId,
+			@RequestParam("sectionId") int sectionId) {
 
 		AllMenuJsonResponse menuJsonResponse = new AllMenuJsonResponse();
 		ErrorMessage errorMessage = new ErrorMessage();
 		try {
-			List<AllMenus> menuList = mainMenuConfRepo.findByFrIdAndSectionId(sectionId,frId);
+			List<AllMenus> menuList = mainMenuConfRepo.findByFrIdAndSectionId(sectionId, frId);
 			menuJsonResponse.setMenuConfigurationPage(menuList);
 			errorMessage.setError(false);
 		} catch (Exception e) {
@@ -380,16 +380,18 @@ public class SachinWork {
 	}
 
 	@Autowired
-	 ItemForMOrderRepository itemRepositoryForMOrderRepository;
-	
+	ItemForMOrderRepository itemRepositoryForMOrderRepository;
+
 	@RequestMapping(value = "/getItemListForMOrder", method = RequestMethod.POST)
-	public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId,@RequestParam("menuId")int menuId,@RequestParam("ordertype")int ordertype,@RequestParam("prodDate")String prodDate) {
+	public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1") int itemGrp1,
+			@RequestParam("frId") int frId, @RequestParam("menuId") int menuId,
+			@RequestParam("ordertype") int ordertype, @RequestParam("prodDate") String prodDate) {
 
 		List<ItemForMOrder> itemList;
 		try {
-			
+
 			itemList = itemRepositoryForMOrderRepository.getItemListForMOrder(menuId);
-			
+
 			/*
 			 * if(ordertype==0) {
 			 * System.err.println("itemGrp1"+itemGrp1+"frId"+menuId+"ordertype"+ordertype+
@@ -403,16 +405,15 @@ public class SachinWork {
 			 * 
 			 * }
 			 */
-		}
-		catch (Exception e) {
-			itemList=new ArrayList<>();
+		} catch (Exception e) {
+			itemList = new ArrayList<>();
 			e.printStackTrace();
 
 		}
 		return itemList;
 
 	}
-	
+
 	@Autowired
 	GenerateBillRepository generateBillRepository;
 	@Autowired
@@ -420,7 +421,7 @@ public class SachinWork {
 
 	@Autowired
 	private OrderService orderService;
-	
+
 	@RequestMapping(value = { "/placeManualOrder" }, method = RequestMethod.POST)
 	public @ResponseBody List<GenerateBill> placeManualOrder(@RequestBody List<Orders> orderJson)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
@@ -444,7 +445,7 @@ public class SachinWork {
 
 		return billList;
 	}
-	
+
 	@RequestMapping(value = { "/placeManualOrderNew1" }, method = RequestMethod.POST)
 	public @ResponseBody List<GenerateBill> placeManualOrderNew(@RequestBody List<Orders> orderJson)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
@@ -469,13 +470,14 @@ public class SachinWork {
 		return billList;
 	}
 
-	//Sachin 29-01-2021 For Showing SP Cakes in admin Flavor configuration
-	
+	// Sachin 29-01-2021 For Showing SP Cakes in admin Flavor configuration
+
 	@Autowired
 	private SpecialCakeService specialcakeService;
 
 	@Autowired
 	SpecialCakeRepository specialcakeRepository;
+
 	@RequestMapping(value = { "/showSpecialCakeListOrderBySpCode" }, method = RequestMethod.GET)
 	@ResponseBody
 	public SpecialCakeList showSpecialCakeListOrderBySpCode() {
@@ -490,132 +492,129 @@ public class SachinWork {
 
 	}
 
-	//Sachin 29-01-2021 For Mapping flavor and sps new Added table and all its APIS
+	// Sachin 29-01-2021 For Mapping flavor and sps new Added table and all its APIS
 	@Autowired
 	FlavourConfRepository flavourConfRepository;
+
 	@RequestMapping(value = { "/saveFlavourConf" }, method = RequestMethod.POST)
 	public @ResponseBody List<FlavourConf> saveFlavourConf(@RequestBody List<FlavourConf> flavourConfList) {
 
 		List<FlavourConf> flList = new ArrayList<FlavourConf>();
 		try {
-            for(FlavourConf flavourConf:flavourConfList)
-            {
-            	FlavourConf isPresent=flavourConfRepository.findByDelStatusAndSpfIdAndSpId(0,flavourConf.getSpfId(),flavourConf.getSpId());
-            	if(isPresent!=null)
-            	{
-            	    flavourConf.setSpFlavConfId(isPresent.getSpFlavConfId());
-            	    FlavourConf flr= flavourConfRepository.save(flavourConf);
-            	    flList.add(flr);
-            	}else
-            	{
-            		 FlavourConf flr= flavourConfRepository.save(flavourConf);
-              	     flList.add(flr);
-            	}
-            }
-			
+			for (FlavourConf flavourConf : flavourConfList) {
+				FlavourConf isPresent = flavourConfRepository.findByDelStatusAndSpfIdAndSpId(0, flavourConf.getSpfId(),
+						flavourConf.getSpId());
+				if (isPresent != null) {
+					flavourConf.setSpFlavConfId(isPresent.getSpFlavConfId());
+					FlavourConf flr = flavourConfRepository.save(flavourConf);
+					flList.add(flr);
+				} else {
+					FlavourConf flr = flavourConfRepository.save(flavourConf);
+					flList.add(flr);
+				}
+			}
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
-		
+
 		}
 		return flList;
 	}
+
 	@RequestMapping(value = "/getAllFlConf", method = RequestMethod.GET)
 	public @ResponseBody List<FlavourConf> getAllFlConf() {
 
 		List<FlavourConf> flList;
 		try {
 			flList = flavourConfRepository.findByDelStatus(0);
-		}
-		catch (Exception e) {
-			flList=new ArrayList<>();
+		} catch (Exception e) {
+			flList = new ArrayList<>();
 			e.printStackTrace();
 
 		}
 		return flList;
 
 	}
-	@RequestMapping(value = "/getFlConfByIds", method = RequestMethod.POST)
-	public @ResponseBody FlavourConf getFlConfByIds(@RequestParam("spfId") int  spfId,@RequestParam("spId") int  spId) {
 
-		FlavourConf flavour=new FlavourConf();
+	@RequestMapping(value = "/getFlConfByIds", method = RequestMethod.POST)
+	public @ResponseBody FlavourConf getFlConfByIds(@RequestParam("spfId") int spfId, @RequestParam("spId") int spId) {
+
+		FlavourConf flavour = new FlavourConf();
 		try {
-			flavour = flavourConfRepository.findBySpIdAndSpfIdAndDelStatus(spId,spfId,0);
-		}
-		catch (Exception e) {
-			flavour=new FlavourConf();
+			flavour = flavourConfRepository.findBySpIdAndSpfIdAndDelStatus(spId, spfId, 0);
+		} catch (Exception e) {
+			flavour = new FlavourConf();
 			e.printStackTrace();
 
 		}
 		return flavour;
 
 	}
-	@RequestMapping(value ="/updateFlavourConf", method = RequestMethod.POST)
-	public Info updateFlavourConf(@RequestParam("spFlavConfId") int spFlavConfId, @RequestParam("rate") float rate,@RequestParam("mrp1") float mrp1,
-			@RequestParam("mrp2") float mrp2,@RequestParam("mrp3") float mrp3)
-	{
-		Info info=new Info();
+
+	@RequestMapping(value = "/updateFlavourConf", method = RequestMethod.POST)
+	public Info updateFlavourConf(@RequestParam("spFlavConfId") int spFlavConfId, @RequestParam("rate") float rate,
+			@RequestParam("mrp1") float mrp1, @RequestParam("mrp2") float mrp2, @RequestParam("mrp3") float mrp3) {
+		Info info = new Info();
 		try {
-			int isUpdated=flavourConfRepository.updateFlavourConf(spFlavConfId,rate,mrp1,mrp2,mrp3);
-			if(isUpdated>0)
-			{
+			int isUpdated = flavourConfRepository.updateFlavourConf(spFlavConfId, rate, mrp1, mrp2, mrp3);
+			if (isUpdated > 0) {
 				info.setError(false);
 				info.setMessage("FlavourConf Updated Successfully.");
-			}else
-			{
+			} else {
 				info.setError(true);
 				info.setMessage("FlavourConf Updation Failed.");
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return info;
 	}
-	@RequestMapping(value="/deleteFlavourConf", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/deleteFlavourConf", method = RequestMethod.POST)
 	public @ResponseBody Info deleteFlavourConf(@RequestParam int spFlavConfId) {
-		
-		Info info =new Info();
+
+		Info info = new Info();
 		int isDelete = flavourConfRepository.deleteBySpFlavConfId(spFlavConfId);
-		
-		if(isDelete!=0) {
+
+		if (isDelete != 0) {
 			info.setError(false);
 			info.setMessage("Success");
-		}else {
+		} else {
 			info.setError(true);
 			info.setMessage("Fail");
 		}
 		return info;
-		
+
 	}
-	
+
 	@Autowired
 	FlavourRepository flavourRepository;
-	
+
 	@RequestMapping(value = "/getFlavoursBySpfIdNotIn", method = RequestMethod.POST)
 	public @ResponseBody List<Flavour> getFlavoursBySpfIdNotIn(@RequestParam List<Integer> spfId) {
-int type=0;
-		List<Flavour> flavourList=null;
-		if(type!=0) {
-		 flavourList = flavourRepository.findBySpfIdNotInAndSpType(spfId,type);
+		int type = 0;
+		List<Flavour> flavourList = null;
+		if (type != 0) {
+			flavourList = flavourRepository.findBySpfIdNotInAndSpType(spfId, type);
+		} else {
+			flavourList = flavourRepository.findBySpfIdNotIn(spfId);
 		}
-		else
-		{
-		 flavourList = flavourRepository.findBySpfIdNotIn(spfId);
-		}
-		
+
 		return flavourList;
 	}
-	
+
 	@RequestMapping(value = "/getFlavoursBySpfIdIn", method = RequestMethod.POST)
 	public @ResponseBody List<Flavour> getFlavoursBySpfIdIn(@RequestParam List<Integer> spfId) {
 
 		List<Flavour> flavourList = flavourRepository.findBySpfIdIn(spfId);
-		
+
 		return flavourList;
 	}
-	//29-01-2021 just copied as not available in phase2Api
+
+	// 29-01-2021 just copied as not available in phase2Api
 	@RequestMapping(value = { "/showFlavourListBySpId" }, method = RequestMethod.POST)
 	@ResponseBody
 	public FlavourList showFlavourListBySpId(@RequestParam("spId") int spId) {
@@ -630,8 +629,8 @@ int type=0;
 
 		return flavourList;
 	}
-	
-	//new Method to display at frontEnd ordersp cake flavor list 29-01-2021
+
+	// new Method to display at frontEnd ordersp cake flavor list 29-01-2021
 	@RequestMapping(value = { "/getFlavorsAndSpConfBySpId" }, method = RequestMethod.POST)
 	@ResponseBody
 	public FlavourList showFlavorsAndSpConfBySpId(@RequestParam("spId") int spId) {
@@ -646,41 +645,72 @@ int type=0;
 
 		return flavourList;
 	}
-	
-	
-	//Sachin 01-02-2021
-		@Autowired
-		HsnwiseBillExcelSummaryRepository hsnwiseBillExcelSummaryRepository;
+
+	// Sachin 01-02-2021
+	@Autowired
+	HsnwiseBillExcelSummaryRepository hsnwiseBillExcelSummaryRepository;
+
+	// SACHIN 11 MAY
+	@RequestMapping(value = { "/getHsnwiseBillDataForExcelV2" }, method = RequestMethod.POST)
+	public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcelV2(
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+		List<HsnwiseBillExcelSummary> hsnwiseBills = new ArrayList<HsnwiseBillExcelSummary>();
+		if (frIdList.contains("-1")) {
+			System.err.println("All Fr ");
+			hsnwiseBills = hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAllFr(fromDate, toDate);
+		} else {
+			System.err.println("Multi Fr ");
+			hsnwiseBills = hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelMultiFr(fromDate, toDate,
+					frIdList);
+
+		}
+		return hsnwiseBills;
+	}
+
+	@RequestMapping(value = { "/getHsnwiseBillDataForExcel" }, method = RequestMethod.POST)
+	public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcel(
+			@RequestParam("billNoList") List<String> billNos, @RequestParam("all") int all,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+		List<HsnwiseBillExcelSummary> hsnwiseBills = new ArrayList<HsnwiseBillExcelSummary>();
+		if (all == 0) {
+			hsnwiseBills = hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcel(billNos);
+		} else {
+			hsnwiseBills = hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAll(fromDate, toDate);
+
+		}
+		return hsnwiseBills;
+	}
+
+	//Sachin 03-02-2021
+	//to get data from t_setting_new table By Passing Key parameter
+	@RequestMapping(value = { "/getNewSettingByKey" }, method = RequestMethod.POST)
+	public @ResponseBody NewSetting getNewSettingByKey(@RequestParam("settingKey") String settingKey,
+			@RequestParam("delStatus") int delStatus) {
 		
-		//SACHIN 11 MAY
-			@RequestMapping(value = { "/getHsnwiseBillDataForExcelV2" }, method = RequestMethod.POST)
-			public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcelV2(@RequestParam("frIdList")List<String> frIdList,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
-				List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
-				if(frIdList.contains("-1")) {
-				System.err.println("All Fr ");
-				hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAllFr(fromDate, toDate);
-				}
-				else
-				{
-					System.err.println("Multi Fr ");
-					hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelMultiFr(fromDate, toDate, frIdList);
-
-				}
-				return hsnwiseBills;
-			}
+		NewSetting setting = new NewSetting();
+		
+		try {
 			
-			@RequestMapping(value = { "/getHsnwiseBillDataForExcel" }, method = RequestMethod.POST)
-			public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcel(@RequestParam("billNoList") List<String> billNos,@RequestParam("all")int all,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
-				List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
-				if(all==0) {
-				hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcel(billNos);
-				}
-				else
-				{
-					hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAll(fromDate,toDate);
-
-				}
-				return hsnwiseBills;
-			}
+			setting = newSettingRepository.findBySettingKeyAndDelStatus(settingKey, delStatus);
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return setting;
+		
+	}
+	
+	@Autowired ConfiSpCodeRepository confSpCodeRepo;
+	@RequestMapping("/getSPCodesByMenuId")
+	public @ResponseBody List<String> getSPCodesByMenuId(
+			@RequestParam int menuId) {
+
+		List<String> spCakeCodesResponse = confSpCodeRepo.findSpCodeAdminSpOrder(menuId);
+
+		return spCakeCodesResponse;
+
+	}
+	
 }

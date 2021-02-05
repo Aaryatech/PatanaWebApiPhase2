@@ -14,7 +14,9 @@ public interface TestFrRepository extends CrudRepository<ConfigureFranchisee, Lo
 	 @Query(value = "SELECT * FROM m_fr_configure ,m_fr_menu_show WHERE m_fr_configure.menu_id = m_fr_menu_show.menu_id", nativeQuery = true)
 	    List<ConfigureFranchisee> findAllProjectedNativeQuery();
 	 
-	 @Query(value = "SELECT * FROM m_fr_configure where fr_id =:frId AND cat_id =:catId AND is_del = 0", nativeQuery = true)
+	 //Changed by Sachin 02Feb2021 for frontEnd
+	 @Query(value = "SELECT m_fr_configure.* FROM m_fr_configure,m_fr_menu_configure where m_fr_menu_configure.fr_id =:frId AND m_fr_configure.cat_id =:catId AND "
+	 		+ " m_fr_menu_configure.menu_id=m_fr_configure.menu_id and  m_fr_configure.is_del = 0", nativeQuery = true)
 	    List<ConfigureFranchisee> findByFrAndCat(@Param("frId") int frId, @Param("catId") int catId);
 	
 	 //Akhilesh 2020-01-21 For Add Section On Admin
