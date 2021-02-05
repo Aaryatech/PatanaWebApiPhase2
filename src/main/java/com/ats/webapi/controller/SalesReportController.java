@@ -409,17 +409,17 @@ public class SalesReportController {
 
 	@RequestMapping(value = { "/getSaleReportItemwise" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportItemwise> getSaleReportItemwise(@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate, @RequestParam("catId") int catId) {
+			@RequestParam("toDate") String toDate, @RequestParam("catId") int catId, @RequestParam("subCatId") int subCatId) {
 
 		List<SalesReportItemwise> salesReportItemwise = null;
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
-			//System.out.println("Input received " + fromDate + "" + toDate);
+			System.out.println("Input received " + fromDate + "" + toDate+" "+subCatId);
 			if (catId == 5) {
 				salesReportItemwise = saleReportItemwiseRepo.getSaleReportSpcakewise(fromDate, toDate);
 			} else if (catId != -3)
-				salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwise(catId, fromDate, toDate);
+				salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwise(catId, fromDate, toDate, subCatId);
 			else
 				salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwiseExceptTradingPacking(fromDate,
 						toDate);

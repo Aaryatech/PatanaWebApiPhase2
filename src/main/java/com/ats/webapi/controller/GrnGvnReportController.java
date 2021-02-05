@@ -163,7 +163,7 @@ public class GrnGvnReportController {
 	@RequestMapping(value = { "/gGReportGrpByItemId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GGReportGrpByItemId> gGReportGrpByItemId(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("isGrn") List<String> isGrn,
-			@RequestParam("frIdList") List<String> frIdList, @RequestParam("catIdList") List<String> catIdList) {
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("catIdList") List<String> catIdList, @RequestParam("subCatId") List<String> subCatId ) {
 
 		// System.err.println("Parameter received fromDate: " + fromDate + "toDate : " +
 		// toDate + "frIdList : " + frIdList + "isGrn : " +
@@ -172,18 +172,20 @@ public class GrnGvnReportController {
 		List<GGReportGrpByItemId> grpByFrIdList = null;
 
 		try {
-			if (!frIdList.contains("-1") && !catIdList.contains("-1")) {
+			if (!frIdList.contains("-1") && !catIdList.contains("-1") && subCatId.contains("-1")) {
 				// System.out.println("fr Id List doesn't contain zero ");
 				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByFrIdSelFr(fromDate, toDate, isGrn, frIdList,
 						catIdList);
-			} else if (!frIdList.contains("-1") && catIdList.contains("-1")) {
+			} else if (!frIdList.contains("-1") && catIdList.contains("-1") && subCatId.contains("-1")) {
 				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByItemId(fromDate, toDate, isGrn, frIdList);
 			}
 
-			else if (frIdList.contains("-1") && !catIdList.contains("-1")) {
+			else if (frIdList.contains("-1") && !catIdList.contains("-1") && subCatId.contains("-1")) {
 				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByItemIdSelFr(fromDate, toDate, isGrn, catIdList);
 			}
-
+			else if(!frIdList.contains("-1") && !catIdList.contains("-1") && !subCatId.contains("-1")) {
+				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpBySubCatId(frIdList, fromDate, toDate, isGrn, catIdList, subCatId);
+			}
 			else {
 				// System.out.println("fr id list is zero : get For All Fr");
 				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByFrIdSelFrAllFr(fromDate, toDate, isGrn);

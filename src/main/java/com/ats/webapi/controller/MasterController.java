@@ -758,6 +758,27 @@ public class MasterController {
 					return subCategoryList;
 
 				}
+				
+				@RequestMapping(value = "/getSubCatListAjax")
+				public @ResponseBody List<SubCategory> getSubCatListAjax(@RequestParam List<String> catId) {
+
+					List<SubCategory> subCategoryList;
+					System.err.println("Ids-------------------------"+catId);
+					try {
+						if(catId.contains("-1"))
+							subCategoryList = subCategoryRepository.findAllSubCategories();
+						else
+							subCategoryList = subCategoryRepository.findByCatIdInAndDelStatus(catId);							
+					}
+					catch (Exception e) {
+						subCategoryList=new ArrayList<>();
+						e.printStackTrace();
+
+					}
+					return subCategoryList;
+
+				}
+				
 				@RequestMapping(value = { "/getRegSpCakeOrderHistory" }, method = RequestMethod.POST)
 				@ResponseBody
 				public List<GetRegSpCakeOrders> getRegSpCakeOrderHistory(
