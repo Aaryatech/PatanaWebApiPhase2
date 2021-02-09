@@ -41,9 +41,9 @@ public interface NewPosBillItemRepo extends JpaRepository<NewPosBillItem,Integer
 			"    COALESCE(\n" + 
 			"        COALESCE(\n" + 
 			"            (\n" + 
-			"                (b.reg_opening_stock + c.reg) -(d.grn_grn_qty + e.reg)\n" + 
+			"                (COALESCE(b.reg_opening_stock,0) + COALESCE(c.reg,0)) -(COALESCE(d.grn_grn_qty,0) + COALESCE(e.reg,0))\n" + 
 			"            ),\n" + 
-			"            ((c.reg) -(d.grn_grn_qty + e.reg))\n" + 
+			"            (COALESCE(c.reg,0) -(COALESCE(d.grn_grn_qty,0) + COALESCE(e.reg,0)))\n" + 
 			"        ),\n" + 
 			"        0\n" + 
 			"    ) total_reg_stock\n" + 
@@ -169,6 +169,69 @@ public interface NewPosBillItemRepo extends JpaRepository<NewPosBillItem,Integer
 											@Param("year") int year,
 											@Param("frStockType") int frStockType,
 											@Param("itemList") List<Integer> itemList);
+
+	@Query(value="SELECT\n"
+			+ "        a.id,\n"
+			+ "        a.id AS item_id,\n"
+			+ "        a.item_name,\n"
+			+ "        a.uom,\n"
+			+ "        a.item_grp1 as cat_id,\n"
+			+ "        a.item_grp2 as sub_cat_id,\n"
+			+ "        a.item_image as item_img,\n"
+			+ "        0 as qty,\n"
+			+ "        a.item_tax1,\n"
+			+ "        a.item_tax2,\n"
+			+ "        a.item_tax3,\n"
+			+ "        CASE \n"
+			+ "            WHEN (SELECT\n"
+			+ "                fr_rate_cat \n"
+			+ "            FROM\n"
+			+ "                m_franchisee \n"
+			+ "            WHERE\n"
+			+ "                fr_id=:frId)=1     THEN a.item_rate1   \n"
+			+ "            ELSE CASE \n"
+			+ "                WHEN (SELECT\n"
+			+ "                    fr_rate_cat \n"
+			+ "                FROM\n"
+			+ "                    m_franchisee \n"
+			+ "                WHERE\n"
+			+ "                    fr_id=:frId)=2     THEN  a.item_rate2     \n"
+			+ "                ELSE  a.item_rate3 \n"
+			+ "            END      \n"
+			+ "        END AS rate,\n"
+			+ "        CASE \n"
+			+ "            WHEN (SELECT\n"
+			+ "                fr_rate_cat \n"
+			+ "            FROM\n"
+			+ "                m_franchisee \n"
+			+ "            WHERE\n"
+			+ "                fr_id=:frId)=1     THEN a.item_mrp1   \n"
+			+ "            ELSE CASE \n"
+			+ "                WHEN (SELECT\n"
+			+ "                    fr_rate_cat \n"
+			+ "                FROM\n"
+			+ "                    m_franchisee \n"
+			+ "                WHERE\n"
+			+ "                    fr_id=:frId)=2     THEN  a.item_mrp2     \n"
+			+ "                ELSE  a.item_mrp3 \n"
+			+ "            END      \n"
+			+ "        END AS mrp,\n"
+			+ "        0 as  total_reg_stock  \n"
+			+ "    FROM\n"
+			+ "        (     SELECT\n"
+			+ "            m_item.*,\n"
+			+ "            m_item_sup.item_uom as uom     \n"
+			+ "        FROM\n"
+			+ "            m_item ,\n"
+			+ "            m_item_sup      \n"
+			+ "        WHERE\n"
+			+ "            m_item.id IN(:itemList) \n"
+			+ "            AND m_item.id=m_item_sup.item_id     \n"
+			+ "        ORDER BY\n"
+			+ "            item_name ASC ) a  \n"
+			+ "                ORDER BY\n"
+			+ "                    a.item_name ASC",nativeQuery=true)
+	List<NewPosBillItem> getNewPosBillItems(@Param("frId") int frId, @Param("itemList") List<Integer> itemList);
 	
 
 }

@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.model.newpos.NewPosBillItem;
 import com.ats.webapi.repository.newpos.NewPosBillItemRepo;
 
-
-
 @RestController
 public class NewPosCustBillControllerApi {
 
@@ -24,13 +22,18 @@ public class NewPosCustBillControllerApi {
 	@RequestMapping(value = "/getItemListWithCS", method = RequestMethod.POST)
 	public @ResponseBody List<NewPosBillItem> getItemListWithCS(@RequestParam int frId, @RequestParam String fromDt,
 			@RequestParam String toDt, @RequestParam int month, @RequestParam int year, @RequestParam int frStockType,
-			@RequestParam List<Integer> itemList) {
+			@RequestParam List<Integer> itemList,@RequestParam int flag) {
 
 		List<NewPosBillItem> itemListResp = new ArrayList<NewPosBillItem>();
-		//System.err.println("dates====="+fromDt+"/t"+toDt);
+		// System.err.println("dates====="+fromDt+"/t"+toDt);
 
 		try {
-			itemListResp = custBillRepo.getNewPosBillItems(frId, fromDt, toDt, month, year,  frStockType,itemList);
+ 
+			if (flag == 1) {
+				itemListResp = custBillRepo.getNewPosBillItems(frId, fromDt, toDt, month, year, frStockType, itemList);
+			} else {
+				itemListResp = custBillRepo.getNewPosBillItems(frId,itemList);
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
