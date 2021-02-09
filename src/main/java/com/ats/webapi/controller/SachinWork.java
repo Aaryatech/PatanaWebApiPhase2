@@ -301,8 +301,9 @@ public class SachinWork {
 	ConfigureFrRepository configureFrRepository;
 
 	@RequestMapping(value = { "/getFrMenuConfigureByMenuFrId" }, method = RequestMethod.POST)
-	public @ResponseBody ConfigureFranchisee getFrMenuConfigureByMenuFrId1(@RequestParam("menuId") int menuId) {
-		ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdAndDelStatus(menuId, 0);
+	public @ResponseBody ConfigureFranchisee getFrMenuConfigureByMenuFrId1(@RequestParam("menuId") int menuId,
+			@RequestParam("frId") int frId) {
+		ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdAndDelStatus(menuId, frId);
 		return menuConf;
 	}
 

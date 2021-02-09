@@ -186,7 +186,7 @@ public class EwayBillController {
 		errorMessage.setError(true);
 		try {
 			int x = 0;
-			x = cNoteHeaderRepo.updateCNoteForEwayBill(ewayBillNo, crnId);
+		//	x = cNoteHeaderRepo.updateCNoteForEwayBill(ewayBillNo, crnId);
 			if (x > 0) {
 				errorMessage = new ErrorMessage();
 				errorMessage.setError(false);
