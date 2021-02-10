@@ -42,7 +42,9 @@ public interface ConfigureFrRepository extends JpaRepository<ConfigureFranchisee
 			  value=" SELECT  m_fr_configure.* from m_fr_configure, m_fr_menu_configure "
 			  		+ " Where m_fr_configure.menu_id=m_fr_menu_configure.menu_id and m_fr_menu_configure.menu_id=:menuId"
 			  		+ " and m_fr_menu_configure.fr_id=:frId  ",nativeQuery=true)
-	 ConfigureFranchisee findByMenuIdAndDelStatus(@Param("menuId") int menuId, 
+	 ConfigureFranchisee findByMenuIdFrIdCustomeQuery(@Param("menuId") int menuId, 
 			 @Param("frId")int frId);
+	 
+	 ConfigureFranchisee findByMenuIdAndDelStatus(int menuId, int delStatus);
 
 }

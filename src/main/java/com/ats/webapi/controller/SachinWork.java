@@ -52,6 +52,7 @@ import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.HsnwiseBillExcelSummaryRepository;
 import com.ats.webapi.repository.ItemForMOrderRepository;
+import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
 import com.ats.webapi.repository.OrderLogRespository;
@@ -303,7 +304,7 @@ public class SachinWork {
 	@RequestMapping(value = { "/getFrMenuConfigureByMenuFrId" }, method = RequestMethod.POST)
 	public @ResponseBody ConfigureFranchisee getFrMenuConfigureByMenuFrId1(@RequestParam("menuId") int menuId,
 			@RequestParam("frId") int frId) {
-		ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdAndDelStatus(menuId, frId);
+		ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdFrIdCustomeQuery(menuId, frId);
 		return menuConf;
 	}
 
@@ -713,5 +714,22 @@ public class SachinWork {
 		return spCakeCodesResponse;
 
 	}
+	@Autowired ItemRepository itemRepository;
+	
+	@RequestMapping("/getItemAvailByMenuId")
+	public @ResponseBody List<Item> getItemAvailByMenuId(
+			@RequestParam int menuId) {
+		
+		ConfigureFranchisee menuConf = configureFrRepository.findByMenuIdAndDelStatus(menuId,0);
+
+		
+		List<Integer> ids = Stream.of(menuConf.getItemShow().split(",")).map(Integer::parseInt)
+				.collect(Collectors.toList());
+		List<Item> items=itemRepository.findAllItems(ids);	
+
+		return items;
+
+	}
+
 	
 }
