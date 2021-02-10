@@ -13,11 +13,13 @@ import com.ats.webapi.model.grngvnreport.GGReportByDate;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByFrId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByItemId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByMonthDate;
+import com.ats.webapi.model.grngvnreport.PendingGrnGvnItemWise;
 import com.ats.webapi.model.grngvnreport.PendingItemGrnGvn;
 import com.ats.webapi.repository.ggreport.GGReportByDateRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByFrIdRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByItemIdRepo;
 import com.ats.webapi.repository.ggreport.GGreportGrpByDateMonthRepo;
+import com.ats.webapi.repository.ggreport.PendingGrnGvnItemWiseRepo;
 import com.ats.webapi.repository.ggreport.PendingItemGrnGvnRepo;
 
 @RestController
@@ -219,5 +221,31 @@ public class GrnGvnReportController {
 
 		return grnGvn;
 	}
+	
+	@Autowired PendingGrnGvnItemWiseRepo pndItmGrnGvn;
+	@RequestMapping(value = { "/getAcPendingItemGrnGvnReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<PendingGrnGvnItemWise> getAcPendingItemGrnGvnReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("isGrn") List<String> isGrn,
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("grnStatus") int grnStatus, @RequestParam("aprvBy") int aprvBy) {
+
+		System.err.println(frIdList+" / "+fromDate+" / "+toDate+" / "+grnStatus+" / "+aprvBy+" / "+isGrn);
+		List<PendingGrnGvnItemWise> grnGvn = new ArrayList<PendingGrnGvnItemWise>();
+		try {
+			if(aprvBy==1)
+				grnGvn = pndItmGrnGvn.getAcPendingGrnGvnItemsAprv(fromDate, isGrn, toDate, grnStatus, frIdList);
+			else
+				grnGvn = pndItmGrnGvn.getAcPendingGrnGvnItems(fromDate, isGrn, toDate, grnStatus, frIdList);
+			
+			System.err.println("grnGvn--------------"+grnGvn);
+			
+		} catch (Exception e) {
+
+			System.err.println("Exce in /GrnGvnReportController : /getAcPendingItemGrnGvnReport" +e.getMessage());			
+			e.printStackTrace();
+		}
+
+		return grnGvn;
+	}
+	
 
 }
