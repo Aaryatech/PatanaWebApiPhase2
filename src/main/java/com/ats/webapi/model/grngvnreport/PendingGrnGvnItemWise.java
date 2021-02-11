@@ -16,7 +16,7 @@ public class PendingGrnGvnItemWise {
 	private Date grngvnDate;
 	private String itemName;
 	private int grnGvnQty;
-	private String grngvnStatus;
+	private int grngvnStatus;
 	private int grnGvnHeaderId;
 	private int isGrn;
 	public String getUid() {
@@ -50,10 +50,10 @@ public class PendingGrnGvnItemWise {
 	public void setGrnGvnQty(int grnGvnQty) {
 		this.grnGvnQty = grnGvnQty;
 	}
-	public String getGrngvnStatus() {
+	public int getGrngvnStatus() {
 		return grngvnStatus;
 	}
-	public void setGrngvnStatus(String grngvnStatus) {
+	public void setGrngvnStatus(int grngvnStatus) {
 		this.grngvnStatus = grngvnStatus;
 	}
 	public int getGrnGvnHeaderId() {
