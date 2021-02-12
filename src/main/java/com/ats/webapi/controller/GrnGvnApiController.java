@@ -17,6 +17,8 @@ import com.ats.webapi.model.Info;
 import com.ats.webapi.model.ItemSup;
 import com.ats.webapi.model.grngvn.GrnGvnHeader;
 import com.ats.webapi.model.grngvn.GrnGvnHeaderList;
+import com.ats.webapi.model.grngvnreport.GrnGvnStatus;
+import com.ats.webapi.repository.ggreport.GrnGvnStatusRepo;
 import com.ats.webapi.repository.grngvnheader.GrnGvnHeaderRepo;
 
 @RestController //created on 15 FEB
@@ -177,6 +179,25 @@ public class GrnGvnApiController {
 		}
 
 		return responseHeader;
+		
+	}
+	
+	@Autowired GrnGvnStatusRepo grnGvnStatus;
+	@RequestMapping(value = { "/getAllGrnGvnStatus" }, method = RequestMethod.GET)
+	public @ResponseBody List<GrnGvnStatus> getAllGrnGvnStatus() {
+		
+		List<GrnGvnStatus> status = new ArrayList<GrnGvnStatus>();
+		try {
+			
+			status = grnGvnStatus.findAll();
+			
+		} catch (Exception e) {
+
+			System.out.println("Exce in getAllGrnGvnStatus " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return status;
 		
 	}
 	

@@ -3358,6 +3358,25 @@ public class RestApiController {
 		return items;
 
 	}
+	
+	
+	@RequestMapping(value = "/getItemsBySubCatIdList", method = RequestMethod.POST)
+	public @ResponseBody List<Item> getItemsBySubCatIdList(@RequestParam("subCatId") List<String> subCatId) {
+
+		List<Item> items = new ArrayList<Item>();
+		try {
+
+				items = itemRepository.findByItemGrp2InAndDelStatusOrderByItemGrp2AscItemNameAsc(subCatId, 0);
+
+		} catch (Exception e) {
+			items = new ArrayList<>();
+			e.printStackTrace();
+
+		}
+		return items;
+
+	}
+
 
 	// Get Items By Item->FR Id and Delete Status 0
 	@RequestMapping(value = "/getItemsById", method = RequestMethod.POST)

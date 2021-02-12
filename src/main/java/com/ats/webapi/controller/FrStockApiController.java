@@ -44,6 +44,7 @@ import com.ats.webapi.model.RegularSpecialStockCal;
 import com.ats.webapi.model.StockForAutoGrnGvn;
 import com.ats.webapi.model.StockRegSpPurchase;
 import com.ats.webapi.model.StockRegSpSell;
+import com.ats.webapi.model.stock.GetCurrentStockAdmin;
 import com.ats.webapi.repository.FrStockBetweenMonthRepository;
 import com.ats.webapi.repository.GetFrItemStockConfigurationRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
@@ -51,6 +52,7 @@ import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.StockCalculationRepository;
 import com.ats.webapi.repository.StockPurchaseRepository;
 import com.ats.webapi.repository.StockSellRepository;
+import com.ats.webapi.repository.storestock.GetCurrentStockAdminRepo;
 import com.ats.webapi.service.FrItemStockConfigurePostService;
 import com.ats.webapi.service.FranchiseeService;
 import com.ats.webapi.service.GetItemStockService;
@@ -954,6 +956,15 @@ System.err.println("*****************ITEM ID******************"+itemId+"frId"+fr
 
 	}
 	
+	@RequestMapping(value = "/getCurrentMonthOfCatByFrIds", method = RequestMethod.POST)
+	public @ResponseBody List<PostFrItemStockHeader> getCurrentMonthOfCatByFrIds(@RequestParam("frId") List<String> frId) {
+ 
+		List<PostFrItemStockHeader> getCurrentMonthOfCatId = postFrOpStockHeaderRepository.findByFrIdInAndIsMonthClosed(frId,0);
+
+		return getCurrentMonthOfCatId;
+
+	}
+	
 
 	// getCurrentMonthByCatIdFrId
 	@RequestMapping(value = "/getCurrentMonthByCatIdFrId", method = RequestMethod.POST)
@@ -971,5 +982,28 @@ System.err.println("*****************ITEM ID******************"+itemId+"frId"+fr
 
 		return getCurrentMonthOfCatId;
 
+	}
+	
+	@Autowired GetCurrentStockAdminRepo stockAdmn;
+	@RequestMapping(value = "/getAdminCurrentStock", method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStockAdmin> getAdminCurrentStock(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("currentMonth") int currentMonth, @RequestParam("year") int year,
+			@RequestParam("itemIdList") List<Integer> itemList, @RequestParam("catId") int catId,
+			@RequestParam("frStockType") int type) {
+		List<GetCurrentStockAdmin> stockDetailsList = new ArrayList<GetCurrentStockAdmin>();
+
+		
+		try {
+		
+			stockDetailsList = stockAdmn.getCurrentAdminStock(currentMonth, year, frId, catId, fromDate, toDate, type, itemList);
+
+		
+     	} catch (Exception e) {
+				e.printStackTrace();
+		}
+		//System.out.println("getCurrentStock Result: " + stockDetailsList.toString());
+
+		return stockDetailsList;
 	}
 }
