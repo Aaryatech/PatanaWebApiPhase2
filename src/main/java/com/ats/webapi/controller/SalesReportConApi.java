@@ -32,18 +32,24 @@ public class SalesReportConApi {
 	
 	@RequestMapping(value = { "/getDatewiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportDateMonth> getDatewiseReport(@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList) {
+			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList,
+			@RequestParam("subCatIdList") List<String> subCatIdList,
+			@RequestParam("catId") int catId) {
 
 		List<SalesReportDateMonth> salesReportDateMonthList = new ArrayList<>();
-		List<SalesReportBillwise> salesReportBillwiseList = new ArrayList<>();
-		List<SalesReportDMCredit> grnList = null;
-		List<SalesReportDMCredit> gvnList = null;
+		/*
+		 * List<SalesReportBillwise> salesReportBillwiseList = new ArrayList<>();
+		 * List<SalesReportDMCredit> grnList = null; List<SalesReportDMCredit> gvnList =
+		 * null;
+		 */
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
-			
-			salesReportDateMonthList=salesReportDateMonthRepo.getDateWiseData(frIdList, fromDate, toDate);
-			
+			if(catId==5) {
+				salesReportDateMonthList=salesReportDateMonthRepo.getDateWiseDataCatId5(frIdList, fromDate, toDate);
+			}else {
+			salesReportDateMonthList=salesReportDateMonthRepo.getDateWiseDataForMItem(frIdList, fromDate, toDate,subCatIdList);
+			}
 
 //			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByDate(frIdList, fromDate, toDate);
 //
@@ -123,7 +129,9 @@ public class SalesReportConApi {
 	
 	@RequestMapping(value = { "/getMonthwiseReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportDateMonth> getMonthwiseReport(@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList) {
+			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList,
+			@RequestParam("subCatIdList") List<String> subCatIdList,
+			@RequestParam("catId") int catId) {
 
 		List<SalesReportDateMonth> salesReportDateMonthList = new ArrayList<>();
 		List<SalesReportBillwise> salesReportBillwiseList = new ArrayList<>();
@@ -132,10 +140,13 @@ public class SalesReportConApi {
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
-			
-			salesReportDateMonthList=salesReportDateMonthRepo.getMonthData(frIdList, fromDate, toDate);
-			
-			System.err.println("MONTH DATA API - "+salesReportDateMonthList.toString());
+			if(catId==5) {
+			salesReportDateMonthList=salesReportDateMonthRepo.getMonthDataForCatId5(frIdList, fromDate, toDate);
+			}else {
+				salesReportDateMonthList=salesReportDateMonthRepo.getMonthDataForM_item(frIdList, fromDate, toDate, subCatIdList);
+
+			}
+			//System.err.println("MONTH DATA API - "+salesReportDateMonthList.toString());
 
 //			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByMonth(frIdList, fromDate, toDate);
 //

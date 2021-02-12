@@ -12,7 +12,7 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 
 	@Query(value = " SELECT  UUID() as id," + 
 			"			        t_credit_note_details.crnd_id,  \n" + 
-			"			        SUM(t_credit_note_details.grn_gvn_amt) AS var_amt,  \n" + 
+			"			        ROUND(SUM(t_credit_note_details.grn_gvn_amt),2) AS var_amt,  \n" + 
 			"			        SUM(t_credit_note_details.grn_gvn_qty) AS var_qty ,  \n" + 
 			"			        f.fr_name,  \n" + 
 			"			        sc.sub_cat_id,  \n" + 
@@ -47,7 +47,7 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 			"			      \n" + 
 			"			     SELECT  UUID() as id," + 
 			"			        t_credit_note_details.crnd_id,  \n" + 
-			"			        SUM(t_credit_note_details.grn_gvn_amt) AS var_amt,  \n" + 
+			"			        ROUND(SUM(t_credit_note_details.grn_gvn_amt),2) AS var_amt,  \n" + 
 			"			        SUM(t_credit_note_details.grn_gvn_qty) AS var_qty ,  \n" + 
 			"			        f.fr_name,  \n" + 
 			"			        sc.sub_cat_id,  \n" + 
@@ -67,10 +67,8 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 			"			          AND t_credit_note_details.cat_id=5        \n" + 
 			"			        AND t_credit_note_header.fr_id IN(  \n" + 
 			"			            :frIdList    \n" + 
-			"			        )     AND sc.cat_id=5        \n" + 
-			"			        AND sc.sub_cat_id IN(  \n" + 
-			"			          :subCatIdList    \n" + 
-			"			        )            \n" + 
+			"			        )     AND sc.cat_id=t_credit_note_details.cat_id        \n" + 
+			"			                 " + 
 			"			        AND t_credit_note_details.is_grn=0                \n" + 
 			"			    GROUP BY  \n" + 
 			"			        t_credit_note_header.fr_id,sc.sub_cat_id", nativeQuery = true)
@@ -80,7 +78,7 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 	@Query(value = "\n" + 
 			" SELECT  UUID() as id," + 
 			"			        t_credit_note_details.crnd_id,  \n" + 
-			"			        SUM(t_credit_note_details.grn_gvn_amt) AS var_amt,  \n" + 
+			"			        ROUND(SUM(t_credit_note_details.grn_gvn_amt),2) AS var_amt,  \n" + 
 			"			        SUM(t_credit_note_details.grn_gvn_qty) AS var_qty ,  \n" + 
 			"			        f.fr_name,  \n" + 
 			"			        sc.sub_cat_id,  \n" + 
@@ -115,7 +113,7 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 			"			      \n" + 
 			"			     SELECT  UUID() as id," + 
 			"			        t_credit_note_details.crnd_id,  \n" + 
-			"			        SUM(t_credit_note_details.grn_gvn_amt) AS var_amt,  \n" + 
+			"			        ROUND(SUM(t_credit_note_details.grn_gvn_amt),2) AS var_amt,  \n" + 
 			"			        SUM(t_credit_note_details.grn_gvn_qty) AS var_qty ,  \n" + 
 			"			        f.fr_name,  \n" + 
 			"			        sc.sub_cat_id,  \n" + 
@@ -135,10 +133,8 @@ public interface SubCatCreditGrnFrRepRepo extends JpaRepository<SubCatCreditGrnF
 			"			          AND t_credit_note_details.cat_id=5        \n" + 
 			"			        AND t_credit_note_header.fr_id IN(  \n" + 
 			"			            :frIdList    \n" + 
-			"			        )     AND sc.cat_id=5        \n" + 
-			"			        AND sc.sub_cat_id IN(  \n" + 
-			"			          :subCatIdList    \n" + 
-			"			        )            \n" + 
+			"			        )     AND sc.cat_id=t_credit_note_details.cat_id        \n" + 
+			"			               \n" + 
 			"			        AND t_credit_note_details.is_grn=1                \n" + 
 			"			    GROUP BY  \n" + 
 			"			        t_credit_note_header.fr_id,sc.sub_cat_id", nativeQuery = true)

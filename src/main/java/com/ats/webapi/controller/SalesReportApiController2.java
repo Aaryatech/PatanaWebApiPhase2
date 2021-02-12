@@ -173,8 +173,8 @@ public class SalesReportApiController2 {
 
 			for (int i = 0; i < catReportList.size(); i++) {
 				for (int j = 0; j < subCatCreditGrnRep.size(); j++) {
-
 					if (catReportList.get(i).getFrId() == subCatCreditGrnRep.get(j).getFrId() && catReportList.get(i).getSubCatId() == subCatCreditGrnRep.get(j).getSubCatId()) {
+						System.err.println("subCatCreditGrnRep.get(j).getVarAmt() " +subCatCreditGrnRep.get(j).getVarAmt());
 
 						catReportList.get(i).setRetAmt(subCatCreditGrnRep.get(j).getVarAmt());
 						catReportList.get(i).setRetQty(subCatCreditGrnRep.get(j).getVarQty());
@@ -193,6 +193,7 @@ public class SalesReportApiController2 {
 				for (int j = 0; j < subCatCreditGvnRep.size(); j++) {
 
 					if (catReportList.get(i).getFrId() == subCatCreditGrnRep.get(j).getFrId() && catReportList.get(i).getSubCatId() == subCatCreditGrnRep.get(j).getSubCatId()) {
+						System.err.println("subCatCreditGrnRep.get(j).getVarAmt() " +subCatCreditGrnRep.get(j).getVarAmt());
 
 						catReportList.get(i).setVarAmt(subCatCreditGvnRep.get(j).getVarAmt());
 						catReportList.get(i).setVarQty(subCatCreditGvnRep.get(j).getVarQty());
