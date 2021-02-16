@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.webapi.model.grngvnreport.CreditNoteGrnGvnItemWise;
 import com.ats.webapi.model.grngvnreport.GGProdWiseReport;
 import com.ats.webapi.model.grngvnreport.GGReportByDate;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByFrId;
@@ -18,6 +19,7 @@ import com.ats.webapi.model.grngvnreport.GGReportGrpByItemId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByMonthDate;
 import com.ats.webapi.model.grngvnreport.PendingGrnGvnItemWise;
 import com.ats.webapi.model.grngvnreport.PendingItemGrnGvn;
+import com.ats.webapi.repository.ggreport.CreditNoteGrnGvnItemWiseRepo;
 import com.ats.webapi.repository.ggreport.GGProdWiseReportRepo;
 import com.ats.webapi.repository.ggreport.GGReportByDateRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByFrIdRepo;
@@ -292,6 +294,28 @@ public class GrnGvnReportController {
 
 		return grnGvnItemQtyList;
 
+	}
+	
+	@Autowired CreditNoteGrnGvnItemWiseRepo crnGrnGvnRepo;
+	@RequestMapping(value = { "/getCrnItemGrnGvnReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<CreditNoteGrnGvnItemWise> getCrnItemGrnGvnReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("isGrn") List<String> isGrn, @RequestParam("frId") int frId) {
+
+		
+		List<CreditNoteGrnGvnItemWise> grnGvn = new ArrayList<CreditNoteGrnGvnItemWise>();
+		try {
+			
+			grnGvn = crnGrnGvnRepo.getCrnGrnGvnItems(fromDate, isGrn, toDate, frId);
+			
+			//System.err.println("grnGvn--------------"+grnGvn);
+			
+		} catch (Exception e) {
+
+			System.err.println("Exce in /GrnGvnReportController : /getCrnItemGrnGvnReport" +e.getMessage());			
+			e.printStackTrace();
+		}
+
+		return grnGvn;
 	}
 
 }
