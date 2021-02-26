@@ -46,5 +46,8 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Integer>
 		public int changeOPSPassword(@Param("frId")int frId,@Param("newPass")String newPass);
 
 		public Franchisee findByfrCodeAndDelStatus(String frCode, int i);
+
+		@Query(value="SELECT DISTINCT fr_route_id FROM `m_franchisee` WHERE del_status=0",nativeQuery=true)
+		public List<Integer> getfrRoutIds();
 		
 	}

@@ -47,4 +47,6 @@ public interface FranchiseeService {
 
 	public Franchisee getFranchiseeByFrCode(String frCode);
 	
+	public List<Integer> getFrRoutIds();
+	
 }

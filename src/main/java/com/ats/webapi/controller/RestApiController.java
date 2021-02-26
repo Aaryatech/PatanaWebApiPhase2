@@ -3175,6 +3175,23 @@ public class RestApiController {
 
 		return "" + JsonUtil.javaToJson(info);
 	}
+	
+	
+	@RequestMapping("/getFrRouteItList")
+	public @ResponseBody List<Integer> getFrRouteItList() {
+
+		List<Integer> res = new ArrayList<Integer>();
+		try {
+			res = franchiseeService.getFrRoutIds();
+
+		} catch (Exception e) {
+			// System.out.println("error in scheduler delete" + e.getMessage());
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
 
 	// Update Event
 	@RequestMapping("/updateEvent")
