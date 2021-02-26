@@ -66,6 +66,15 @@ public class FranchiseApiController {
 		return jsonResult;
 	}
 	
+	@RequestMapping(value = { "/showRouteListAndAbcType" }, method = RequestMethod.GET)
+	@ResponseBody
+	public List<RouteMaster> showRouteListAndAbcType() {
+
+		List<RouteMaster> routeList = routeMasterRepository.getFrRouteAndAbcType();
+
+		return routeList;
+	}
+	
 	
 	@RequestMapping(value = { "/getRouteNew" }, method = RequestMethod.GET)
 	public @ResponseBody RouteMaster getRouteNew(@RequestParam("routeId") int routeId) {
