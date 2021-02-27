@@ -301,6 +301,12 @@ public class ItemServiceImpl implements ItemService{
 		return getItemSupRepository.getAllotedUomIds();
 	}
 
+	@Override
+	public List<Integer> getItemAllotedSubCategory() {
+		// TODO Auto-generated method stub
+		return itemRepository.getItemAllotedSubCategoryId();
+	}
+
 	
 
 }

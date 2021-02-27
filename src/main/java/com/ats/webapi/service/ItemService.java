@@ -34,4 +34,6 @@ public interface ItemService {
 	public List<Item> getOtherItemsForFr(int frId, int catId);
 	
 	public List<Integer> getAllotedUoms();
+	
+	public List<Integer> getItemAllotedSubCategory();
 }

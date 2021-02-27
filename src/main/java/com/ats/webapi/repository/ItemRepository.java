@@ -82,4 +82,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	@Query(value="SELECT * FROM `m_item` WHERE item_grp2=:subCatId AND del_status=0 ORDER BY item_grp2 ASC",nativeQuery=true)
 	public List<Item> findByItemGrp2(@Param("subCatId") String subCatId);
 
+	
+	@Query(value="SELECT DISTINCT item_grp2 FROM `m_item` WHERE del_status=0",nativeQuery=true)
+	public List<Integer> getItemAllotedSubCategoryId();
+
 }
