@@ -31,7 +31,7 @@ import com.ats.webapi.commons.Common;
 import com.ats.webapi.commons.EmailUtility;
 import com.ats.webapi.commons.Firebase;
 import com.ats.webapi.model.*;
-import com.ats.webapi.model.bill.ItemIdOnly;
+import com.ats.webapi.model.ItemIdOnly;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.model.grngvn.GetGrnGvnForCreditNoteList;
 import com.ats.webapi.model.grngvn.GrnGvnHeader;

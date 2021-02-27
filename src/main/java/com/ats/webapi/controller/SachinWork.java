@@ -34,6 +34,7 @@ import com.ats.webapi.model.HsnwiseBillExcelSummary;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemForMOrder;
+import com.ats.webapi.model.ItemIdOnly;
 import com.ats.webapi.model.OrderLog;
 import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.PostFrItemStockDetail;
@@ -52,6 +53,7 @@ import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.HsnwiseBillExcelSummaryRepository;
 import com.ats.webapi.repository.ItemForMOrderRepository;
+import com.ats.webapi.repository.ItemIdOnlyRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.NewSettingRepository;
@@ -730,6 +732,14 @@ public class SachinWork {
 		return items;
 
 	}
-
-	
+	@Autowired
+	 ItemIdOnlyRepository itemIdOnlyRepository;
+	@RequestMapping(value = { "/getItemsByMenuId" }, method = RequestMethod.POST)
+	public @ResponseBody  List<ItemIdOnly> finditmsByMenuIdIn(@RequestParam("menuId") int menuId) {
+		 
+		List<ItemIdOnly> itemList = itemIdOnlyRepository.finditmsMenuIdIn(0,menuId);
+				  
+				  System.out.println("itemList" +itemList.toString());
+		return itemList;
+	}
 }

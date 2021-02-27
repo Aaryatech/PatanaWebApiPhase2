@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ats.webapi.model.bill.ItemIdOnly;
+import com.ats.webapi.model.ItemIdOnly;
+
 
 @Repository
 public interface ItemIdOnlyRepository extends JpaRepository<ItemIdOnly, Integer> 

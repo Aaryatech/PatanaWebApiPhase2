@@ -98,9 +98,10 @@ public class ConfigureSpDayCakeServiceImpl implements ConfigureSpDayCakeService{
 
 		
 		java.sql.Date cDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		System.out.println("date " + cDate);
+		System.out.println("date " + cDate +"frId " +frId);
 		
 		List<GetConfiguredSpDayCk> configuredSpDayCkList=getConfSpDayCakeRepository.findAllSpDayCake(cDate,frId);
+		System.out.println("configuredSpDayCkList " + configuredSpDayCkList.toString());
           ErrorMessage errorMessage=new ErrorMessage();
 		
 		if(configuredSpDayCkList!=null)
