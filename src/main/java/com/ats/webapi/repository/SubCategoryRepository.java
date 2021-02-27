@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.webapi.model.MCategory;
 import com.ats.webapi.model.SubCategory;
+import java.lang.String;
 
 
 public interface SubCategoryRepository extends JpaRepository<SubCategory, Integer> {
@@ -36,5 +37,9 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Intege
 			"        AND m_cat_sub.cat_id=:catId " + 
 			"        AND m_cat_sub.del_status=0 ",nativeQuery=true)
 	public List<SubCategory> getAllSubCategoriesForTaxHsn(@Param("catId") int catId);
+	
+	SubCategory findByPrefixIgnoreCase(String prefix);
+	
+	SubCategory findByPrefixIgnoreCaseAndSubCatIdNot(@Param("prefix") String prefix, @Param("subCatId") int subCatId);
 
 }
