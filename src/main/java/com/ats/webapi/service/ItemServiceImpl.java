@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ats.webapi.commons.Firebase;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.GetItemSup;
+import com.ats.webapi.model.GetItemUomAndSup;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemSup;
@@ -18,6 +19,7 @@ import com.ats.webapi.repository.FranchiseSupRepository;
 import com.ats.webapi.repository.GetItemSupRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemSupRepository;
+import com.ats.webapi.repository.ItemUomAndSupRepo;
 import com.ats.webapi.repository.tray.TrayTypeRepository;
 
 @Service
@@ -305,6 +307,15 @@ public class ItemServiceImpl implements ItemService{
 	public List<Integer> getItemAllotedSubCategory() {
 		// TODO Auto-generated method stub
 		return itemRepository.getItemAllotedSubCategoryId();
+	}
+
+	@Autowired ItemUomAndSupRepo itemUomRepo;
+	@Override
+	public List<GetItemUomAndSup>  findAllItemsBySubCatId(String subCatId) {
+		
+		List<GetItemUomAndSup> list=itemUomRepo.findItemDtlBySubCatId(subCatId);
+		
+		return list;
 	}
 
 	

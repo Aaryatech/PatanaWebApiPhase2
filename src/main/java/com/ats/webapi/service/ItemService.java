@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.GetItemSup;
+import com.ats.webapi.model.GetItemUomAndSup;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemSup;
@@ -36,4 +37,6 @@ public interface ItemService {
 	public List<Integer> getAllotedUoms();
 	
 	public List<Integer> getItemAllotedSubCategory();
+	
+	public List<GetItemUomAndSup> findAllItemsBySubCatId(String subCatId);
 }

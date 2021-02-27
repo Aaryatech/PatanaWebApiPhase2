@@ -3588,6 +3588,13 @@ public class RestApiController {
 		List<Integer> idList = itemService.getItemAllotedSubCategory();
 		return idList;
 	}
+	
+	// Get All Items By Sub Category Id
+		@RequestMapping(value = { "/getAllItemsBySubCatId" }, method = RequestMethod.POST)
+		public @ResponseBody List<GetItemUomAndSup> getAllItemsBySubCatId(@RequestParam String subCatId) {
+			List<GetItemUomAndSup> itemsList = itemService.findAllItemsBySubCatId(subCatId);
+			return itemsList;
+		}
 
 	// Get All Menus
 	@RequestMapping(value = { "/getAllMenu" }, method = RequestMethod.GET)
