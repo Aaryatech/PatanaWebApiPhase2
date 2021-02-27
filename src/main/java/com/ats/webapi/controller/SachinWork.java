@@ -35,6 +35,7 @@ import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemForMOrder;
 import com.ats.webapi.model.ItemIdOnly;
+import com.ats.webapi.model.MCategory;
 import com.ats.webapi.model.OrderLog;
 import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.PostFrItemStockDetail;
@@ -43,6 +44,7 @@ import com.ats.webapi.model.SpecialCake;
 import com.ats.webapi.model.SpecialCakeList;
 import com.ats.webapi.model.frsetting.NewSetting;
 import com.ats.webapi.repository.AllFrIdNameRepository;
+import com.ats.webapi.repository.CategoryRepository;
 import com.ats.webapi.repository.ConfiSpCodeRepository;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.ConfigureFrRepository;
@@ -742,4 +744,18 @@ public class SachinWork {
 				  System.out.println("itemList" +itemList.toString());
 		return itemList;
 	}
+	
+	@Autowired
+	CategoryRepository categoryRepository;
+
+	
+	@RequestMapping(value = { "/getCatidByMenuId" }, method = RequestMethod.POST)
+	public @ResponseBody  List<MCategory> findCatidByMenuIdIn(@RequestParam("menuId") int menuId) {
+		List<MCategory> catlist;
+		catlist = categoryRepository.findCatidByMenuIdIn(menuId);
+				  
+				  System.out.println("itemList" +catlist.toString());
+		return catlist;
+	}
+	
 }
