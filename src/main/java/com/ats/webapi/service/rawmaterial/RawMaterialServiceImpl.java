@@ -704,6 +704,13 @@ public class RawMaterialServiceImpl implements RawMaterialService{
 		}
 		return errorMessage;
 	}
+
+	@Override
+	public int deleteSelRmUom(List<String> uomIds) {
+		
+		int isDelete=rawMaterialUomRepository.deleteSelRmUom(uomIds);
+		return isDelete;
+	}
 	
 	
 }

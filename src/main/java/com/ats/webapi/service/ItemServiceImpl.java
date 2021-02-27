@@ -295,6 +295,12 @@ public class ItemServiceImpl implements ItemService{
 			return items;
 	}
 
+	@Override
+	public List<Integer> getAllotedUoms() {
+		
+		return getItemSupRepository.getAllotedUomIds();
+	}
+
 	
 
 }

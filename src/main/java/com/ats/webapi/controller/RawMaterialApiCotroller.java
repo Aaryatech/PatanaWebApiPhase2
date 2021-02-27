@@ -398,6 +398,24 @@ public class RawMaterialApiCotroller {
 			}
 			return info;
 		}
+		
+		@RequestMapping(value = { "/deleteMultiRmUom" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteMultiRmUom(@RequestParam("uomIds") List<String> uomIds)
+		{
+			int isDelete=rawMaterialService.deleteSelRmUom(uomIds);
+			Info info=new Info();
+			if(isDelete==1)
+			{
+				info.setError(false);
+				info.setMessage("RM Uom Deleted successFully");
+			}
+			else
+			{
+				info.setError(true);
+				info.setMessage("Failed to Delete RM Uom");
+			}
+			return info;
+		}
 	//-------------------------getRmTax------------------------------
 	
 	@RequestMapping(value = { "/getUomAndTax" }, method = RequestMethod.POST)

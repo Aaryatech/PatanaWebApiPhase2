@@ -927,4 +927,14 @@ public class MasterController {
 
 				  return flavourList;
 				}
+				//------------------------------------------------------
+				//Get All Alloted Uom Ids
+				@RequestMapping(value = { "/getAllotedUomIdsToItems" }, method = RequestMethod.GET)
+				public @ResponseBody List<Integer> getAllotedUomIdsToItems() {
+
+					List<Integer> res = itemService.getAllotedUoms();
+
+					return res;
+
+				}
 }

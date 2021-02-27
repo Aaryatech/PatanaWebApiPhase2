@@ -17,4 +17,11 @@ public interface GetItemSupRepository extends JpaRepository<GetItemSup, Integer>
 	@Query(value="Select s.id,s.short_name,s.item_id,i.item_name,i.item_id as item_code ,s.cut_section,s.item_hsncd,s.no_of_item_per_tray,s.tray_type,s.uom_id,s.item_uom,s.actual_weight,s.base_weight,s.input_per_qty,s.is_gate_sale,s.is_gate_sale_disc,s.is_allow_bday,s.del_status from m_item_sup s,m_item i where s.item_id=i.id AND s.id=:id",nativeQuery=true)
 	GetItemSup findGetItemSupById(@Param("id")int id);
 
+	@Query(value="SELECT\n" + 
+			"       DISTINCT uom_id\n" + 
+			"    FROM\n" + 
+			"        m_item_sup\n" + 
+			"    WHERE\n" + 
+			"        del_status=0", nativeQuery=true)
+	List<Integer> getAllotedUomIds();
 }

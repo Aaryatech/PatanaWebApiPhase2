@@ -85,6 +85,8 @@ public interface RawMaterialService {
 	RawMaterialUom getUomById(int uomId);
 
 	int deleteRmUom(int uomId);
+	
+	int deleteSelRmUom(List<String> uomIds);
 
 	RawMaterialTaxDetails getRMTax(int taxId);
 
