@@ -2,6 +2,7 @@ package com.ats.webapi.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Route;
 import com.ats.webapi.model.RouteAbcVal;
 import com.ats.webapi.model.RouteMaster;
+import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
+import com.ats.webapi.repository.StateRepository;
 import com.ats.webapi.util.JsonUtil;
 
 @RestController
@@ -46,6 +50,9 @@ public class FranchiseApiController {
 	RouteMasterRepository routeMasterRepository;
 	
 	@Autowired RouteAbcValRepo abcRepo;
+	
+	@Autowired
+	StateRepository stateRepository;
 
 	// Show Route List
 	@RequestMapping(value = { "/showRouteListNew" }, method = RequestMethod.GET)
@@ -117,5 +124,85 @@ public class FranchiseApiController {
 		}		
 		return route;
 	}
+
+	// ---------------State --------------------------
+
+		@RequestMapping(value = { "/saveState" }, method = RequestMethod.POST)
+		public @ResponseBody State saveState(@RequestBody State state) {
+
+			State res = new State();
+
+			try {
+
+				res = stateRepository.saveAndFlush(state);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return res;
+
+		}
+
+		@RequestMapping(value = { "/getStateByStateId" }, method = RequestMethod.POST)
+		public @ResponseBody State getStateByStateId(@RequestParam("stateId") int stateId) {
+
+			State state = null;
+			try {
+				state = stateRepository.findByStateId(stateId);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return state;
+
+		}
+
+		@RequestMapping(value = { "/getAllStates" }, method = RequestMethod.GET)
+		public @ResponseBody List<State> getAllStates() {
+
+			List<State> stateList = new ArrayList<State>();
+
+			try {
+
+				stateList = stateRepository.findAllByIsUsed(1);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return stateList;
+
+		}
+
+		@RequestMapping(value = { "/deleteState" }, method = RequestMethod.POST)
+		public @ResponseBody ErrorMessage deleteState(@RequestParam("stateId") int stateId) {
+
+			ErrorMessage errorMessage = new ErrorMessage();
+
+			try {
+				int delete = stateRepository.deleteState(stateId);
+
+				if (delete == 1) {
+					errorMessage.setError(false);
+					errorMessage.setMessage(" Deleted Successfully");
+				} else {
+					errorMessage.setError(true);
+					errorMessage.setMessage("Deletion Failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed :EXC");
+
+			}
+			return errorMessage;
+		}
 
 }
