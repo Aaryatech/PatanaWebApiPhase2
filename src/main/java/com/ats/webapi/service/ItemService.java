@@ -39,4 +39,5 @@ public interface ItemService {
 	public List<Integer> getItemAllotedSubCategory();
 	
 	public List<GetItemUomAndSup> findAllItemsBySubCatId(String subCatId);
+	public GetItemSup getItemSupplementByItemId(int itemId);
 }

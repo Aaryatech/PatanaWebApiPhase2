@@ -318,6 +318,12 @@ public class ItemServiceImpl implements ItemService{
 		return list;
 	}
 
+	@Override
+	public GetItemSup getItemSupplementByItemId(int itemId) {
+		GetItemSup itemSup=getItemSupRepository.findGetItemSupByItemId(itemId);
+		return itemSup;
+	}
+
 	
 
 }

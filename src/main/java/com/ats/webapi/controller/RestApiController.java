@@ -71,6 +71,7 @@ import com.ats.webapi.repository.SpCakeOrderUpdateRepository;
 import com.ats.webapi.repository.SpCakeOrdersRepository;
 import com.ats.webapi.repository.SpMessageRepository;
 import com.ats.webapi.repository.SpecialCakeRepository;
+import com.ats.webapi.repository.SubCategoryResRepository;
 import com.ats.webapi.repository.TestFrRepository;
 import com.ats.webapi.repository.UpdatePBTimeRepo;
 import com.ats.webapi.repository.UpdateSeetingForPBRepo;
@@ -408,6 +409,9 @@ public class RestApiController {
 
 	@Autowired
 	FrCustomerListRepo frCustomerListRepo;
+	
+	@Autowired
+	SubCategoryResRepository subCategoryResRepository;
 
 	@RequestMapping(value = { "/placeManualOrderNew" }, method = RequestMethod.POST)
 	public @ResponseBody List<GenerateBill> placeManualOrderNew(@RequestBody List<Orders> orderJson)
@@ -5371,12 +5375,20 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 		return res;
 	}
 	
+	@RequestMapping("/updateProducts")
+	public ErrorMessage updateProducts(@RequestBody Item item) {
+		
+		ErrorMessage jsonResult = itemService.saveItem(item);
+		return jsonResult;
+	}
+
+
 	@Autowired
 	ItemSupRepository itemSuppRepository;
 	@RequestMapping(value = { "/getItemCode" }, method = RequestMethod.POST)
 	public @ResponseBody String getItemCode(@RequestParam("catId") int catId,@RequestParam("subCatId") int subCatId) {
 		
-	  
+	  SubCategoryRes getSubCategoryRes = subCategoryResRepository.findBySubCatId(subCatId);
 	  int cnt=itemSuppRepository.findItemCount(catId,subCatId);
 	  
 	  int maxCodeLenth = String.valueOf(cnt).length();
@@ -5384,7 +5396,7 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 		
 		String itemCode = String.valueOf(cnt);
 
-		return ""+itemCode;
+		return ""+itemCode+getSubCategoryRes.getPrefix();
 	}
 
 	@Autowired
@@ -5438,4 +5450,6 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 		return orderList;
 
 	}
+	
+	
 }

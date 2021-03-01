@@ -441,6 +441,32 @@ public class MasterController {
 			return getItemSupRes;
 
 		}
+		
+		@RequestMapping(value = { "/getItemSupByItemId" }, method = RequestMethod.POST)
+		public @ResponseBody GetItemSup getItemSupByItemId(@RequestParam("itemId") int itemId) {
+
+			GetItemSup getItemSupRes = null;
+			try {
+				getItemSupRes = itemService.getItemSupplementByItemId(itemId);
+
+				if (getItemSupRes != null) {
+					getItemSupRes.setError(false);
+					getItemSupRes.setMessage("ItemSup Found Successfully");
+				} else {
+					getItemSupRes = new GetItemSup();
+					getItemSupRes.setError(true);
+					getItemSupRes.setMessage("ItemSup Not Found");
+				}
+			} catch (Exception e) {
+				getItemSupRes = new GetItemSup();
+				getItemSupRes.setError(true);
+				getItemSupRes.setMessage("ItemSup Not Found");
+				//System.out.println("Exception In getItemSup:" + e.getMessage());
+			}
+
+			return getItemSupRes;
+
+		}
 		// ------------------------Getting One SpCakeSup by Id-----------------------
 				@RequestMapping(value = { "/getSpCakeSupp" }, method = RequestMethod.POST)
 				public @ResponseBody GetSpCkSupplement getSpCakeSupp(@RequestParam("id") int id) {
