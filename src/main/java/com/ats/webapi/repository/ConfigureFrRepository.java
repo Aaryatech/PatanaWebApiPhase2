@@ -46,5 +46,7 @@ public interface ConfigureFrRepository extends JpaRepository<ConfigureFranchisee
 			 @Param("frId")int frId);
 	 
 	 ConfigureFranchisee findByMenuIdAndDelStatus(int menuId, int delStatus);
+	 
+	 ConfigureFranchisee findBySettingIdAndDelStatus(int settingId, int delStatus);
 
 }
