@@ -153,8 +153,8 @@ public class SachinWork {
 				System.err.println("### ###");
 				for (int j = 0; j < menuIdList.size(); j++) {
 					System.err.println("1111111  j" + j + "menuIdList");
-					ConfigureFranchisee configureFranchisee = configureService
-							.findFranchiseeById(Integer.parseInt(menuIdList.get(j)));
+					ConfigureFranchisee configureFranchisee = configureFrRepository
+							.findByMenuIdAndDelStatus(Integer.parseInt(menuIdList.get(j)),0);
 					System.err.println("8 configureFranchisee" + configureFranchisee.toString());
 					NewSetting newSetting = newSettingRepository.findBySettingKeyAndDelStatus("cat_id_open_stock", 0);
 					List<Integer> catIdForStock = Stream.of(newSetting.getSettingValue1().split(","))
