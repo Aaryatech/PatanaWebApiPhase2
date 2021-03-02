@@ -5376,9 +5376,9 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 	}
 	
 	@RequestMapping("/updateProducts")
-	public ErrorMessage updateProducts(@RequestBody Item item) {
+	public ErrorMessage updateProducts(@RequestBody ItemAndItemSuplement itemItemSup) {
 		
-		ErrorMessage jsonResult = itemService.saveItem(item);
+		ErrorMessage jsonResult = itemService.saveItemAndSupplement(itemItemSup);
 		return jsonResult;
 	}
 
