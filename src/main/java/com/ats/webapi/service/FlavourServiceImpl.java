@@ -58,4 +58,10 @@ public class FlavourServiceImpl implements FlavourService {
 	return flavour;
 	}
 
+	@Override
+	public List<Flavour> findAllFlavourList() {
+		List<Flavour> flavourList=flavourRepository.findAllSpFlavourList();
+		return flavourList;
+	}
+
 }

@@ -2843,6 +2843,22 @@ public class RestApiController {
 
 		return flavourList;
 	}
+	
+	// Show Flavor List
+		@RequestMapping(value = { "/showAllFlavourList" }, method = RequestMethod.GET)
+		@ResponseBody
+		public FlavourList showAllFlavourList() {
+
+			List<Flavour> jsonFlavourtList = flavourService.findAllFlavourList();
+			FlavourList flavourList = new FlavourList();
+			flavourList.setFlavour(jsonFlavourtList);
+			Info info = new Info();
+			info.setError(false);
+			info.setMessage("Flavour list displayed Successfully");
+			flavourList.setInfo(info);
+
+			return flavourList;
+		}
 
 	// Show Scheduler List
 	@RequestMapping(value = { "/showSchedulerList" }, method = RequestMethod.GET)
@@ -5450,6 +5466,37 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 		return orderList;
 
 	}
-	
+
+	// Delete Flavor
+		@RequestMapping(value = "/updateFlavourStatus", method = RequestMethod.POST)
+		public @ResponseBody String updateFlavourStatus(@RequestParam List<Integer> spfId, @RequestParam int status) {
+			
+			ErrorMessage errorMessage = null;
+			List<Flavour> flavour = flavourRepository.findBySpfIdIn(spfId);
+			for (int i = 0; i < flavour.size(); i++) {
+				flavour.get(i).setDelStatus(status);
+
+				errorMessage = flavourService.save(flavour.get(i));
+			}
+			return JsonUtil.javaToJson(errorMessage);
+		}
+		
+		
+		@RequestMapping(value = "/updateMultiFlavourStatus", method = RequestMethod.POST)
+		public @ResponseBody String updateMultiFlavourStatus(@RequestParam List<String> spfId, @RequestParam int status) {
+			
+			ErrorMessage errorMessage = new ErrorMessage();
+			int res = flavourRepository.updateFlavourIds(spfId, status);
+			if(res>0) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("Operation Sucessfull");
+			}else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Operation Fail");
+			}
+				
+			return JsonUtil.javaToJson(errorMessage);
+		}
+
 	
 }
