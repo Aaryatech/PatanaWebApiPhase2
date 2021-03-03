@@ -21,9 +21,11 @@ import com.ats.webapi.model.RouteAbcVal;
 import com.ats.webapi.model.RouteMaster;
 import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
+import com.ats.webapi.model.prod.GetProductListExlPdf;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.StateRepository;
+import com.ats.webapi.repository.getproddetailbysubcat.GetProductListExlPdfRepo;
 import com.ats.webapi.util.JsonUtil;
 
 @RestController
@@ -203,6 +205,26 @@ public class FranchiseApiController {
 
 			}
 			return errorMessage;
+		}
+		
+		//----------------------------------------------------------------
+		@Autowired GetProductListExlPdfRepo prodExpRepo;
+		@RequestMapping(value = { "/getAllProdctExlPdf" }, method = RequestMethod.GET)
+		public @ResponseBody List<GetProductListExlPdf> getAllProdctExlPdf() {
+
+			List<GetProductListExlPdf> prod = new ArrayList<GetProductListExlPdf>();
+
+			try {
+
+				prod = prodExpRepo.getProductExlPdfList();
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return prod;
+
 		}
 
 }
