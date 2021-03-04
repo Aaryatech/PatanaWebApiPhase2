@@ -2548,58 +2548,45 @@ public class RestApiController {
 	// Special Cake Insert
 	@RequestMapping(value = { "/insertSpecialCake" }, method = RequestMethod.POST)
 	@ResponseBody
-	public SpecialCake saveSpecialCake(@RequestParam("spCode") String spcode, @RequestParam("spName") String spname,
-			@RequestParam("spType") int sptype, @RequestParam("spMinwt") String spminwt,
-			@RequestParam("spMaxwt") String spmaxwt, @RequestParam("spBookb4") String spbookb4,
-			@RequestParam("spImage") String spimage, @RequestParam("spTax1") double sptax1,
-			@RequestParam("spTax2") double sptax2, @RequestParam("spTax3") double sptax3,
-			@RequestParam("speIdlist") String speidlist, @RequestParam("erpLinkcode") String erplinkcode,
-			@RequestParam("spPhoupload") int spphoupload, @RequestParam("timeTwoappli") int timetwoappli,
-			@RequestParam("isUsed") int isused, @RequestParam("spDesc") String spDesc,
-			@RequestParam("orderQty") int orderQty, @RequestParam("orderDiscount") float orderDiscount,
-			@RequestParam("isCustChoiceCk") int isCustChoiceCk, @RequestParam("isAddonRateAppli") int isAddonRateAppli,
-			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
-			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
-			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isSlotUsed") int isSlotUsed) {
+	public SpecialCake saveSpecialCake(@RequestBody SpecialCake specialcake) {
 
 		SpecialCake specialCakeRes = null;
 		try {
 			// System.out.println("isSlotUsed");
 
-			SpecialCake specialcake = new SpecialCake();
-
-			specialcake.setSpCode(spcode);
-			specialcake.setSpName(spname);
-			specialcake.setSpType(sptype);
-			specialcake.setSpMinwt(spminwt);
-			specialcake.setSpMaxwt(spmaxwt);
-			specialcake.setSpBookb4(spbookb4);
-			specialcake.setSprId(1);
-			specialcake.setSpImage(spimage);
-			specialcake.setSpTax1(sptax1);
-			specialcake.setSpTax2(sptax2);
-			specialcake.setSpTax3(sptax3);
-			specialcake.setSpeIdlist(speidlist);
-			specialcake.setErpLinkcode(erplinkcode);
-			specialcake.setIsUsed(isused);
-			specialcake.setSpPhoupload(spphoupload);
-			specialcake.setTimeTwoappli(timetwoappli);
-			specialcake.setBaseCode("0");
-			specialcake.setDelStatus(0);
-
-			specialcake.setSpDesc(spDesc);
-			specialcake.setOrderQty(orderQty);
-			specialcake.setOrderDiscount(orderDiscount);
-			specialcake.setIsCustChoiceCk(isCustChoiceCk);
-			specialcake.setIsAddonRateAppli(isAddonRateAppli);
-			specialcake.setMrpRate1(mrpRate1);
-			specialcake.setMrpRate2(mrpRate2);
-			specialcake.setMrpRate3(mrpRate3);
-			specialcake.setSpRate1(spRate1);
-			specialcake.setSpRate2(spRate2);
-			specialcake.setSpRate3(spRate3);
-			specialcake.setIsSlotUsed(isSlotUsed);
+//			SpecialCake specialcake = new SpecialCake();
+//
+//			specialcake.setSpCode(spcode);
+//			specialcake.setSpName(spname);
+//			specialcake.setSpType(sptype);
+//			specialcake.setSpMinwt(spminwt);
+//			specialcake.setSpMaxwt(spmaxwt);
+//			specialcake.setSpBookb4(spbookb4);
+//			specialcake.setSprId(1);
+//			specialcake.setSpImage(spimage);
+//			specialcake.setSpTax1(sptax1);
+//			specialcake.setSpTax2(sptax2);
+//			specialcake.setSpTax3(sptax3);
+//			specialcake.setSpeIdlist(speidlist);
+//			specialcake.setErpLinkcode(erplinkcode);
+//			specialcake.setIsUsed(isused);
+//			specialcake.setSpPhoupload(spphoupload);
+//			specialcake.setTimeTwoappli(timetwoappli);
+//			specialcake.setBaseCode("0");
+//			specialcake.setDelStatus(0);
+//
+//			specialcake.setSpDesc(spDesc);
+//			specialcake.setOrderQty(orderQty);
+//			specialcake.setOrderDiscount(orderDiscount);
+//			specialcake.setIsCustChoiceCk(isCustChoiceCk);
+//			specialcake.setIsAddonRateAppli(isAddonRateAppli);
+//			specialcake.setMrpRate1(mrpRate1);
+//			specialcake.setMrpRate2(mrpRate2);
+//			specialcake.setMrpRate3(mrpRate3);
+//			specialcake.setSpRate1(spRate1);
+//			specialcake.setSpRate2(spRate2);
+//			specialcake.setSpRate3(spRate3);
+//			specialcake.setIsSlotUsed(isSlotUsed);
 
 			// System.out.println("*********Special Cake:***************" +
 			// specialcake.toString());

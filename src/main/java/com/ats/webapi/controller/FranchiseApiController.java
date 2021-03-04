@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.webapi.model.CakeType;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Route;
 import com.ats.webapi.model.RouteAbcVal;
 import com.ats.webapi.model.RouteMaster;
+import com.ats.webapi.model.Shape;
 import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
 import com.ats.webapi.model.prod.GetProductListExlPdf;
+import com.ats.webapi.repository.CakeTypeRepo;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
+import com.ats.webapi.repository.ShapeRepo;
 import com.ats.webapi.repository.StateRepository;
 import com.ats.webapi.repository.getproddetailbysubcat.GetProductListExlPdfRepo;
 import com.ats.webapi.util.JsonUtil;
@@ -55,6 +59,8 @@ public class FranchiseApiController {
 	
 	@Autowired
 	StateRepository stateRepository;
+	
+	@Autowired CakeTypeRepo cakeTypeRepo;
 
 	// Show Route List
 	@RequestMapping(value = { "/showRouteListNew" }, method = RequestMethod.GET)
@@ -226,5 +232,153 @@ public class FranchiseApiController {
 			return prod;
 
 		}
+		// Show Cake Type List
+		@RequestMapping(value = { "/showCakeTypeList" }, method = RequestMethod.GET)
+		@ResponseBody
+		public List<CakeType> showCakeTypeList() {
+
+			List<CakeType> cakeType = cakeTypeRepo.findByDelStatusOrderByCakeTypeIdDesc(0);
+
+			return cakeType;
+		}
+		
+		@RequestMapping(value = { "/getCakeTypeById" }, method = RequestMethod.POST)
+		public @ResponseBody CakeType getCakeTypeById(@RequestParam("cakeTypeId") int cakeTypeId) {
+
+			CakeType cakeType = new CakeType();
+			try {
+				cakeType = cakeTypeRepo.findBycakeTypeId(cakeTypeId);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return cakeType;
+
+		}
+		
+		@RequestMapping(value = { "/deleteCakeType" }, method = RequestMethod.POST)
+		public @ResponseBody ErrorMessage deleteCakeType(@RequestParam("cakeTypeId") int cakeTypeId) {
+
+			ErrorMessage errorMessage = new ErrorMessage();
+
+			try {
+				int res = cakeTypeRepo.delCakeType(cakeTypeId);
+
+				if (res > 0) {
+					errorMessage.setError(false);
+					errorMessage.setMessage(" Deleted Successfully");
+				} else {
+					errorMessage.setError(true);
+					errorMessage.setMessage("Deletion Failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				errorMessage.setError(true);
+				errorMessage.setMessage("Deletion Failed :EXC");
+
+			}
+			return errorMessage;
+		}
+		
+		@RequestMapping(value = { "/insertCakeType" }, method = RequestMethod.POST)
+		public @ResponseBody CakeType insertCakeType(@RequestBody CakeType cakeType) {
+
+			CakeType res = new CakeType();
+
+			try {
+
+				res = cakeTypeRepo.saveAndFlush(cakeType);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return res;
+
+		}
+		
+
+		@Autowired 
+		ShapeRepo shapeRepo;
+		
+		@RequestMapping(value = { "/saveItemChef" }, method = RequestMethod.POST)
+		public @ResponseBody Shape Object(@RequestBody Shape shape) {
+			Info info=new Info();
+			Shape sh	=shapeRepo.save(shape);
+		    
+			
+			if(sh!=null)
+			{
+				info.setError(false);
+				info.setMessage("Data Inseert Successfully");
+			}
+			else
+			{
+				info.setError(true);
+				info.setMessage("Data Inseert Failed");
+			}
+			
+			
+			return sh;
+		}
+		
+		@RequestMapping(value = { "/getAllChef" }, method = RequestMethod.GET)
+		public @ResponseBody List<Shape> getAllChef() {
+
+			Info info = new Info();
+			
+			List<Shape> shapeList=new ArrayList<Shape>();
+		
+		
+			shapeList=shapeRepo.getAllShapes();
+				return  shapeList;
+			
+		}
+		
+		@RequestMapping(value = { "/getAllChefById" }, method = RequestMethod.POST)
+		public @ResponseBody Shape getAllChefById(@RequestParam Integer shapeId) {
+
+			
+			Shape sh=shapeRepo.findByShapeId(shapeId);
+			return sh;
+			 
+		}
+		
+		
+		@RequestMapping(value = { "/deleteShape" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteShape(@RequestParam Integer shapeId) {
+					Info info=new Info();
+						int Flag=0;
+					try {
+						Flag =shapeRepo.deleteShape(shapeId);
+						if(Flag>0) {
+							info.setError(false);
+							info.setMessage("Shape Deleted");
+							
+						}else {
+							info.setError(true);
+							info.setMessage("Unable To  Delete Shape");
+							
+						}
+		}	 catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+		info.setError(true);
+		info.setMessage("Unable To  Delete Shape");
+		System.err.println("Exception In /deleteShape");
+		}
+			
+
+			return info;
+			 
+		}
+		
+		
+		
+		
+		
 
 }
