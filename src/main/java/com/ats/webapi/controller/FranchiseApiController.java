@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.CakeType;
 import com.ats.webapi.model.ErrorMessage;
+import com.ats.webapi.model.GetSpCakeExlPdf;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Route;
 import com.ats.webapi.model.RouteAbcVal;
@@ -24,6 +25,7 @@ import com.ats.webapi.model.Shape;
 import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
 import com.ats.webapi.model.prod.GetProductListExlPdf;
+import com.ats.webapi.report.repo.GetSpCakeExlPdfRepo;
 import com.ats.webapi.repository.CakeTypeRepo;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
@@ -376,9 +378,19 @@ public class FranchiseApiController {
 			 
 		}
 		
+	@Autowired
+	GetSpCakeExlPdfRepo spCakeExlRepo;
+	@RequestMapping(value = { "/getSpCakeListPdfExl" }, method = RequestMethod.GET)
+		public @ResponseBody List<GetSpCakeExlPdf> getSpCakeListPdfExl() {
+
+			Info info = new Info();
+			
+			List<GetSpCakeExlPdf> res=new ArrayList<GetSpCakeExlPdf>();
 		
 		
-		
-		
+			res=spCakeExlRepo.getSpCakeListExlPdf();
+				return  res;
+			
+		}
 
 }
