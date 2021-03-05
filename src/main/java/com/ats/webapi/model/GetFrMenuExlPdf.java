@@ -22,7 +22,7 @@ public class GetFrMenuExlPdf {
 	@Column(name = "selected_menu_image")
 	private String selectedMenuImage;
 	@Column(name = "is_same_day_applicable")
-	private String isSameDayApplicable;
+	private int isSameDayApplicable;
 
 	@Column(name = "cat_id")
 	private int mainCatId;
@@ -72,11 +72,11 @@ public class GetFrMenuExlPdf {
 		this.selectedMenuImage = selectedMenuImage;
 	}
 
-	public String getIsSameDayApplicable() {
+	public int getIsSameDayApplicable() {
 		return isSameDayApplicable;
 	}
 
-	public void setIsSameDayApplicable(String isSameDayApplicable) {
+	public void setIsSameDayApplicable(int isSameDayApplicable) {
 		this.isSameDayApplicable = isSameDayApplicable;
 	}
 
