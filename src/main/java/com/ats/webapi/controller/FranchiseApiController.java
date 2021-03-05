@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.webapi.model.AllMenus;
 import com.ats.webapi.model.CakeType;
 import com.ats.webapi.model.ErrorMessage;
+import com.ats.webapi.model.GetFrMenuExlPdf;
+import com.ats.webapi.model.GetMenuIdAndType;
 import com.ats.webapi.model.GetSpCakeExlPdf;
 import com.ats.webapi.model.Info;
+import com.ats.webapi.model.MenuShow;
 import com.ats.webapi.model.Route;
 import com.ats.webapi.model.RouteAbcVal;
 import com.ats.webapi.model.RouteMaster;
@@ -27,6 +31,9 @@ import com.ats.webapi.model.User;
 import com.ats.webapi.model.prod.GetProductListExlPdf;
 import com.ats.webapi.report.repo.GetSpCakeExlPdfRepo;
 import com.ats.webapi.repository.CakeTypeRepo;
+import com.ats.webapi.repository.FrMenuExlPdfRepo;
+import com.ats.webapi.repository.FrMenusRepo;
+import com.ats.webapi.repository.GetMenuIdAndTypeRepo;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.ShapeRepo;
@@ -307,20 +314,20 @@ public class FranchiseApiController {
 		ShapeRepo shapeRepo;
 		
 		@RequestMapping(value = { "/saveItemChef" }, method = RequestMethod.POST)
-		public @ResponseBody Shape Object(@RequestBody Shape shape) {
+		public @ResponseBody Shape saveItemChef(@RequestBody Shape shape) {
 			Info info=new Info();
-			Shape sh	=shapeRepo.save(shape);
+			Shape sh = shapeRepo.save(shape);
 		    
 			
 			if(sh!=null)
 			{
 				info.setError(false);
-				info.setMessage("Data Inseert Successfully");
+				info.setMessage("Data Insert Successfully");
 			}
 			else
 			{
 				info.setError(true);
-				info.setMessage("Data Inseert Failed");
+				info.setMessage("Data Insert Failed");
 			}
 			
 			
@@ -392,5 +399,107 @@ public class FranchiseApiController {
 				return  res;
 			
 		}
+//--------------------------------------------------------------------
+	@Autowired
+	FrMenusRepo frMenuRepo;
+	
+	@RequestMapping(value = { "/saveNewMenu" }, method = RequestMethod.POST)
+	public @ResponseBody MenuShow saveNewMenu(@RequestBody MenuShow menu) {
+		System.out.println("Mennuuuuuuuuuuuuuuu---------"+menu);
+		Info info=new Info();
+		MenuShow saveMenu = frMenuRepo.save(menu);	    
+		
+		if(saveMenu.getMenuId()>0)
+		{
+			info.setError(false);
+			info.setMessage("Data Insert Successfully");
+		}
+		else
+		{
+			info.setError(true);
+			info.setMessage("Data Insert Failed");
+		}		
+		return saveMenu;
+	}
+	
+	@RequestMapping(value = { "/getAllFrMenus" }, method = RequestMethod.GET)
+	public @ResponseBody List<MenuShow> getAllFrMenus() {
 
+		List<MenuShow> menuList = new ArrayList<MenuShow>();
+
+		menuList = frMenuRepo.findByDelStatusOrderByCatId(0);
+		return menuList;
+
+	} 
+	@RequestMapping(value = { "/getFrMenuById" }, method = RequestMethod.POST)
+	public @ResponseBody MenuShow getFrMenuById(@RequestParam int menuId) {
+
+		
+		MenuShow menu = frMenuRepo.findByMenuId(menuId);
+		return menu;
+		 
+	}
+	
+	@RequestMapping(value = { "/deleteFrMenu" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteFrMenu(@RequestParam int menuId) {
+		Info info = new Info();
+		int res = 0;
+		try {
+			res = frMenuRepo.deleteMenuById(menuId);
+			if (res > 0) {
+				info.setError(false);
+				info.setMessage("Fr Menu Deleted");
+
+			} else {
+				info.setError(true);
+				info.setMessage("Unable To  Delete Fr Menu");
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMessage("Unable To  Delete Fr Menu");
+			System.err.println("Exception In /deleteFrMenu : " + e.getMessage());
+		}
+
+		return info;
+
+	}
+	
+	@Autowired
+	FrMenuExlPdfRepo frMenuExlRepo;
+	
+	@RequestMapping(value = { "/getAllFrMenusList" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetFrMenuExlPdf> getAllFrMenusList() {
+
+		List<GetFrMenuExlPdf> menuList = new ArrayList<GetFrMenuExlPdf>();
+
+		menuList = frMenuExlRepo.getAllFrMenus();
+		
+		return menuList;
+
+	}
+	
+	@RequestMapping(value = { "/getAllFrMenusExlPdf" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetFrMenuExlPdf> getAllFrMenusExlPdf(@RequestParam List<String> menuIds, @RequestParam List<String> frIds) {
+
+		List<GetFrMenuExlPdf> menuList = new ArrayList<GetFrMenuExlPdf>();
+
+		menuList = frMenuExlRepo.getAllFrMenusExlPdfList(menuIds, frIds);
+		return menuList;
+
+	}
+	
+	@Autowired
+	GetMenuIdAndTypeRepo sMenuRepo;	
+	@RequestMapping(value = { "/getAllSavedMenuIds" }, method = RequestMethod.GET)
+	public @ResponseBody List<GetMenuIdAndType> getAllSavedMenuIds() {
+
+		List<GetMenuIdAndType> menuIds = new ArrayList<GetMenuIdAndType>();
+
+		menuIds = sMenuRepo.getSavedMenuIds();
+		return menuIds;
+
+	}
 }
