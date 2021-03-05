@@ -30,24 +30,30 @@ public interface ShowFrMenuConfRepo extends JpaRepository<ShowFrMenuConfExlPdf, 
 			"    m.del_status = 0 AND m.cat_id = c.cat_id AND m.menu_id = f.menu_id",nativeQuery=true)
 	List<ShowFrMenuConfExlPdf> getfrMenuConfigList();
 
-	@Query(value="SELECT\n" + 
-			"    m.menu_id,\n" + 
-			"    m.menu_title,\n" + 
-			"    m.is_same_day_applicable AS type,\n" + 
-			"    c.cat_name,\n" + 
-			"    f.profit_per,\n" + 
-			"    f.grn_per,\n" + 
-			"    f.disc_per,\n" + 
-			"    CONCAT(fr.fr_name,'-',fr.fr_code) AS fr_name,\n" + 
-			"    f.from_time,\n" + 
-			"    f.to_time\n" + 
-			"FROM\n" + 
-			"    m_fr_menu_show m,\n" + 
-			"    m_fr_configure f,\n" + 
-			"    m_category c,\n" + 
-			"    m_franchisee fr\n" + 
-			"WHERE\n" + 
-			"    m.del_status = 0 AND m.cat_id = c.cat_id AND m.menu_id = f.menu_id AND\n" + 
-			"    fr.fr_id IN (:frIds) AND m.menu_id IN (:menuIds)",nativeQuery=true)
+	@Query(value=" SELECT\n" + 
+			"        m.menu_id,\n" + 
+			"        m.menu_title,\n" + 
+			"        m.is_same_day_applicable AS type,\n" + 
+			"        c.cat_name,\n" + 
+			"        f.profit_per,\n" + 
+			"        f.grn_per,\n" + 
+			"        f.disc_per,\n" + 
+			"        CONCAT(fr.fr_name,\n" + 
+			"        '-',\n" + 
+			"        fr.fr_code) AS fr_name,\n" + 
+			"        f.from_time,\n" + 
+			"        f.to_time \n" + 
+			"    FROM\n" + 
+			"        m_fr_menu_show m,\n" + 
+			"        m_fr_configure f,\n" + 
+			"        m_category c,\n" + 
+			"        m_franchisee fr \n" + 
+			"    WHERE\n" + 
+			"        m.del_status = 0 \n" + 
+			"        AND m.cat_id = c.cat_id \n" + 
+			"        AND m.menu_id = f.menu_id \n" + 
+			"        AND f.fr_id=fr.fr_id\n" + 
+			"        AND fr.fr_id IN (:frIds) \n" + 
+			"        AND m.menu_id IN (:menuIds)",nativeQuery=true)
 	List<ShowFrMenuConfExlPdf> getAllFrMenusExlPdfList(@Param("menuIds") List<String> menuIds, @Param("frIds") List<String> frIds);
 }

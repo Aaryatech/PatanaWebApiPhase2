@@ -508,12 +508,14 @@ public class FranchiseApiController {
 
 	}
 	
-	@RequestMapping(value = { "/getFrMenuCogigDetailsyIds" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/getFrMenuCogigDetailsByIds" }, method = RequestMethod.POST)
 	public @ResponseBody List<ShowFrMenuConfExlPdf> getFrMenuCogigDetailsyIds(@RequestParam List<String> menuIds, @RequestParam List<String> frIds) {
 
 		List<ShowFrMenuConfExlPdf> menuList = new ArrayList<ShowFrMenuConfExlPdf>();
 
 		menuList = frMenuConfRepo.getAllFrMenusExlPdfList(menuIds, frIds);
+		
+		System.err.println("List--------------------"+menuList);
 		
 		return menuList;
 
