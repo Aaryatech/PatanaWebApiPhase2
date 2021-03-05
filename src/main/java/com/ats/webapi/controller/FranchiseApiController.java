@@ -26,6 +26,7 @@ import com.ats.webapi.model.Route;
 import com.ats.webapi.model.RouteAbcVal;
 import com.ats.webapi.model.RouteMaster;
 import com.ats.webapi.model.Shape;
+import com.ats.webapi.model.ShowFrMenuConfExlPdf;
 import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
 import com.ats.webapi.model.prod.GetProductListExlPdf;
@@ -37,6 +38,7 @@ import com.ats.webapi.repository.GetMenuIdAndTypeRepo;
 import com.ats.webapi.repository.RouteAbcValRepo;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.ShapeRepo;
+import com.ats.webapi.repository.ShowFrMenuConfRepo;
 import com.ats.webapi.repository.StateRepository;
 import com.ats.webapi.repository.getproddetailbysubcat.GetProductListExlPdfRepo;
 import com.ats.webapi.util.JsonUtil;
@@ -405,7 +407,7 @@ public class FranchiseApiController {
 	
 	@RequestMapping(value = { "/saveNewMenu" }, method = RequestMethod.POST)
 	public @ResponseBody MenuShow saveNewMenu(@RequestBody MenuShow menu) {
-		System.out.println("Mennuuuuuuuuuuuuuuu---------"+menu);
+		
 		Info info=new Info();
 		MenuShow saveMenu = frMenuRepo.save(menu);	    
 		
@@ -481,16 +483,6 @@ public class FranchiseApiController {
 
 	}
 	
-	@RequestMapping(value = { "/getAllFrMenusExlPdf" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetFrMenuExlPdf> getAllFrMenusExlPdf(@RequestParam List<String> menuIds, @RequestParam List<String> frIds) {
-
-		List<GetFrMenuExlPdf> menuList = new ArrayList<GetFrMenuExlPdf>();
-
-		menuList = frMenuExlRepo.getAllFrMenusExlPdfList(menuIds, frIds);
-		return menuList;
-
-	}
-	
 	@Autowired
 	GetMenuIdAndTypeRepo sMenuRepo;	
 	@RequestMapping(value = { "/getAllSavedMenuIds" }, method = RequestMethod.GET)
@@ -502,4 +494,29 @@ public class FranchiseApiController {
 		return menuIds;
 
 	}
+	
+	@Autowired
+	ShowFrMenuConfRepo frMenuConfRepo;
+	@RequestMapping(value = { "/getFrMenuCogigDetails" }, method = RequestMethod.GET)
+	public @ResponseBody List<ShowFrMenuConfExlPdf> getFrMenuCogigDetails() {
+
+		List<ShowFrMenuConfExlPdf> menuList = new ArrayList<ShowFrMenuConfExlPdf>();
+
+		menuList = frMenuConfRepo.getfrMenuConfigList();
+		
+		return menuList;
+
+	}
+	
+	@RequestMapping(value = { "/getFrMenuCogigDetailsyIds" }, method = RequestMethod.GET)
+	public @ResponseBody List<ShowFrMenuConfExlPdf> getFrMenuCogigDetailsyIds(@RequestParam List<String> menuIds, @RequestParam List<String> frIds) {
+
+		List<ShowFrMenuConfExlPdf> menuList = new ArrayList<ShowFrMenuConfExlPdf>();
+
+		menuList = frMenuConfRepo.getAllFrMenusExlPdfList(menuIds, frIds);
+		
+		return menuList;
+
+	}
+	
 }
