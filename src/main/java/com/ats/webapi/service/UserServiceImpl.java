@@ -218,6 +218,18 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.findById(userId);
 	}
+
+	@Override
+	public User checkUniqueEmailById(String email, int userId) {
+		// TODO Auto-generated method stub
+		return userRepository.findByEmailIgnoreCaseAndIdNot(email, userId);
+	}
+
+	@Override
+	public User checkUniqueContactById(String contact, int userId) {
+		// TODO Auto-generated method stub
+		return userRepository.findByContactAndIdNot(contact, userId);
+	}
 	
 	
 }

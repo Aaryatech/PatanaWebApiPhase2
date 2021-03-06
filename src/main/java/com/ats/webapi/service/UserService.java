@@ -21,8 +21,12 @@ public interface UserService {
 	public List<GetUserType> getAllUserType();
 
 	public User checkUniqueEmail(String email);
+	
+	public User checkUniqueEmailById(String email, int userId);
 
 	public User checkUniqueContact(String contact);
+	
+	public User checkUniqueContactById(String contact, int userId);
 
 	public User getUserData(String username);
 
