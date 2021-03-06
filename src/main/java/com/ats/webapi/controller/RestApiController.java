@@ -3645,6 +3645,14 @@ public class RestApiController {
 		
 		return allFranchisee;
 	}
+	
+	@RequestMapping(value = { "/getAllFranchisesByMenuId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Franchisee> getAllFranchisesByMenuId(@RequestParam("menuId") int menuId) {		
+		
+		List<Franchisee> allFranchisee = franchiseeService.findAllFranchiseeByMenuId(menuId);
+		
+		return allFranchisee;
+	}
 
 	// Get Item
 	@RequestMapping(value = { "/getItem" }, method = RequestMethod.POST)

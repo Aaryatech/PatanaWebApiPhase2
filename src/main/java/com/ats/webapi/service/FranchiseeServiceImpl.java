@@ -416,5 +416,11 @@ public class FranchiseeServiceImpl implements FranchiseeService {
 	public List<Integer> getFrRoutIds() {
 		return franchiseeRepository.getfrRoutIds();
 	}
+
+	@Override
+	public List<Franchisee> findAllFranchiseeByMenuId(int menuId) {
+		List<Franchisee> frList = franchiseeRepository.getFrListyMenuId(menuId);
+		return frList;
+	}
 	
 }
