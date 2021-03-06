@@ -4549,7 +4549,7 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 			@RequestParam("delDays") int delDays, @RequestParam("prodDays") int prodDays,
 			@RequestParam("isDiscApp")int isDiscApp, @RequestParam("discPer")float discPer,
 			@RequestParam("grnPer") int grnPer) {
-
+System.err.println("In  updateConfFr");
 		ConfigureFranchisee configureFranchisee = connfigureService.findFranchiseeById(settingId);
 		Info info = new Info();
 		try {
@@ -4582,20 +4582,30 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 					List<PostFrItemStockHeader> prevStockHeader = postFrOpStockHeaderRepository
 							.findByFrIdAndIsMonthClosedAndCatId(allFrIdNamesList.getFrIdNamesList().get(i).getFrId(), 0,
 									configureFranchisee.getCatId());
+					System.err.println("prevStockHeader --" + prevStockHeader);
+					if(prevStockHeader.isEmpty()) {
+						System.err.println("is empty found");
+						continue;
+					}else {
+						System.err.println("IN NNNNN");
+					}
+					System.err.println("Aaryatech");
 					// --------------------------------------------------------------------------------------------
 					List<PostFrItemStockDetail> postFrItemStockDetailList = new ArrayList<PostFrItemStockDetail>();
 					List<Integer> ids = Stream.of(configureFranchisee.getItemShow().split(",")).map(Integer::parseInt)
 							.collect(Collectors.toList());
 					System.err.println("16 ids --" + ids.toString());
 					List<Item> itemsList = itemService.findAllItemsByItemId(ids);
+					System.err.println("ITEM LIST SIZE" + itemsList.size());
 					System.err.println("17 itemsList --" + itemsList.toString());
 					for (int k = 0; k < itemsList.size(); k++) {
-
+						System.err.println("IN LOOP");
 						PostFrItemStockDetail prevFrItemStockDetail = postFrOpStockDetailRepository
 								.findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),
 										prevStockHeader.get(0).getOpeningStockHeaderId());
 						System.err.println("18 prevFrItemStockDetail --" + prevFrItemStockDetail);
 						if (prevFrItemStockDetail == null) {
+							System.err.print("IN LOOP");
 							PostFrItemStockDetail postFrItemStockDetail = new PostFrItemStockDetail();
 							postFrItemStockDetail
 									.setOpeningStockHeaderId(prevStockHeader.get(0).getOpeningStockHeaderId());// first
@@ -4618,7 +4628,7 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 					// ---------------------------------------------------------------------------------------
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 			if (jsonResult == null) {
 				info.setError(true);
@@ -4630,6 +4640,7 @@ System.err.println("Ok Here "+jsonSpCakeOrderList.toString());
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			// System.out.println("error in config fr update" + e.getMessage());
 			info.setError(true);
 			info.setMessage("" + e.getMessage());
