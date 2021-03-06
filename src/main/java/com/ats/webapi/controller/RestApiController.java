@@ -2548,58 +2548,45 @@ public class RestApiController {
 	// Special Cake Insert
 	@RequestMapping(value = { "/insertSpecialCake" }, method = RequestMethod.POST)
 	@ResponseBody
-	public SpecialCake saveSpecialCake(@RequestParam("spCode") String spcode, @RequestParam("spName") String spname,
-			@RequestParam("spType") int sptype, @RequestParam("spMinwt") String spminwt,
-			@RequestParam("spMaxwt") String spmaxwt, @RequestParam("spBookb4") String spbookb4,
-			@RequestParam("spImage") String spimage, @RequestParam("spTax1") double sptax1,
-			@RequestParam("spTax2") double sptax2, @RequestParam("spTax3") double sptax3,
-			@RequestParam("speIdlist") String speidlist, @RequestParam("erpLinkcode") String erplinkcode,
-			@RequestParam("spPhoupload") int spphoupload, @RequestParam("timeTwoappli") int timetwoappli,
-			@RequestParam("isUsed") int isused, @RequestParam("spDesc") String spDesc,
-			@RequestParam("orderQty") int orderQty, @RequestParam("orderDiscount") float orderDiscount,
-			@RequestParam("isCustChoiceCk") int isCustChoiceCk, @RequestParam("isAddonRateAppli") int isAddonRateAppli,
-			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
-			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
-			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isSlotUsed") int isSlotUsed) {
+	public SpecialCake saveSpecialCake(@RequestBody SpecialCake specialcake) {
 
 		SpecialCake specialCakeRes = null;
 		try {
 			// System.out.println("isSlotUsed");
 
-			SpecialCake specialcake = new SpecialCake();
-
-			specialcake.setSpCode(spcode);
-			specialcake.setSpName(spname);
-			specialcake.setSpType(sptype);
-			specialcake.setSpMinwt(spminwt);
-			specialcake.setSpMaxwt(spmaxwt);
-			specialcake.setSpBookb4(spbookb4);
-			specialcake.setSprId(1);
-			specialcake.setSpImage(spimage);
-			specialcake.setSpTax1(sptax1);
-			specialcake.setSpTax2(sptax2);
-			specialcake.setSpTax3(sptax3);
-			specialcake.setSpeIdlist(speidlist);
-			specialcake.setErpLinkcode(erplinkcode);
-			specialcake.setIsUsed(isused);
-			specialcake.setSpPhoupload(spphoupload);
-			specialcake.setTimeTwoappli(timetwoappli);
-			specialcake.setBaseCode("0");
-			specialcake.setDelStatus(0);
-
-			specialcake.setSpDesc(spDesc);
-			specialcake.setOrderQty(orderQty);
-			specialcake.setOrderDiscount(orderDiscount);
-			specialcake.setIsCustChoiceCk(isCustChoiceCk);
-			specialcake.setIsAddonRateAppli(isAddonRateAppli);
-			specialcake.setMrpRate1(mrpRate1);
-			specialcake.setMrpRate2(mrpRate2);
-			specialcake.setMrpRate3(mrpRate3);
-			specialcake.setSpRate1(spRate1);
-			specialcake.setSpRate2(spRate2);
-			specialcake.setSpRate3(spRate3);
-			specialcake.setIsSlotUsed(isSlotUsed);
+//			SpecialCake specialcake = new SpecialCake();
+//
+//			specialcake.setSpCode(spcode);
+//			specialcake.setSpName(spname);
+//			specialcake.setSpType(sptype);
+//			specialcake.setSpMinwt(spminwt);
+//			specialcake.setSpMaxwt(spmaxwt);
+//			specialcake.setSpBookb4(spbookb4);
+//			specialcake.setSprId(1);
+//			specialcake.setSpImage(spimage);
+//			specialcake.setSpTax1(sptax1);
+//			specialcake.setSpTax2(sptax2);
+//			specialcake.setSpTax3(sptax3);
+//			specialcake.setSpeIdlist(speidlist);
+//			specialcake.setErpLinkcode(erplinkcode);
+//			specialcake.setIsUsed(isused);
+//			specialcake.setSpPhoupload(spphoupload);
+//			specialcake.setTimeTwoappli(timetwoappli);
+//			specialcake.setBaseCode("0");
+//			specialcake.setDelStatus(0);
+//
+//			specialcake.setSpDesc(spDesc);
+//			specialcake.setOrderQty(orderQty);
+//			specialcake.setOrderDiscount(orderDiscount);
+//			specialcake.setIsCustChoiceCk(isCustChoiceCk);
+//			specialcake.setIsAddonRateAppli(isAddonRateAppli);
+//			specialcake.setMrpRate1(mrpRate1);
+//			specialcake.setMrpRate2(mrpRate2);
+//			specialcake.setMrpRate3(mrpRate3);
+//			specialcake.setSpRate1(spRate1);
+//			specialcake.setSpRate2(spRate2);
+//			specialcake.setSpRate3(spRate3);
+//			specialcake.setIsSlotUsed(isSlotUsed);
 
 			// System.out.println("*********Special Cake:***************" +
 			// specialcake.toString());
@@ -2843,6 +2830,22 @@ public class RestApiController {
 
 		return flavourList;
 	}
+	
+	// Show Flavor List
+		@RequestMapping(value = { "/showAllFlavourList" }, method = RequestMethod.GET)
+		@ResponseBody
+		public FlavourList showAllFlavourList() {
+
+			List<Flavour> jsonFlavourtList = flavourService.findAllFlavourList();
+			FlavourList flavourList = new FlavourList();
+			flavourList.setFlavour(jsonFlavourtList);
+			Info info = new Info();
+			info.setError(false);
+			info.setMessage("Flavour list displayed Successfully");
+			flavourList.setInfo(info);
+
+			return flavourList;
+		}
 
 	// Show Scheduler List
 	@RequestMapping(value = { "/showSchedulerList" }, method = RequestMethod.GET)
@@ -3639,6 +3642,14 @@ public class RestApiController {
 	public @ResponseBody List<Franchisee> getAllFranchiseeList() {		
 		
 		List<Franchisee> allFranchisee = franchiseeService.findAllFranchisee();
+		
+		return allFranchisee;
+	}
+	
+	@RequestMapping(value = { "/getAllFranchisesByMenuId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Franchisee> getAllFranchisesByMenuId(@RequestParam("menuId") int menuId) {		
+		
+		List<Franchisee> allFranchisee = franchiseeService.findAllFranchiseeByMenuId(menuId);
 		
 		return allFranchisee;
 	}
@@ -5106,121 +5117,121 @@ System.err.println("In  updateConfFr");
 	static String senderPassword = "atsinfosoft@123";
 	static String mailsubject = "";
 	String otp1 = null;
-
-	@RequestMapping(value = { "/getUserInfoByUsername" }, method = RequestMethod.POST)
-	public @ResponseBody User getUserInfoByUsername(@RequestParam String username) {
-
-		OTPVerification.setConNumber(null);
-		OTPVerification.setEmailId(null);
-		OTPVerification.setOtp(null);
-		OTPVerification.setPass(null);
-		Info info = new Info();
-
-		User res = new User();
-		res = userService.getUserData(username);
-		// System.err.println("Resss-------" + res);
-
-		if (res != null) {
-			OTPVerification.setUserId(res.getId());
-
-			String emailId = res.getEmail();
-			String conNumber = res.getContact();
-
-			char[] otp = Common.OTP(6);
-			otp1 = String.valueOf(otp);
-			// System.err.println("User otp is" + otp1);
-
-			Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGII OTP Verification ");
-
-			mailsubject = " OTP  Verification ";
-			String text = "\n OTP for change your Password: ";
-			Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text, otp1);
-
-			OTPVerification.setConNumber(conNumber);
-			OTPVerification.setEmailId(emailId);
-			OTPVerification.setOtp(otp1);
-			OTPVerification.setPass(res.getPassword());
-		} else {
-			// System.err.println("In Else ");
-
-			info.setError(true);
-			info.setMessage("not Matched");
-			// System.err.println(" not Matched ");
-		}
-		return res;
-	}
-
-	@RequestMapping(value = { "/VerifyOTP" }, method = RequestMethod.POST)
-	public @ResponseBody User VerifyOTP(@RequestParam String otp) {
-		Info info = new Info();
-
-		Object object = new Object();
-		HashMap<Integer, User> hashMap = new HashMap<>();
-
-		User user = new User();
-
-		try {
-			// //System.err.println("OTP Found------------------"+OTPVerification.getOtp()+"
-			// "+OTPVerification.getUserId());
-			if (otp.equals(OTPVerification.getOtp()) == true) {
-				info.setError(false);
-				info.setMessage("success");
-
-				String mobile = OTPVerification.getConNumber();
-				String email = OTPVerification.getEmailId();
-				String pass = Common.getAlphaNumericString(7);
-				// //System.out.println("pass");
-				// int res = staffrepo.chagePass(pass, OTPVerification.getUserId());
-
-				user = userService.findByIdAndDelStatus(OTPVerification.getUserId(), 0);
-				hashMap.put(1, user);
-
-			} else {
-				info.setError(true);
-				info.setMessage("failed");
-			}
-
-		} catch (Exception e) {
-
-			// System.err.println("Exce in getAllInstitutes Institute " + e.getMessage());
-			e.printStackTrace();
-			info.setError(true);
-			info.setMessage("excep");
-		}
-
-		return user;
-
-	}
-
-	@RequestMapping(value = { "/updateToNewPassword" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateToNewPassword(@RequestParam int userId, @RequestParam String newPass) {
-
-		Info res = new Info();
-
-		int a = updateUserRepo.changePassword(userId, newPass);
-		if (a > 0) {
-
-			mailsubject = " New Credentials ";
-			String text = "\n Your new username and password are : \n";
-
-			User usr = new User();
-			usr = userService.findByUserId(userId);
-			if (usr != null) {
-				String emailId = usr.getEmail();
-				String password = "\n Username : " + usr.getUsername() + " \n Password : " + usr.getPassword();
-
-				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text,
-						password);
-			}
-			res.setError(false);
-			res.setMessage("success");
-		} else {
-			res.setError(true);
-			res.setMessage("fail");
-		}
-
-		return res;
-	}
+//
+//	@RequestMapping(value = { "/getUserInfoByUsername" }, method = RequestMethod.POST)
+//	public @ResponseBody User getUserInfoByUsername(@RequestParam String username) {
+//
+//		OTPVerification.setConNumber(null);
+//		OTPVerification.setEmailId(null);
+//		OTPVerification.setOtp(null);
+//		OTPVerification.setPass(null);
+//		Info info = new Info();
+//
+//		User res = new User();
+//		res = userService.getUserData(username);
+//		// System.err.println("Resss-------" + res);
+//
+//		if (res != null) {
+//			OTPVerification.setUserId(res.getId());
+//
+//			String emailId = res.getEmail();
+//			String conNumber = res.getContact();
+//
+//			char[] otp = Common.OTP(6);
+//			otp1 = String.valueOf(otp);
+//			// System.err.println("User otp is" + otp1);
+//
+//			Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGII OTP Verification ");
+//
+//			mailsubject = " OTP  Verification ";
+//			String text = "\n OTP for change your Password: ";
+//			Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text, otp1);
+//
+//			OTPVerification.setConNumber(conNumber);
+//			OTPVerification.setEmailId(emailId);
+//			OTPVerification.setOtp(otp1);
+//			OTPVerification.setPass(res.getPassword());
+//		} else {
+//			// System.err.println("In Else ");
+//
+//			info.setError(true);
+//			info.setMessage("not Matched");
+//			// System.err.println(" not Matched ");
+//		}
+//		return res;
+//	}
+//
+//	@RequestMapping(value = { "/VerifyOTP" }, method = RequestMethod.POST)
+//	public @ResponseBody User VerifyOTP(@RequestParam String otp) {
+//		Info info = new Info();
+//
+//		Object object = new Object();
+//		HashMap<Integer, User> hashMap = new HashMap<>();
+//
+//		User user = new User();
+//
+//		try {
+//			// //System.err.println("OTP Found------------------"+OTPVerification.getOtp()+"
+//			// "+OTPVerification.getUserId());
+//			if (otp.equals(OTPVerification.getOtp()) == true) {
+//				info.setError(false);
+//				info.setMessage("success");
+//
+//				String mobile = OTPVerification.getConNumber();
+//				String email = OTPVerification.getEmailId();
+//				String pass = Common.getAlphaNumericString(7);
+//				// //System.out.println("pass");
+//				// int res = staffrepo.chagePass(pass, OTPVerification.getUserId());
+//
+//				user = userService.findByIdAndDelStatus(OTPVerification.getUserId(), 0);
+//				hashMap.put(1, user);
+//
+//			} else {
+//				info.setError(true);
+//				info.setMessage("failed");
+//			}
+//
+//		} catch (Exception e) {
+//
+//			// System.err.println("Exce in getAllInstitutes Institute " + e.getMessage());
+//			e.printStackTrace();
+//			info.setError(true);
+//			info.setMessage("excep");
+//		}
+//
+//		return user;
+//
+//	}
+//
+//	@RequestMapping(value = { "/updateToNewPassword" }, method = RequestMethod.POST)
+//	public @ResponseBody Info updateToNewPassword(@RequestParam int userId, @RequestParam String newPass) {
+//
+//		Info res = new Info();
+//
+//		int a = updateUserRepo.changePassword(userId, newPass);
+//		if (a > 0) {
+//
+//			mailsubject = " New Credentials ";
+//			String text = "\n Your new username and password are : \n";
+//
+//			User usr = new User();
+//			usr = userService.findByUserId(userId);
+//			if (usr != null) {
+//				String emailId = usr.getEmail();
+//				String password = "\n Username : " + usr.getUsername() + " \n Password : " + usr.getPassword();
+//
+//				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text,
+//						password);
+//			}
+//			res.setError(false);
+//			res.setMessage("success");
+//		} else {
+//			res.setError(true);
+//			res.setMessage("fail");
+//		}
+//
+//		return res;
+//	}
 
 	/******************************************************************************/
 	// OPS
@@ -5387,9 +5398,9 @@ System.err.println("In  updateConfFr");
 	}
 	
 	@RequestMapping("/updateProducts")
-	public ErrorMessage updateProducts(@RequestBody Item item) {
+	public ErrorMessage updateProducts(@RequestBody ItemAndItemSuplement itemItemSup) {
 		
-		ErrorMessage jsonResult = itemService.saveItem(item);
+		ErrorMessage jsonResult = itemService.saveItemAndSupplement(itemItemSup);
 		return jsonResult;
 	}
 
@@ -5461,6 +5472,37 @@ System.err.println("In  updateConfFr");
 		return orderList;
 
 	}
-	
+
+	// Delete Flavor
+		@RequestMapping(value = "/updateFlavourStatus", method = RequestMethod.POST)
+		public @ResponseBody String updateFlavourStatus(@RequestParam List<Integer> spfId, @RequestParam int status) {
+			
+			ErrorMessage errorMessage = null;
+			List<Flavour> flavour = flavourRepository.findBySpfIdIn(spfId);
+			for (int i = 0; i < flavour.size(); i++) {
+				flavour.get(i).setDelStatus(status);
+
+				errorMessage = flavourService.save(flavour.get(i));
+			}
+			return JsonUtil.javaToJson(errorMessage);
+		}
+		
+		
+		@RequestMapping(value = "/updateMultiFlavourStatus", method = RequestMethod.POST)
+		public @ResponseBody String updateMultiFlavourStatus(@RequestParam List<String> spfId, @RequestParam int status) {
+			
+			ErrorMessage errorMessage = new ErrorMessage();
+			int res = flavourRepository.updateFlavourIds(spfId, status);
+			if(res>0) {
+				errorMessage.setError(false);
+				errorMessage.setMessage("Operation Sucessfull");
+			}else {
+				errorMessage.setError(true);
+				errorMessage.setMessage("Operation Fail");
+			}
+				
+			return JsonUtil.javaToJson(errorMessage);
+		}
+
 	
 }

@@ -54,6 +54,8 @@ public class ItemSup implements Serializable{
 	private int cutSection;//(0-NA,1-Single Cut,2-Double Cut)
 	
 	private int delStatus;
+	
+	private float itemCess;
 
 	private String shortName;
 	
@@ -213,6 +215,14 @@ public class ItemSup implements Serializable{
 		this.shortName = shortName;
 	}
 
+	public float getItemCess() {
+		return itemCess;
+	}
+
+	public void setItemCess(float itemCess) {
+		this.itemCess = itemCess;
+	}
+
 	@Override
 	public String toString() {
 		return "ItemSup [error=" + error + ", message=" + message + ", id=" + id + ", itemId=" + itemId + ", itemHsncd="
@@ -220,7 +230,9 @@ public class ItemSup implements Serializable{
 				+ ", noOfItemPerTray=" + noOfItemPerTray + ", actualWeight=" + actualWeight + ", baseWeight="
 				+ baseWeight + ", inputPerQty=" + inputPerQty + ", isGateSale=" + isGateSale + ", isGateSaleDisc="
 				+ isGateSaleDisc + ", isAllowBday=" + isAllowBday + ", cutSection=" + cutSection + ", delStatus="
-				+ delStatus + ", shortName=" + shortName + ", isTallySync=" + isTallySync + "]";
+				+ delStatus + ", itemCess=" + itemCess + ", shortName=" + shortName + ", isTallySync=" + isTallySync
+				+ "]";
 	}
+
 
 }

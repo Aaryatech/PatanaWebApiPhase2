@@ -22,11 +22,18 @@ import javassist.bytecode.stackmap.BasicBlock.Catch;
 @RestController
 public class ImageUploadController {
 
-	private static String SUGGESTION_URL = "/opt/tomcat-latest/webapps/uploads/SUGGESTION/";
-	private static String COMPLAINT_URL = "/opt/tomcat-latest/webapps/uploads/COMPLAINT/";
-	private static String NOTIFICATION_URL = "/opt/tomcat-latest/webapps/uploads/NOTIFICATION/";
-	private static String FEEDBACK_URL = "/opt/tomcat-latest/webapps/uploads/FEEDBACK/";
+	//private static String SUGGESTION_URL = "/opt/tomcat-latest/webapps/uploads/SUGGESTION/";
+	//private static String COMPLAINT_URL = "/opt/tomcat-latest/webapps/uploads/COMPLAINT/";
+	//private static String NOTIFICATION_URL = "/opt/tomcat-latest/webapps/uploads/NOTIFICATION/";
+	//private static String FEEDBACK_URL = "/opt/tomcat-latest/webapps/uploads/FEEDBACK/";
 
+	private static String SUGGESTION_URL = "/home/maddy/ats-12/SpCakes";
+	private static String COMPLAINT_URL = "/home/maddy/ats-12/SpCakes";
+	private static String NOTIFICATION_URL = "/home/maddy/ats-12/SpCakes";
+	private static String FEEDBACK_URL = "/home/maddy/ats-12/SpCakes";
+	
+	
+	
 	//private static String BILL_FOLDER ="/home/maxadmin/Desktop/photos/";
 	
 	

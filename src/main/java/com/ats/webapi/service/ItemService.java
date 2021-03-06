@@ -8,6 +8,7 @@ import com.ats.webapi.model.GetItemSup;
 import com.ats.webapi.model.GetItemUomAndSup;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
+import com.ats.webapi.model.ItemAndItemSuplement;
 import com.ats.webapi.model.ItemSup;
 import com.ats.webapi.model.ItemSupList;
 import com.ats.webapi.model.ItemWithSubCat;
@@ -40,4 +41,7 @@ public interface ItemService {
 	
 	public List<GetItemUomAndSup> findAllItemsBySubCatId(String subCatId);
 	public GetItemSup getItemSupplementByItemId(int itemId);
+	
+	
+	public ErrorMessage saveItemAndSupplement(ItemAndItemSuplement item);
 }
