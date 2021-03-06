@@ -4592,7 +4592,7 @@ System.err.println("In  updateConfFr");
 
 					List<PostFrItemStockHeader> prevStockHeader = postFrOpStockHeaderRepository
 							.findByFrIdAndIsMonthClosedAndCatId(allFrIdNamesList.getFrIdNamesList().get(i).getFrId(), 0,
-									configureFranchisee.getCatId());
+			 						configureFranchisee.getCatId());
 					System.err.println("prevStockHeader --" + prevStockHeader);
 					if(prevStockHeader.isEmpty()) {
 						System.err.println("is empty found");
