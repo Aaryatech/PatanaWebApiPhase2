@@ -5085,12 +5085,29 @@ System.err.println("In  updateConfFr");
 		res = userService.checkUniqueEmail(email);
 		return res;
 	}
+	
+	@RequestMapping(value = { "/getUserInfoByEmailAndId" }, method = RequestMethod.POST)
+	public @ResponseBody User getUserInfoByEmailAndId(@RequestParam String email, @RequestParam int userId) {
+
+		User res = new User();
+		res = userService.checkUniqueEmailById(email, userId);
+		return res;
+	}
 
 	@RequestMapping(value = { "/getUserInfoByContact" }, method = RequestMethod.POST)
 	public @ResponseBody User getUserInfoByContact(@RequestParam String contact) {
 
 		User res = new User();
 		res = userService.checkUniqueContact(contact);
+		return res;
+	}
+	
+	
+	@RequestMapping(value = { "/getUserInfoByContactAndId" }, method = RequestMethod.POST)
+	public @ResponseBody User getUserInfoByContactAndId(@RequestParam String contact, @RequestParam int userId) {
+
+		User res = new User();
+		res = userService.checkUniqueContactById(contact, userId);
 		return res;
 	}
 

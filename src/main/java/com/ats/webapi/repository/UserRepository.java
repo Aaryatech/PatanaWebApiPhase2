@@ -69,6 +69,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByContactAndDelStatus(String mobEmail, int i);
 	
 	User findByEmailAndDelStatus(String mobEmail, int i);
+	
+	User findByEmailIgnoreCaseAndIdNot(String email, int userId);
+	
+	User findByContactAndIdNot(String contact, int userId);
 
 
 }
