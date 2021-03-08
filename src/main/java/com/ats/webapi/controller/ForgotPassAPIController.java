@@ -3,11 +3,14 @@ package com.ats.webapi.controller;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.ats.webapi.commons.CommonUtility;
 import com.ats.webapi.commons.EmailUtility;
@@ -24,7 +27,7 @@ public class ForgotPassAPIController {
 	UserRepository userRepo;
 
 	public static String senderEmail = "atsinfosoft@gmail.com";
-	public static String senderPassword = "atsinfosoft@123";
+	public static String senderPassword = "atsinfosoft#123";
 	static String mailsubject = "";
 	String otp1 = null;
 
@@ -53,20 +56,29 @@ public class ForgotPassAPIController {
 				otp1 = String.valueOf(otp);
 				System.err.println("User otp is : " + otp1);
 
-				//Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGI OTP Verification ");
+				String otpMsg = "Monginis Patna - Your \n"
+								+ "OTP for update password is "+otp1+".";
+				RestTemplate rest=new RestTemplate();
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				
+				 
+				String url="http://smspatna.com/API/WebSMS/Http/v1.0a/index.php?username=MONGNS2222&password=MONGNS2222&sender=MONGNS&to="+conNumber+"&message="+otpMsg+"&route_id=328";
+				
+				String smsRes = rest.getForObject(url,String.class);
+			//	System.out.println(smsRes);
+			//	Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGI OTP Verification ");
 
 				mailsubject = " OTP  Verification ";
 				String text = "\n OTP for change your Password: ";
 				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text, otp1);
-				//Remove Later
+				
 				
 				OTPVerification.setConNumber(conNumber);
 				OTPVerification.setEmailId(emailId);
 				OTPVerification.setOtp(otp1);
 				OTPVerification.setPass(user.getPassword());
-			} else {
-			//	System.err.println("In Else ");
-
+			} else {			
 				info.setError(true);
 				info.setMessage("not Matched");
 				System.err.println(" not Matched ");

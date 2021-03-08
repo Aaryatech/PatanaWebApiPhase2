@@ -200,25 +200,25 @@ public class CommonUtility {
 		return dateFormat.format(cal.getTime());
 	}
 
-	public static void main(String[] args) {
-		// sendMessage("hhh","9404725912");
-		sendEmailWithSubMsgAndToAdd("Test", "hello ", "abc@kkk.com");
-
-		getCurrentYMDDateTime();
-		addDaystoCurrentDate(4);
-		try {
-			addDaystoGivenDate(-2, "15-08-2020");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		float x = roundHalfUpByScale(124.163445f, 2);
-		System.err.println(x);
-		Info info = new Info();
-		info.setError(false);
-		info.setMessage("Abcc sajdkfsk kf");
-		String jsonStringArray = toJSONString(info);
-		System.err.println("jsonStringArray " + jsonStringArray);
-	}
+//	public static void main(String[] args) {
+//		// sendMessage("hhh","9404725912");
+//		sendEmailWithSubMsgAndToAdd("Test", "hello ", "abc@kkk.com");
+//
+//		getCurrentYMDDateTime();
+//		addDaystoCurrentDate(4);
+//		try {
+//			addDaystoGivenDate(-2, "15-08-2020");
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		float x = roundHalfUpByScale(124.163445f, 2);
+//		System.err.println(x);
+//		Info info = new Info();
+//		info.setError(false);
+//		info.setMessage("Abcc sajdkfsk kf");
+//		String jsonStringArray = toJSONString(info);
+//		System.err.println("jsonStringArray " + jsonStringArray);
+//	}
 
 	// #11
 	// get Round up of given float value with specified scale
