@@ -51,6 +51,7 @@ public class ForgotPassAPIController {
 
 				String emailId = user.getEmail();
 				String conNumber = user.getContact();
+				String userName = user.getUsername();
 			//	System.err.println("User Found----------" + conNumber);
 				char[] otp = CommonUtility.OTP(6);
 				otp1 = String.valueOf(otp);
@@ -70,8 +71,13 @@ public class ForgotPassAPIController {
 			//	Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGI OTP Verification ");
 
 				mailsubject = " OTP  Verification ";
+				
+				
 				String text = "\n OTP for change your Password: ";
-				Info emailRes = EmailUtility.sendEmail(senderEmail, senderPassword, emailId, mailsubject, text, otp1);
+				
+				
+				
+				Info emailRes = EmailUtility.sendEmailer(senderEmail, senderPassword, emailId, mailsubject, userName, otp1);
 				
 				
 				OTPVerification.setConNumber(conNumber);
