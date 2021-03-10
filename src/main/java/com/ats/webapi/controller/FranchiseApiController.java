@@ -29,9 +29,11 @@ import com.ats.webapi.model.Shape;
 import com.ats.webapi.model.ShowFrMenuConfExlPdf;
 import com.ats.webapi.model.State;
 import com.ats.webapi.model.User;
+import com.ats.webapi.model.bill.Company;
 import com.ats.webapi.model.prod.GetProductListExlPdf;
 import com.ats.webapi.report.repo.GetSpCakeExlPdfRepo;
 import com.ats.webapi.repository.CakeTypeRepo;
+import com.ats.webapi.repository.CompanyRepository;
 import com.ats.webapi.repository.FrMenuExlPdfRepo;
 import com.ats.webapi.repository.FrMenusRepo;
 import com.ats.webapi.repository.GetMenuIdAndTypeRepo;
@@ -519,6 +521,27 @@ public class FranchiseApiController {
 		
 		return menuList;
 
+	}
+	
+	@Autowired
+	CompanyRepository companyRepository;
+	
+	@RequestMapping(value = { "/getCompany" }, method = RequestMethod.GET)
+	public @ResponseBody Company getCompany() {
+
+		Company company = null;
+		try {
+			String pattern = "yyyy-MM-dd";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+			String date = simpleDateFormat.format(new java.util.Date());
+			 company=companyRepository.findByBillDate(date);
+
+		} catch (Exception e) {
+			System.out.println(" Exce in bill Header List for Print " + e.getMessage());
+			e.printStackTrace();
+		}
+		return company;
 	}
 	
 }

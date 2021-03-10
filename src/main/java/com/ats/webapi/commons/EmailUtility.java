@@ -250,7 +250,7 @@ public class EmailUtility {
 	
 	
 	public static Info sendEmailer(String senderEmail,String senderPassword,String recipientEmail,String mailsubject,
-			String userName, String defPass) {
+			String userName, String defPass, String compName, String compAdd) {
 			
 			Info info=new Info();
 			
@@ -316,10 +316,10 @@ public class EmailUtility {
 						"              <tr>\n" + 
 						"                <td cellspacing=\"0\" cellpadding=\"0\"  style=\"position:relative; padding:30px 40px;\" border=\"0\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" + 
 						"                    <tr>\n" + 
-						"                      <td style=\"text-align:center; font-size:14px; text-transform:uppercase; padding:0 0 5px 0; color:#f26a90;\"><strong>"+userName+"</strong></td>\n" + 
+						"                      <td style=\"text-align:left; font-size:14px; text-transform:uppercase; padding:0 0 5px 0; color:#f26a90;\"><strong> Hello "+userName+"</strong></td>\n" + 
 						"                    </tr>\n" + 
 						"                    <tr>\n" + 
-						"                      <td style=\"text-align:center; padding:0 0 15px 0; font-size:16px; line-height:22px; color:#333333;\">Here is the confirmation code for your online form:</td>\n" + 
+						"                       <td style=\"text-align:left; padding:0 0 15px 0; font-size:12px; line-height:22px; color:#333333;\">Your request for change password is received. Here is the One Time Password(OTP) for change password </td>\n" + 
 						"                    </tr>\n" + 
 						"                    <tr>\n" + 
 						"                      <td style=\"text-align:center; padding:30px 0 10px 0\"><a href=\"#\" style=\"background:#9ccd2b; padding:9px 30px; color:#FFF; font-size:30px; text-transform:uppercase; letter-spacing:5px; text-decoration:none;\">"+defPass+"</a></td>\n" + 
@@ -332,12 +332,12 @@ public class EmailUtility {
 						"              <tr>\n" + 
 						"                <td cellspacing=\"0\" cellpadding=\"0\"  style=\"position:relative;\" border=\"0\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" + 
 						"                    <tr>\n" + 
-						"                      <td style=\"line-height:24px; padding:0 40px 40px 40px; color:#262626; text-align:center; font-size:16px;\">All you have to do is copy the confirmation code and paste it to your form to complete the email verification process.</td>\n" + 
+						"                      <td style=\"line-height:24px; padding:0 40px 40px 40px; color:#262626; text-align:center; font-size: 12px;\">All you have to do is copy the confirmation code and paste it to your form to complete the change password process.</td>\n" + 
 						"                    </tr>\n" + 
 						"                    <tr>\n" + 
 						"                      <td style=\"background:#edf2f6; font-size:12px; text-align:center; color:#66696c; padding:10px 0; line-height:20px;\">\n" + 
-						"                      isn't that you? <a href=\"#\" style=\"text-decoration:underline; color:#33358f;\">Unsubscibe from this email</a> <br>\n" + 
-						"					  Aaryatech Solutions. 111 Pine St. Suite 1815, San Francisco, CA 94111 <br>\n" + 
+						"                      "+compName+"<br>\n" + 
+						"					   "+compAdd+" <br>\n" + 
 						"                      Copyright 2021. All rights reserved. Monginis</td>\n" + 
 						"                    </tr>\n" + 
 						"                    \n" + 

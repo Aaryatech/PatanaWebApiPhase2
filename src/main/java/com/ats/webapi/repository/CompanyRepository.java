@@ -12,8 +12,8 @@ import com.ats.webapi.model.bill.Company;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer>{
 
-	@Query(value="select * from m_company where from_date<=:billDate and to_date>=:billDate and del_status=0",nativeQuery=true)
-	Company findByBillDate(@Param("billDate")String billDate);
+	@Query(value="select * from m_company where from_date<= :billDate and to_date>= :billDate and del_status=0",nativeQuery=true)
+	Company findByBillDate(@Param("billDate") String billDate);
 
 
 	 @Transactional

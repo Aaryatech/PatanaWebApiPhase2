@@ -1,5 +1,6 @@
 package com.ats.webapi.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.ats.webapi.commons.EmailUtility;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.OTPVerification;
 import com.ats.webapi.model.User;
+import com.ats.webapi.model.bill.Company;
+import com.ats.webapi.repository.CompanyRepository;
 import com.ats.webapi.repository.UserRepository;
 
 
@@ -25,6 +28,9 @@ public class ForgotPassAPIController {
 
 	@Autowired
 	UserRepository userRepo;
+	
+	@Autowired
+	CompanyRepository companyRepository;
 
 	public static String senderEmail = "atsinfosoft@gmail.com";
 	public static String senderPassword = "atsinfosoft#123";
@@ -61,23 +67,34 @@ public class ForgotPassAPIController {
 								+ "OTP for update password is "+otp1+".";
 				RestTemplate rest=new RestTemplate();
 				
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				
-				 
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String billDate = simpleDateFormat.format(new java.util.Date());
+				
+				
+				
+				Company comp =null;
+				String compName = new String();
+				String compAdd = new String();
+				try {
+				comp=companyRepository.findByBillDate(billDate);
+				compName = comp.getCompName();
+				compAdd = comp.getFactAddress();
+				
+				}catch (Exception e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+					
+					compName = "Monginis";
+					compAdd = "Patna";
+				}
+				
 				String url="http://smspatna.com/API/WebSMS/Http/v1.0a/index.php?username=MONGNS2222&password=MONGNS2222&sender=MONGNS&to="+conNumber+"&message="+otpMsg+"&route_id=328";
 				
-				String smsRes = rest.getForObject(url,String.class);
-			//	System.out.println(smsRes);
-			//	Info inf = EmailUtility.sendOtp(otp1, conNumber, "MONGI OTP Verification ");
+				String smsRes = rest.getForObject(url,String.class);			
 
-				mailsubject = " OTP  Verification ";
-				
-				
-				String text = "\n OTP for change your Password: ";
-				
-				
-				
-				Info emailRes = EmailUtility.sendEmailer(senderEmail, senderPassword, emailId, mailsubject, userName, otp1);
+				mailsubject = " OTP  Verification ";	
+				Info emailRes = EmailUtility.sendEmailer(senderEmail, senderPassword, emailId, mailsubject, userName, otp1, compName, compAdd);
 				
 				
 				OTPVerification.setConNumber(conNumber);
