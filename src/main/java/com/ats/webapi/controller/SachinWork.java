@@ -83,6 +83,7 @@ public class SachinWork {
 		return allMenu;
 	}
 
+	
 	@Autowired
 	ConfigureFrListRepository configureFrListRepository;
 
@@ -756,6 +757,15 @@ public class SachinWork {
 				  
 				  System.out.println("itemList" +catlist.toString());
 		return catlist;
+	}
+	
+	//Sac 16-03-2021
+	@RequestMapping(value = { "/findNewSettingByKey" }, method = RequestMethod.POST)
+	public @ResponseBody NewSetting findNewSettingByKey(@RequestParam("settingKey") String settingKey) {
+		
+		NewSetting	newSetting = newSettingRepository.findBySettingKeyAndDelStatus(settingKey,0);
+				  
+		return newSetting;
 	}
 	
 }
